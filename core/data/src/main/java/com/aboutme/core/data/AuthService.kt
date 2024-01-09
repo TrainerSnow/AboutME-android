@@ -50,6 +50,11 @@ interface AuthService {
     suspend fun refresh(): Response<AuthUser>
 
     /**
+     * Deletes the currently logged in user
+     */
+    suspend fun deleteUser(): Response<UserData>
+
+    /**
      * Runs the network call. In case it errors in an authentication error, this service authenticates the device and the retries it once.
      */
     suspend fun <Data> saveAuthTransaction(

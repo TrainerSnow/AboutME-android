@@ -1,20 +1,21 @@
 package com.aboutme.core.data.implementation;
 
 import com.aboutme.core.data.AuthService
+import com.aboutme.core.database.base.AboutMeDatabase
 import com.aboutme.core.model.Response
 import com.aboutme.core.model.ResponseError
 import com.aboutme.core.model.data.AuthUser
 import com.aboutme.core.model.data.NameInfo
 import com.aboutme.core.model.data.UserData
 import com.aboutme.core.secret.TokenRepository
+import com.aboutme.core.sync.SyncController
 import com.aboutme.network.source.UserNetworkSource
 
 internal class NetworkAuthService(
-
     private val networkSource: UserNetworkSource,
-
-    private val tokenRepository: TokenRepository
-
+    private val tokenRepository: TokenRepository,
+    private val database: AboutMeDatabase,
+    private val syncController: SyncController
 ) : AuthService {
 
     override suspend fun signUp(
@@ -31,6 +32,7 @@ internal class NetworkAuthService(
             tokenRepository.setRefreshToken(response.data.authData.refreshToken)
         }
 
+        syncController.syncNow()
         return response
     }
 
@@ -42,6 +44,7 @@ internal class NetworkAuthService(
             tokenRepository.setRefreshToken(response.data.authData.refreshToken)
         }
 
+        syncController.syncNow()
         return response
     }
 
@@ -49,6 +52,9 @@ internal class NetworkAuthService(
     override suspend fun logOut(): Response<UserData> {
         val refreshToken = tokenRepository.getRefreshToken()
         val token = tokenRepository.getToken()
+
+        //Clear cache, because it is not needed anymore
+        database.deleteAllRows()
 
         return if (refreshToken == null || token == null) {
             Response.Error(setOf(ResponseError.Unknown))
@@ -59,6 +65,9 @@ internal class NetworkAuthService(
 
     override suspend fun logOutAll(): Response<UserData> {
         val token = tokenRepository.getToken()
+
+        //Clear cache, because it is not needed anymore
+        database.deleteAllRows()
 
         return if (token == null) {
             Response.Error(setOf(ResponseError.Unknown))
@@ -78,6 +87,10 @@ internal class NetworkAuthService(
         }
 
         return authUser
+    }
+
+    override suspend fun deleteUser(): Response<UserData> {
+        return networkSource.deleteUser(tokenRepository.getToken() ?: "")
     }
 
     override suspend fun <Data> saveAuthTransaction(networkCall: suspend (token: String) -> Response<Data>): Response<Data> {
