@@ -3,7 +3,7 @@ package com.aboutme.core.model.daily.data
 import com.aboutme.core.model.base.DatedModel
 import com.aboutme.core.model.sort.SortMode
 import com.aboutme.core.model.sort.Sortable
-import java.time.LocalDateTime
+import java.time.Instant
 
 /**
  * A data for one day that stores the mood of the user
@@ -15,9 +15,9 @@ sealed class MoodData(
      */
     val averageMood: Float,
 
-    override val createdAt: LocalDateTime,
+    override val createdAt: Instant,
 
-    override val updatedAt: LocalDateTime
+    override val updatedAt: Instant
 
 ) : Sortable<MoodData>, DatedModel {
 
@@ -31,9 +31,9 @@ sealed class MoodData(
          */
         val mood: Float,
 
-        override val createdAt: LocalDateTime,
+        override val createdAt: Instant,
 
-        override val updatedAt: LocalDateTime
+        override val updatedAt: Instant
 
     ) : MoodData(mood, createdAt, updatedAt)
 
@@ -57,9 +57,9 @@ sealed class MoodData(
          */
         val evening: Float,
 
-        override val createdAt: LocalDateTime,
+        override val createdAt: Instant,
 
-        override val updatedAt: LocalDateTime
+        override val updatedAt: Instant
 
     ) : MoodData((morning + noon + evening) / 3F, createdAt, updatedAt)
 

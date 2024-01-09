@@ -5,7 +5,7 @@ import com.aboutme.core.model.daily.DailyDataCategory
 import com.aboutme.core.model.data.Dream
 import com.aboutme.core.model.sort.SortMode
 import com.aboutme.core.model.sort.Sortable
-import java.time.LocalDateTime
+import java.time.Instant
 
 /**
  * A data for one day that stores the dreams a user has has
@@ -17,9 +17,9 @@ data class DreamData(
      */
     val dreams: List<Dream>,
 
-    override val createdAt: LocalDateTime,
+    override val createdAt: Instant,
 
-    override val updatedAt: LocalDateTime
+    override val updatedAt: Instant
 
 ): Sortable<DreamData>, DatedModel {
 

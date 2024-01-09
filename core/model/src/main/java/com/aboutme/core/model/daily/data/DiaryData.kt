@@ -3,7 +3,7 @@ package com.aboutme.core.model.daily.data
 import com.aboutme.core.model.base.DatedModel
 import com.aboutme.core.model.sort.SortMode
 import com.aboutme.core.model.sort.Sortable
-import java.time.LocalDateTime
+import java.time.Instant
 
 /**
  * A data for one day that stores the diary entry for the user
@@ -15,9 +15,9 @@ data class DiaryData(
      */
     val content: String,
 
-    override val createdAt: LocalDateTime,
+    override val createdAt: Instant,
 
-    override val updatedAt: LocalDateTime
+    override val updatedAt: Instant
 
 ): Sortable<DiaryData>, DatedModel {
 

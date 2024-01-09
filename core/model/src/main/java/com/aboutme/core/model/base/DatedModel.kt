@@ -1,6 +1,6 @@
 package com.aboutme.core.model.base
 
-import java.time.LocalDateTime
+import java.time.Instant
 
 /**
  * Base for any model that has date information about itself
@@ -8,13 +8,13 @@ import java.time.LocalDateTime
 interface DatedModel {
 
     /**
-     * The time the item was created
+     * The time the item was created. This is a UTC timestamp
      */
-    val createdAt: LocalDateTime
+    val createdAt: Instant
 
     /**
-     * The time the item has been updated
+     * The time the item has been updated. This is a UTC timestamp
      */
-    val updatedAt: LocalDateTime
+    val updatedAt: Instant
 
 }

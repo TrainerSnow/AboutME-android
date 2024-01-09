@@ -3,7 +3,7 @@ package com.aboutme.core.model.data
 import com.aboutme.core.model.base.DatedModel
 import com.aboutme.core.model.sort.SortMode
 import com.aboutme.core.model.sort.Sortable
-import java.time.LocalDateTime
+import java.time.Instant
 
 /**
  * Represents a dream of a user
@@ -35,9 +35,9 @@ data class Dream(
      */
     val clearness: Float?,
 
-    override val createdAt: LocalDateTime,
+    override val createdAt: Instant,
 
-    override val updatedAt: LocalDateTime
+    override val updatedAt: Instant
 
 ): Sortable<Dream>, DatedModel {
 
