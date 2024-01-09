@@ -4,11 +4,12 @@ import androidx.lifecycle.viewModelScope
 import com.aboutme.core.data.AuthService
 import com.aboutme.core.data.repository.DailyDataRepository
 import com.aboutme.core.domain.viewmodel.AboutMeViewModel
-import com.aboutme.core.model.Response
-import com.aboutme.core.model.sort.sortBy
 import com.aboutme.core.ui.feed.dailydata.DailyDataFeedState
-import com.aboutme.core.ui.model.description
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -20,6 +21,17 @@ class HomeScreenViewModel @Inject constructor(
 ) : AboutMeViewModel<HomeEvent, HomeUiEvent, HomeState>() {
 
     override val initialState = HomeState()
+
+    val dailyFeedState: StateFlow<DailyDataFeedState> =
+        dailyDataRepository.getForDay(LocalDate.now())
+            .map {
+                DailyDataFeedState.Success(it.all().toList())
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = DailyDataFeedState.Loading
+            )
 
     override fun handleEvent(event: HomeEvent) = when (event) {
         HomeEvent.ToggleUserPopup -> updateState {
@@ -48,26 +60,6 @@ class HomeScreenViewModel @Inject constructor(
         triggerUiEvent(HomeUiEvent.LogOut)
         viewModelScope.launch {
             authService.logOutAll()
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-            val result = dailyDataRepository.getForDay(LocalDate.now())
-
-            if (result is Response.Success) {
-                updateState {
-                    it.copy(
-                        dailyFeedState = DailyDataFeedState.Success(result.data.all().toList())
-                    )
-                }
-            } else if (result is Response.Error) {
-                updateState {
-                    it.copy(
-                        dailyFeedState = DailyDataFeedState.Error(result.errors.first().description)
-                    )
-                }
-            }
         }
     }
 
