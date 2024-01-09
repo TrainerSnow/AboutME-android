@@ -17,6 +17,9 @@ interface DreamDataDao {
     @Query("SELECT * FROM dream_data")
     fun getAllWithDreams(): Flow<Set<DreamDataWithDreams>>
 
+    @Query("DELETE FROM dream_data")
+    fun deleteAll()
+
     @Insert
     suspend fun insert(entity: DreamDataEntity)
 

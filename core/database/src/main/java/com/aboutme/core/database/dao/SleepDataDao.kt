@@ -10,10 +10,13 @@ import java.time.LocalDate
 interface SleepDataDao {
 
     @Query("SELECT * FROM sleep_data WHERE sleep_data.date = :date")
-    fun getByDate(date: LocalDate): Flow<SleepDataDao?>
+    fun getByDate(date: LocalDate): Flow<SleepDataEntity?>
 
     @Query("SELECT * FROM sleep_data")
     fun getAll(): Flow<Set<SleepDataEntity>>
+
+    @Query("DELETE FROM sleep_data")
+    fun deleteAll()
 
     @Insert
     suspend fun insert(entity: SleepDataEntity)

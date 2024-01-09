@@ -14,6 +14,9 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE User.email = :email")
     fun getByEmail(email: String): Flow<UserEntity?>
 
+    @Query("DELETE FROM user")
+    fun deleteAll()
+
     @Insert
     suspend fun insert(entity: UserEntity): Long
 

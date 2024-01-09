@@ -18,6 +18,9 @@ interface DreamDao {
     @Query("SELECT * FROM dream WHERE dream.id = :id")
     fun getById(id: Long): Flow<DreamEntity?>
 
+    @Query("DELETE FROM dream")
+    fun deleteAll()
+
     @Insert
     suspend fun insert(entity: DreamEntity): Long
 

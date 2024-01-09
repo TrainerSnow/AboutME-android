@@ -17,6 +17,9 @@ interface DiaryDataDao {
     @Query("SELECT * FROM diary_data")
     fun getAll(): Flow<Set<DiaryDataEntity>>
 
+    @Query("DELETE FROM diary_data")
+    fun deleteAll()
+
     @Insert
     suspend fun insert(entity: DiaryDataEntity)
 

@@ -17,6 +17,9 @@ interface MoodDataDao {
     @Query("SELECT * FROM mood_data")
     fun getAll(): Flow<Set<MoodDataEntity>>
 
+    @Query("DELETE FROM mood_data")
+    fun deleteAll()
+
     @Insert
     suspend fun insert(entity: MoodDataEntity)
 
