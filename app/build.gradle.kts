@@ -34,26 +34,6 @@ android {
         }
     }
 
-    signingConfigs {
-        create("release") {
-            val propFile = rootProject.file("keystore.properties")
-            val props = Properties()
-            props.load(propFile.inputStream())
-
-            storeFile = rootProject.file(props["storeFile"]!!)
-            storePassword = props["storePassword"] as String
-            keyPassword = props["keyPassword"] as String
-            keyAlias = props["keyAlias"] as String
-        }
-
-        getByName("debug") {
-            storeFile = rootProject.file("debug.keystore")
-            storePassword = "zlLoyyyW8M6k3CqcEb"
-            keyPassword = "zlLoyyyW8M6k3CqcEb"
-            keyAlias = "signingkey"
-        }
-    }
-
     buildFeatures {
         compose = true
     }
