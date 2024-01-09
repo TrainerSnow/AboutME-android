@@ -2,6 +2,7 @@ package com.aboutme.core.database.entity.daily
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.Instant
 import java.time.LocalDate
 
 @Entity(
@@ -14,6 +15,10 @@ data class SleepDataEntity(
 
     val hoursSlept: Int,
 
-    val hoursAim: Int?
+    val hoursAim: Int?,
+
+    val createdAt: Instant,
+
+    val updatedAt: Instant
 
 )

@@ -2,6 +2,7 @@ package com.aboutme.core.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.Instant
 import java.time.LocalDate
 
 @Entity(
@@ -21,6 +22,10 @@ data class DreamEntity(
 
     val mood: Float? = null,
 
-    val clearness: Float? = null
+    val clearness: Float? = null,
+
+    val createdAt: Instant,
+
+    val updatedAt: Instant
 
 )
