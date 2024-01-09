@@ -1,5 +1,8 @@
 package com.aboutme.core.model.data
 
+import com.aboutme.core.model.base.DatedModel
+import java.time.LocalDateTime
+
 /**
  * The data about the current user
  */
@@ -13,6 +16,10 @@ data class UserData(
     /**
      * The email of the user
      */
-    val email: String
+    val email: String,
 
-)
+    override val createdAt: LocalDateTime,
+
+    override val updatedAt: LocalDateTime
+
+): DatedModel
