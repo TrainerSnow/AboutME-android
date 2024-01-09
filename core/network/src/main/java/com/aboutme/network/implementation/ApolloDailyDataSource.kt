@@ -1,5 +1,6 @@
 package com.aboutme.network.implementation;
 
+import com.aboutme.AllDayDatasQuery
 import com.aboutme.DayDataForDateQuery
 import com.aboutme.core.model.Response
 import com.aboutme.core.model.daily.DailyData
@@ -20,5 +21,12 @@ internal class ApolloDailyDataSource(
             .authentication(token)
             .execute()
             .mapResponse { it.dayData.dayDataFragment.toDailyData() }
+
+    override suspend fun getAll(token: String): Response<List<DailyData>> =
+        client
+            .query(AllDayDatasQuery())
+            .authentication(token)
+            .execute()
+            .mapResponse { it.dayDatas.map { it.dayDataFragment.toDailyData() } }
 
 }

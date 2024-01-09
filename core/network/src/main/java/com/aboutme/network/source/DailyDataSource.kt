@@ -15,4 +15,9 @@ interface DailyDataSource {
      */
     suspend fun getByDate(date: LocalDate, token: String): Response<DailyData>
 
+    /**
+     * gets all the [DailyData]
+     */
+    suspend fun getAll(token: String): Response<List<DailyData>>
+
 }

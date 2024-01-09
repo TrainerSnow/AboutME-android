@@ -1,9 +1,5 @@
-query DayDataForDate(
-    $date: Date!
-) {
-    dayData(
-        date: $date
-    ){
+query AllDayDatas {
+    dayDatas {
         ...DayDataFragment
     }
 }
