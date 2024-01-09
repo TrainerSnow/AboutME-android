@@ -17,4 +17,6 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:model"))
     implementation(project(":core:common"))
+
+    implementation(libs.android.work)
 }
