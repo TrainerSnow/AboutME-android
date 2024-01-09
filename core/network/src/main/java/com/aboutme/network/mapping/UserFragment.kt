@@ -9,5 +9,7 @@ fun UserFragment.toUserData(): UserData =
         nameInfo = nameInfo.run {
             NameInfo(firstName, middleName, lastName, title)
         },
-        email = email
+        email = email,
+        createdAt = created,
+        updatedAt = updated
     )

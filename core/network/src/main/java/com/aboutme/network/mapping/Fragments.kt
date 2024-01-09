@@ -38,21 +38,25 @@ internal fun DayDataFragment.toDailyData() = DailyData(
     ),
 )
 
-internal fun DiaryDataFragment.toDiaryData() = DiaryData(diaryContent)
+internal fun DiaryDataFragment.toDiaryData() = DiaryData(diaryContent, updated, created)
 
-internal fun SleepDataFragment.toSleepData() = SleepData(hoursSlept.toInt(), hoursAim?.toInt())
+internal fun SleepDataFragment.toSleepData() = SleepData(hoursSlept.toInt(), hoursAim?.toInt(), created, updated)
 
 internal fun MoodDataFragment.toMoodData() =
-    if (mood != null) MoodData.ConstantMoodData(mood.toFloat())
+    if (mood != null) MoodData.ConstantMoodData(mood.toFloat(), created, updated)
     else MoodData.VaryingMoodData(
         moodMorning!!.toFloat(),
         moodNoon!!.toFloat(),
-        moodEvening!!.toFloat()
+        moodEvening!!.toFloat(),
+        created,
+        updated
     )
 
 internal fun DreamDataFragment.toDreamData() = DreamData(
-    dreams = dreams.map { it.dreamFragment.toDream() }
+    dreams = dreams.map { it.dreamFragment.toDream() },
+    created,
+    updated
 )
 
 internal fun DreamFragment.toDream() =
-    Dream(id, description, annotation, mood?.toFloat(), clearness?.toFloat())
+    Dream(id, description, annotation, mood?.toFloat(), clearness?.toFloat(), created, updated)
