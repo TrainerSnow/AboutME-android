@@ -17,6 +17,8 @@ dependencies {
     implementation(project(":core:database"))
     implementation(project(":core:model"))
     implementation(project(":core:common"))
+    implementation(project(":core:secret"))
 
     implementation(libs.android.work)
+    implementation(libs.hilt.work)
 }
