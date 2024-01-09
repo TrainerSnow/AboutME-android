@@ -3,4 +3,7 @@ fragment DreamDataFragment on DreamData {
     dreams {
         ...DreamFragment
     }
+
+    created
+    updated
 }

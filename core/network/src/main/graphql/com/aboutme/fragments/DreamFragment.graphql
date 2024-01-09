@@ -4,4 +4,7 @@ fragment DreamFragment on Dream {
     annotation
     mood
     clearness
+
+    created
+    updated
 }
