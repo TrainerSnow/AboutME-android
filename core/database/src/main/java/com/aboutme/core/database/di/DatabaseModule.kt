@@ -9,6 +9,7 @@ import com.aboutme.core.database.dao.DreamDao
 import com.aboutme.core.database.dao.DreamDataDao
 import com.aboutme.core.database.dao.MoodDataDao
 import com.aboutme.core.database.dao.SleepDataDao
+import com.aboutme.core.database.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,6 +63,12 @@ object DatabaseModule {
     fun provideDreamDao(
         db: AboutMeDatabaseImpl
     ): DreamDao = db.dreamDao
+
+    @Provides
+    @Singleton
+    fun provideUserDao(
+        db: AboutMeDatabaseImpl
+    ): UserDao = db.userDao
 
     @Provides
     @Singleton

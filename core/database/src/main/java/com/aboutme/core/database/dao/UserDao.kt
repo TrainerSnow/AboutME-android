@@ -3,6 +3,7 @@ package com.aboutme.core.database.dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.aboutme.core.database.entity.UserEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -22,5 +23,8 @@ interface UserDao {
 
     @Delete
     suspend fun delete(entity: UserEntity): Int
+
+    @Update
+    suspend fun update(entity: UserEntity)
 
 }
