@@ -3,6 +3,7 @@ package com.aboutme.core.database.di
 import android.content.Context
 import androidx.room.Room
 import com.aboutme.core.database.base.AboutMeDatabase
+import com.aboutme.core.database.base.AboutMeDatabaseImpl
 import com.aboutme.core.database.dao.DiaryDataDao
 import com.aboutme.core.database.dao.DreamDao
 import com.aboutme.core.database.dao.DreamDataDao
@@ -23,10 +24,10 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context
-    ): AboutMeDatabase = Room
+    ): AboutMeDatabaseImpl = Room
         .databaseBuilder(
             context = context,
-            klass = AboutMeDatabase::class.java,
+            klass = AboutMeDatabaseImpl::class.java,
             name = "about-me-db"
         )
         .fallbackToDestructiveMigration()
@@ -35,31 +36,37 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDiaryDataDao(
-        db: AboutMeDatabase
+        db: AboutMeDatabaseImpl
     ): DiaryDataDao = db.diaryDataDao
 
     @Provides
     @Singleton
     fun provideDreamDataDao(
-        db: AboutMeDatabase
+        db: AboutMeDatabaseImpl
     ): DreamDataDao = db.dreamDataDao
 
     @Provides
     @Singleton
     fun provideSleepDataDao(
-        db: AboutMeDatabase
+        db: AboutMeDatabaseImpl
     ): SleepDataDao = db.sleepDataDao
 
     @Provides
     @Singleton
     fun provideMoodDataDao(
-        db: AboutMeDatabase
+        db: AboutMeDatabaseImpl
     ): MoodDataDao = db.moodDataDao
 
     @Provides
     @Singleton
     fun provideDreamDao(
-        db: AboutMeDatabase
+        db: AboutMeDatabaseImpl
     ): DreamDao = db.dreamDao
+
+    @Provides
+    @Singleton
+    fun provideExposedDatabase(
+        db: AboutMeDatabaseImpl
+    ): AboutMeDatabase = db
 
 }
