@@ -1,9 +1,7 @@
 package com.aboutme.core.model.daily.data
 
-import com.aboutme.core.model.base.DatedModel
 import com.aboutme.core.model.sort.SortMode
 import com.aboutme.core.model.sort.Sortable
-import java.time.LocalDateTime
 
 /**
  * A data for one day that stores the mood of the user
@@ -13,13 +11,9 @@ sealed class MoodData(
     /**
      * The average mood over the day
      */
-    val averageMood: Float,
+    val averageMood: Float
 
-    override val createdAt: LocalDateTime,
-
-    override val updatedAt: LocalDateTime
-
-) : Sortable<MoodData>, DatedModel {
+) : Sortable<MoodData> {
 
     /**
      * When the mood was constant over the day
@@ -29,13 +23,9 @@ sealed class MoodData(
         /**
          * The constant mood over the day
          */
-        val mood: Float,
+        val mood: Float
 
-        override val createdAt: LocalDateTime,
-
-        override val updatedAt: LocalDateTime
-
-    ) : MoodData(mood, createdAt, updatedAt)
+    ) : MoodData(mood)
 
     /**
      * When the mood varied over the day
@@ -55,13 +45,9 @@ sealed class MoodData(
         /**
          * Mood in the end of the day
          */
-        val evening: Float,
+        val evening: Float
 
-        override val createdAt: LocalDateTime,
-
-        override val updatedAt: LocalDateTime
-
-    ) : MoodData((morning + noon + evening) / 3F, createdAt, updatedAt)
+    ) : MoodData((morning + noon + evening) / 3F)
 
     override fun comparatorFor(mode: SortMode): Comparator<MoodData>? = when (mode) {
         SortMode.Amount -> compareBy { it.averageMood }

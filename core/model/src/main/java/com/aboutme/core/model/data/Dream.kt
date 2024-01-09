@@ -1,9 +1,7 @@
 package com.aboutme.core.model.data
 
-import com.aboutme.core.model.base.DatedModel
 import com.aboutme.core.model.sort.SortMode
 import com.aboutme.core.model.sort.Sortable
-import java.time.LocalDateTime
 
 /**
  * Represents a dream of a user
@@ -33,13 +31,9 @@ data class Dream(
     /**
      * How clear the memory of the dream is
      */
-    val clearness: Float?,
+    val clearness: Float?
 
-    override val createdAt: LocalDateTime,
-
-    override val updatedAt: LocalDateTime
-
-): Sortable<Dream>, DatedModel {
+): Sortable<Dream> {
 
     override fun comparatorFor(mode: SortMode): Comparator<Dream>? = when (mode) {
         SortMode.Length -> compareBy { it.content.length }
