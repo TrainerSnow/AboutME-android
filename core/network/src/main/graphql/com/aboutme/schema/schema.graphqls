@@ -1,0 +1,41 @@
+"""
+Custom scalar types
+"""
+scalar Date
+
+scalar Long
+
+"""
+Base query type
+"""
+type Query {
+
+    #
+    # Authenticated
+    #
+
+    """
+    Gets the current authenticated user
+    """
+    user: User!
+
+}
+
+"""
+Base mutation type
+"""
+type Mutation {
+
+    #
+    # Authenticated
+    #
+
+    """
+    Deletes the user
+    """
+    deleteUser: User!
+
+}
+
+
+

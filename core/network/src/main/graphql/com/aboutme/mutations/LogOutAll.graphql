@@ -1,0 +1,5 @@
+mutation LogOutAll {
+    logoutAll {
+        ...UserFragment
+    }
+}

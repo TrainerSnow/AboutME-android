@@ -1,0 +1,36 @@
+"""
+Input that bundles the data needed to create a sleep data
+"""
+input SleepDataInput {
+
+    hoursSlept: Float!
+
+    hoursAim: Float
+
+}
+
+extend type Mutation {
+
+    """
+    Creates a sleep data from the given input and date.
+    The given date must already exist.
+    """
+    addSleepData(sleepDataInput: SleepDataInput, date: Date!): SleepData!
+
+    """
+    Will delete the sleep data from the date.
+    """
+    deleteSleepData(date: Date!): SleepData!
+
+}
+
+
+"""
+Data for the sleep behaviour of a user for a day
+"""
+type SleepData {
+    id: Long!
+
+    hoursSlept: Float!
+    hoursAim: Float
+}

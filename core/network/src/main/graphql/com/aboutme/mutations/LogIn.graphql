@@ -1,0 +1,11 @@
+mutation LogIn(
+    $email: String!,
+    $password: String!
+) {
+    login(
+        email: $email,
+        password: $password
+    ) {
+        ...AuthUserFragment
+    }
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_picture">Profile picture</string>
+    <string name="change_email">Change email</string>
+    <string name="reset_password">Reset password</string>
+    <string name="change_name">Change name</string>
+    <string name="change_name_info">Change the naming preferences you set when creating your account, such as first name, last name or academic title.</string>
+    <string name="change_email_info">Change the email connected to you account. You will need to verify the new email address as a security measure.</string>
+    <string name="change_password">Change password</string>
+    <string name="change_password_info">Change or reset your password in case you have forgotten it. You will need to verify your current email address as a security measure.</string>
+    <string name="log_out">Log out</string>
+    <string name="log_out_info">Log this device out of your account. Other devices will stil be logged in.</string>
+    <string name="log_out_all">Log out all</string>
+    <string name="log_out_all_info">Log out all devices connected to this account. You will have to re-login on every device.</string>
+    <string name="delete_account">Delete account</string>
+    <string name="delete_account_info">Delete this account. This action is irreversible and will delete any data stored on this account.</string>
+    <string name="delete_account_dialog_title">Confirm delete profile</string>
+    <string name="delete_account_dialog_text">Are you sure that you want to delete you account? This action is permanent and cannot be undone. To confirm, please type the email address that your account is connected to.</string>
+</resources>

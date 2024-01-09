@@ -1,0 +1,80 @@
+"""
+An Input to bundle the information needed to create a person
+"""
+input PersonInput {
+
+    nameInfoInput: NameInfoInput!
+
+    personRelationId: Long!
+
+}
+
+"""
+An Input to bundle the information needed to create a relation
+"""
+input PersonRelationInput {
+
+    name: String!
+
+    color: String
+
+}
+
+extend type Mutation {
+
+    #
+    # Authenticated
+    #
+
+    """
+    Adds a person to the persons of the user
+    """
+    addPerson(personInput: PersonInput!): Person!
+
+    """
+    Deletes a person from the user
+    """
+    deletePerson(id: Long!): Person!
+
+    """
+    Updates the person of the user
+    """
+    updatePerson(id: Long!, personInput: PersonInput!): Person!
+
+
+    """
+    Adds a relation to the relations of the user
+    """
+    addRelation(personRelationInput: PersonRelationInput!): PersonRelation!
+
+    """
+    Deletes a relation from the user
+    """
+    deleteRelation(id: Long!): PersonRelation!
+
+    """
+    Updates the relation of the user
+    """
+    updateRelation(id: Long!, relationInput: PersonRelationInput): PersonRelation!
+
+}
+
+"""
+Stores information about a relation to a specific person
+"""
+type PersonRelation {
+    id: Long!
+
+    name: String!
+    color: String
+}
+
+"""
+Stores information about a person a user added
+"""
+type Person {
+    id: Long!
+
+    nameInfo: NameInfo!
+    relation: PersonRelation!
+}

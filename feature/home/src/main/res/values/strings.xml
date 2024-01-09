@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_title">Daily surveys</string>
+    <string name="toggle_user_popup">Show popup for user setting</string>
+    <string name="user_popup_logout">Log out</string>
+    <string name="user_popup_logout_all">Log out all</string>
+    <string name="user_popup_profile">Profile</string>
+    <string name="sort">Sort list</string>
+</resources>

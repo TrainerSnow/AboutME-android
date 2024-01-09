@@ -1,0 +1,9 @@
+fragment MoodDataFragment on MoodData {
+    id
+
+    mood
+
+    moodMorning
+    moodNoon
+    moodEvening
+}

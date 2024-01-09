@@ -1,0 +1,4 @@
+fragment AuthDataFragment on AuthData {
+    refreshToken
+    token
+}

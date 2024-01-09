@@ -1,0 +1,16 @@
+fragment DayDataFragment on DayData {
+    id
+    date
+    diaryData {
+        ...DiaryDataFragment
+    }
+    sleepData {
+        ...SleepDataFragment
+    }
+    moodData {
+        ...MoodDataFragment
+    }
+    dreamData {
+        ...DreamDataFragment
+    }
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="first_name">First name</string>
+    <string name="title">Title</string>
+    <string name="middle_name">Middle name</string>
+    <string name="last_name">Last name</string>
+    <string name="error_card_title">An error occurred:</string>
+    <string name="loading">Loading …</string>
+
+    <string name="daily_sleep_title">Sleep data</string>
+    <string name="daily_mood_title">Mood data</string>
+    <string name="daily_diary_title">Diary entry</string>
+    <string name="daily_dream_title">Dreams entries</string>
+
+    <string name="daily_sleep_description">Track how well you slept today.</string>
+    <string name="daily_mood_description">Track how your mood changed today.</string>
+    <string name="daily_diary_description">Track what you did today by writing a diary entry</string>
+    <string name="daily_dream_description">Track the dreams you had today by noting them down.</string>
+    <string name="daily_data_item_comleted_title">Already completed!</string>
+    <string name="daily_data_item_uncomplted_title">Not yet completed!</string>
+
+    <string name="daily_data_item_button_completed">Update</string>
+    <string name="daily_data_item_button_uncompleted">Do now</string>
+
+    <string name="response_error_conflict">The requested action conflicted with existing state. Tr yto restart the application.</string>
+    <string name="response_error_network">The server could not be reached. Ensure that you are connected to the internet.</string>
+    <string name="response_error_unauthorized">Your login could no be properly authenticated. Try to restart the application or re-login.</string>
+    <string name="response_error_notfound">An item you requested could not be found.</string>
+    <string name="response_error_unknown">The cause for the error is unknown.</string>
+
+    <string name="sortmode_name">Alphabetically</string>
+    <string name="sortmode_amount">Amount</string>
+    <string name="sortmode_completed">Completed</string>
+    <string name="sortmode_date">Date</string>
+    <string name="sortmode_created">Created</string>
+    <string name="sortmode_updated">Updated</string>
+    <string name="sortmode_length">Length</string>
+    <string name="sortmode_category">Category</string>
+    <string name="sortmode_none">None</string>
+
+
+
+    <string name="sortdirection_ascending">Ascending</string>
+    <string name="sortdirection_descending">Descending</string>
+    <string name="sortdirection_none">None</string>
+    <string name="sortsection_title">Sort configuration:</string>
+    <string name="sort_dialog_title">Select sort</string>
+</resources>

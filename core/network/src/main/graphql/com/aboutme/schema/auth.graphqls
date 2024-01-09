@@ -1,0 +1,75 @@
+"""
+Input data that bundles the information about the name of a user
+"""
+input NameInfoInput {
+    firstName: String!
+
+    middleName: String
+    lastName: String
+    title: String
+}
+
+extend type Mutation {
+
+    #
+    # Unauthenticated
+    #
+
+    """
+    Creates a user
+    """
+    signUp(email: String!, password: String!, nameInfo: NameInfoInput): AuthUser!
+
+    """
+    Refreshes the access and refresh token of a user
+    """
+    refresh(refreshToken: String!): AuthUser!
+
+    """
+    Creates an access and refresh token for the given credentials
+    """
+    login(email: String!, password: String!): AuthUser!
+
+    #
+    # Authenticated
+    #
+
+    """
+    Logs out the device connected to the given refresh token
+    """
+    logout(refreshToken: String!): User!
+
+    """
+    Logs out all devices connected to a user
+    """
+    logoutAll: User!
+
+    """
+    Updates this user.
+    Email and password cannot be updated.
+    """
+    updateUser(nameInfoInput: NameInfoInput): User!
+
+}
+
+"""
+Data related to the authentication
+"""
+type AuthData {
+
+    token: String!
+
+    refreshToken: String!
+
+}
+
+"""
+A user with its authentication data
+"""
+type AuthUser {
+
+    user: User!
+
+    authData: AuthData!
+
+}

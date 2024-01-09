@@ -1,0 +1,9 @@
+mutation LogOut(
+    $refreshToken: String!
+) {
+    logout(
+        refreshToken: $refreshToken
+    ) {
+        ...UserFragment
+    }
+}

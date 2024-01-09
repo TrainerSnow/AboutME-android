@@ -1,0 +1,13 @@
+mutation SignUp (
+    $email: String!,
+    $password: String!,
+    $nameInfo: NameInfoInput!
+) {
+    signUp(
+        email: $email,
+        password: $password,
+        nameInfo: $nameInfo
+    ) {
+        ...AuthUserFragment
+    }
+}

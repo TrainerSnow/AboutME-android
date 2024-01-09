@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_bad_email">Email must be a vali email address</string>
+    <string name="error_password_length">The password must contain at least 8 letters</string>
+    <string name="error_password_content">The password must contain uppercase letters, lowercase letters and numbers</string>
+    <string name="error_email_taken">The email is already registered</string>
+    <string name="error_name_empty">The name can\'t be empty</string>
+    <string name="error_invalid_credential">The entered credentials are invalid</string>
+    <string name="error_email_confirmation_not_match">The entered email address does not matche the email address of you account</string>
+</resources>

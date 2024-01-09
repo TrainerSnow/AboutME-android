@@ -1,0 +1,76 @@
+"""
+Input that bundles data data to create a dream.
+"""
+input DreamInput {
+
+    description: String!
+    annotation: String
+
+    clearness: Float
+    mood: Float
+
+    persons: [Long!]
+
+}
+
+extend type Mutation {
+
+    #
+    # Authenticated
+    #
+
+    # Dream
+
+    """
+    Will create a dream for the given input and date.
+    The provided date must already exist.
+    The date must not be in the future.
+    """
+    addDream(dreamInput: DreamInput!, date: Date!): Dream!
+
+    """
+    Will delete a dream matching the id
+    """
+    deleteDream(id: Long!): Dream!
+
+    # Dream Data
+
+    """
+    Will create a dream data for the given date.
+    The provided day must already exist.
+    The date must not be in the future.
+    """
+    addDreamData(date: Date!): DreamData!
+
+    """
+    Will delete the dream data at the given date
+    """
+    deleteDreamData(date: Date!): DreamData!
+
+}
+
+
+"""
+Data for the dreams of a user for a day
+"""
+type DreamData {
+    id: Long!
+
+    dreams: [Dream!]!
+}
+
+
+"""
+Stores information about a dream the user added
+"""
+type Dream {
+    id: Long!
+
+    description: String!
+    annotation: String
+
+    clearness: Float
+    mood: Float
+
+    persons: [Person!]!
+}

@@ -1,0 +1,7 @@
+fragment DreamFragment on Dream {
+    id
+    description
+    annotation
+    mood
+    clearness
+}

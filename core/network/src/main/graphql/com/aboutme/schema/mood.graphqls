@@ -1,0 +1,46 @@
+"""
+Input that bundles the data needed to create a mood data
+"""
+input MoodDataInput {
+
+    mood: Float
+
+    moodMorning: Float
+    moodNoon: Float
+    moodEvening: Float
+
+}
+
+extend type Mutation {
+
+    #
+    # Authenticated
+    #
+
+    """
+    Will add the mood data from the given input and date.
+    The given date must already exist.
+    The given MoodDataInput must conform to either of the two mood types.
+    """
+    addMoodData(moodDataInput: MoodDataInput, date: Date!): MoodData!
+
+    """
+    Will delete the mood data from the date.
+    """
+    deleteMoodData(date: Date!): MoodData!
+
+}
+
+
+"""
+Base for all mood data types
+"""
+type MoodData {
+    id: Long!
+
+    mood: Float
+
+    moodMorning: Float
+    moodNoon: Float
+    moodEvening: Float
+}

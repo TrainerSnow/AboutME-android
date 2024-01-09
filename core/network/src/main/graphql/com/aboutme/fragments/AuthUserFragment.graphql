@@ -1,0 +1,8 @@
+fragment AuthUserFragment on AuthUser {
+    user {
+        ...UserFragment
+    }
+    authData {
+        ...AuthDataFragment
+    }
+}

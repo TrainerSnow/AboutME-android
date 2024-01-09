@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="signup_title">Sign up</string>
+    <string name="signup_subtitle">Create a new account</string>
+    <string name="hide_password">Hide password</string>
+    <string name="show_password">Show password</string>
+    <string name="password">Password</string>
+    <string name="email">Email-Address</string>
+    <string name="login_instaed">Already have an account? Log in instead.</string>
+    <string name="signup_error_title">An error occurred:</string>
+    <string name="signup_error_connection">The server could not be reached. Ensure you are connected to the internet.</string>
+    <string name="signup_error_unknown">The cause for the error could not be resolved. Ensure you are using the latest version of the app.</string>
+    <string name="name">Name</string>
+    <string name="show_name_config">Show further name configuration</string>
+    <string name="loading">Loading …</string>
+    <string name="login_error_connection">The server could not be reached. Ensure you are connected to the internet.</string>
+    <string name="login_error_unknown">The cause for the error could not be resolved. Ensure you are using the latest version of the app. </string>
+    <string name="signup_instead">Don\'t have an account yet? Sign up instead.</string>
+    <string name="login_title">Login</string>
+    <string name="login_subtitle">Use existing account</string>
+</resources>
