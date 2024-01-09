@@ -32,4 +32,7 @@ type DiaryData {
     diaryContent: String!
 
     date: Date!
+
+    created: Instant!
+    updated: Instant!
 }

@@ -48,6 +48,9 @@ type User {
     persons: [Person!]!
     personRelations: [PersonRelation!]!
     dayData: [DayData!]!
+
+    created: Instant!
+    updated: Instant!
 }
 
 

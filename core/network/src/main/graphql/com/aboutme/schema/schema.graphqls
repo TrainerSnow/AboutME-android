@@ -5,6 +5,8 @@ scalar Date
 
 scalar Long
 
+scalar Instant
+
 """
 Base query type
 """

@@ -43,4 +43,7 @@ type MoodData {
     moodMorning: Float
     moodNoon: Float
     moodEvening: Float
+
+    created: Instant!
+    updated: Instant!
 }

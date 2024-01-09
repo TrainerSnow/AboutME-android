@@ -33,4 +33,7 @@ type SleepData {
 
     hoursSlept: Float!
     hoursAim: Float
+
+    created: Instant!
+    updated: Instant!
 }

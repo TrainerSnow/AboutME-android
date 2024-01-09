@@ -67,6 +67,9 @@ type PersonRelation {
 
     name: String!
     color: String
+
+    created: Instant!
+    updated: Instant!
 }
 
 """
@@ -77,4 +80,7 @@ type Person {
 
     nameInfo: NameInfo!
     relation: PersonRelation!
+
+    created: Instant!
+    updated: Instant!
 }
