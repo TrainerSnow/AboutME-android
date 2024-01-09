@@ -2,6 +2,7 @@ package com.aboutme.core.data.repository
 
 import com.aboutme.core.model.Response
 import com.aboutme.core.model.daily.DailyData
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 /**
@@ -10,6 +11,6 @@ import java.time.LocalDate
  */
 interface DailyDataRepository {
 
-    suspend fun getForDay(date: LocalDate): Response<DailyData>
+    fun getForDay(date: LocalDate): Flow<DailyData>
 
 }

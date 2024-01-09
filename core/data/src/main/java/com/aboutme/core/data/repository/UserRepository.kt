@@ -12,13 +12,8 @@ import com.aboutme.core.model.data.UserData
 interface UserRepository {
 
     /**
-     * Deletes the currently logged in user
-     */
-    suspend fun deleteUser(): Response<UserData>
-
-    /**
      * Updates the [NameInfo] associated with the current user
      */
-    suspend fun updateUser(nameInfo: NameInfo): Response<UserData>
+    suspend fun updateUser(nameInfo: NameInfo)
 
 }
