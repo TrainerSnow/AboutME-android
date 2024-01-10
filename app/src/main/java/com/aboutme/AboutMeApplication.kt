@@ -11,7 +11,7 @@ import javax.inject.Inject
 class AboutMeApplication : Application(), Configuration.Provider {
 
     @Inject
-    private lateinit var workerFactory: HiltWorkerFactory
+    lateinit var workerFactory: HiltWorkerFactory
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()

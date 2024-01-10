@@ -1,5 +1,6 @@
 package com.aboutme.core.database.dao
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
@@ -9,13 +10,14 @@ import com.aboutme.core.model.daily.data.DreamData
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
+@Dao
 interface DiaryDataDao {
 
     @Query("SELECT * FROM diary_data WHERE diary_data.date = :date")
     fun getByDate(date: LocalDate): Flow<DiaryDataEntity?>
 
     @Query("SELECT * FROM diary_data")
-    fun getAll(): Flow<Set<DiaryDataEntity>>
+    fun getAll(): Flow<List<DiaryDataEntity>>
 
     @Query("DELETE FROM diary_data")
     fun deleteAll()
