@@ -21,4 +21,6 @@ dependencies {
 
     implementation(libs.android.work)
     implementation(libs.hilt.work)
+
+    add("kapt", "androidx.hilt:hilt-compiler:1.1.0")
 }

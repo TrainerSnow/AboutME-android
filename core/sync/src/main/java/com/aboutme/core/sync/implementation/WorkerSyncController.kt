@@ -1,9 +1,11 @@
 package com.aboutme.core.sync.implementation;
 
+import android.util.Log.d
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.aboutme.core.sync.SyncController
@@ -17,6 +19,7 @@ internal class WorkerSyncController(
     override fun syncNow() {
         val request = OneTimeWorkRequestBuilder<SyncWorker>()
             .addTag(SYNC_WORKER_TAG)
+            .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
             .build()
 
         workManager.enqueue(request)
