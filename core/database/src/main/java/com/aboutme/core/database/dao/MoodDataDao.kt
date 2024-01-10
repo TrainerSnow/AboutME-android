@@ -13,11 +13,17 @@ import java.time.LocalDate
 @Dao
 interface MoodDataDao {
 
-    @Query("SELECT * FROM mood_data WHERE mood_data.date = :date")
+    @Query("SELECT * FROM mood_data WHERE mood_data.date = :date and mood_data.deletedOn == null")
     fun getByDate(date: LocalDate): Flow<MoodDataEntity?>
 
-    @Query("SELECT * FROM mood_data")
+    @Query("SELECT * FROM mood_data WHERE mood_data.date = :date")
+    fun getByDateWithDeleted(date: LocalDate): Flow<MoodDataEntity?>
+
+    @Query("SELECT * FROM mood_data WHERE mood_data.deletedOn == null")
     fun getAll(): Flow<List<MoodDataEntity>>
+
+    @Query("SELECT * FROM mood_data")
+    fun getAllWithDeleted(): Flow<List<MoodDataEntity>>
 
     @Query("DELETE FROM mood_data")
     fun deleteAll()

@@ -13,11 +13,17 @@ import java.time.LocalDate
 @Dao
 interface DiaryDataDao {
 
-    @Query("SELECT * FROM diary_data WHERE diary_data.date = :date")
+    @Query("SELECT * FROM diary_data WHERE diary_data.date = :date AND diary_data.deletedOn == null")
     fun getByDate(date: LocalDate): Flow<DiaryDataEntity?>
 
-    @Query("SELECT * FROM diary_data")
+    @Query("SELECT * FROM diary_data WHERE diary_data.date = :date")
+    fun getByDateWithDeleted(date: LocalDate): Flow<DiaryDataEntity?>
+
+    @Query("SELECT * FROM diary_data WHERE diary_data.deletedOn == null")
     fun getAll(): Flow<List<DiaryDataEntity>>
+
+    @Query("SELECT * FROM diary_data")
+    fun getAllWithDeleted(): Flow<List<DiaryDataEntity>>
 
     @Query("DELETE FROM diary_data")
     fun deleteAll()

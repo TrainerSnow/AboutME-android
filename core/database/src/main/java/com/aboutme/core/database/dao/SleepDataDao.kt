@@ -11,11 +11,17 @@ import java.time.LocalDate
 @Dao
 interface SleepDataDao {
 
-    @Query("SELECT * FROM sleep_data WHERE sleep_data.date = :date")
+    @Query("SELECT * FROM sleep_data WHERE sleep_data.date = :date AND sleep_data.deletedOn == null")
     fun getByDate(date: LocalDate): Flow<SleepDataEntity?>
 
-    @Query("SELECT * FROM sleep_data")
+    @Query("SELECT * FROM sleep_data WHERE sleep_data.date = :date")
+    fun getByDateWithDeleted(date: LocalDate): Flow<SleepDataEntity?>
+
+    @Query("SELECT * FROM sleep_data WHERE sleep_data.deletedOn == null")
     fun getAll(): Flow<List<SleepDataEntity>>
+
+    @Query("SELECT * FROM sleep_data")
+    fun getAllWithDeleted(): Flow<List<SleepDataEntity>>
 
     @Query("DELETE FROM sleep_data")
     fun deleteAll()

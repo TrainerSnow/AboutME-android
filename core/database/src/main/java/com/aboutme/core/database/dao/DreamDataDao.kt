@@ -13,11 +13,17 @@ import java.time.LocalDate
 @Dao
 interface DreamDataDao {
 
-    @Query("SELECT * FROM dream_data WHERE dream_data.date = :date")
+    @Query("SELECT * FROM dream_data WHERE dream_data.date = :date AND dream_data.deletedOn == null")
     fun getWithDreamsByDate(date: LocalDate): Flow<DreamDataWithDreams?>
 
-    @Query("SELECT * FROM dream_data")
+    @Query("SELECT * FROM dream_data WHERE dream_data.date = :date")
+    fun getWithDreamsByDateWithDeleted(date: LocalDate): Flow<DreamDataWithDreams?>
+
+    @Query("SELECT * FROM dream_data WHERE dream_data.deletedOn == null")
     fun getAllWithDreams(): Flow<List<DreamDataWithDreams>>
+
+    @Query("SELECT * FROM dream_data")
+    fun getAllWithDreamsWithDeleted(): Flow<List<DreamDataWithDreams>>
 
     @Query("DELETE FROM dream_data")
     fun deleteAll()

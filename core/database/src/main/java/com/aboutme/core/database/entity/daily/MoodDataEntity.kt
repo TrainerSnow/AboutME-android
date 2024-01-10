@@ -2,6 +2,7 @@ package com.aboutme.core.database.entity.daily
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.aboutme.core.database.entity.base.SyncableEntity
 import java.time.Instant
 import java.time.LocalDate
 
@@ -21,8 +22,10 @@ data class MoodDataEntity(
 
     val moodEvening: Float?,
 
-    val createdAt: Instant,
+    override val createdAt: Instant,
 
-    val updatedAt: Instant
+    override val updatedAt: Instant,
 
-)
+    override val deletedAt: Instant? = null
+
+): SyncableEntity
