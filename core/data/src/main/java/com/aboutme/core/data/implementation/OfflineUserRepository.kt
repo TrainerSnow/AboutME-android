@@ -7,6 +7,7 @@ import com.aboutme.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import java.time.Instant
 
 internal class OfflineUserRepository(
     private val userDao: UserDao
@@ -14,7 +15,7 @@ internal class OfflineUserRepository(
 
     override suspend fun updateUser(nameInfo: NameInfo) {
         val current = userDao.getAll().first().firstOrNull() ?: return
-        userDao.update(current.copy(nameInfo = nameInfo))
+        userDao.update(current.copy(nameInfo = nameInfo, updatedAt = Instant.now()))
     }
 
     override fun getUser(): Flow<UserData?> = userDao

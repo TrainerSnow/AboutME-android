@@ -56,6 +56,9 @@ internal class NetworkAuthService(
         //Clear cache, because it is not needed anymore
         database.deleteAllRows()
 
+        tokenRepository.setToken(null)
+        tokenRepository.setRefreshToken(null)
+
         return if (refreshToken == null || token == null) {
             Response.Error(setOf(ResponseError.Unknown))
         } else {
@@ -68,6 +71,9 @@ internal class NetworkAuthService(
 
         //Clear cache, because it is not needed anymore
         database.deleteAllRows()
+
+        tokenRepository.setToken(null)
+        tokenRepository.setRefreshToken(null)
 
         return if (token == null) {
             Response.Error(setOf(ResponseError.Unknown))

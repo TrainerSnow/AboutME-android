@@ -24,7 +24,8 @@ object SecretModule {
     @Singleton
     fun provideEncryptedSharedPreferences(
         @ApplicationContext context: Context
-    ): SharedPreferences = EncryptedSharedPreferences
+    ): SharedPreferences = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE)
+        /*EncryptedSharedPreferences
         .create(
             context,
             FILENAME,
@@ -33,7 +34,7 @@ object SecretModule {
                 .build(),
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+        )*/
 
     @Provides
     @Singleton

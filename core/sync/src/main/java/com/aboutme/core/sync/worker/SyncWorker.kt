@@ -1,6 +1,7 @@
 package com.aboutme.core.sync.worker;
 
 import android.content.Context
+import android.util.Log.d
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -55,11 +56,15 @@ internal class SyncWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         val serverUser = checkAuth() ?: return Result.failure()
-        val dbUser = userDao.getAll().first().firstOrNull() ?: return Result.failure()
+        d("SyncWorker", "Received server user '$serverUser'")
+        val dbUser = userDao.getByEmail(serverUser.user.email).first()
+        d("SyncWorker", "Received database user '$dbUser'")
 
-        if (!isSameUser(serverUser, dbUser)) {
+        if (dbUser == null) {
+            d("SyncWorker", "Will take all data from server")
             takeAllServerData(serverUser.user)
         } else {
+            d("SyncWorker", "Will take data dynamically")
             takeDynamicData(serverUser.user, dbUser)
         }
 
@@ -69,19 +74,20 @@ internal class SyncWorker @AssistedInject constructor(
 
     private suspend fun checkAuth(): AuthUser? {
         val result = authSource.refresh(tokenRepository.getRefreshToken() ?: "")
+        if(result is Response.Success) {
+            tokenRepository.setRefreshToken(result.data.authData.refreshToken)
+        }
         return (result as? Response.Success)?.data
-    }
-
-    private fun isSameUser(serverUser: AuthUser, dbUser: UserEntity): Boolean {
-        return dbUser.email == serverUser.user.email
     }
 
     //TODO: Also sync persons and relations and other stuff here
     private suspend fun takeDynamicData(serverUser: UserData, dbUser: UserEntity) {
         if (serverUser.updatedAt >= dbUser.updatedAt) {
+            d("SyncWorker", "Will use server user")
             useServerUser(serverUser)
         } else {
             useDbUser(dbUser)
+            d("SyncWorker", "Will use db user")
         }
 
         val serverDailyDatas = dailyDataSource.getAll(tokenRepository.getToken() ?: "")
@@ -176,6 +182,8 @@ internal class SyncWorker @AssistedInject constructor(
         sleepDataDao.deleteAll()
         diaryDataDao.deleteAll()
 
+        d("SyncWorker", "Emptied local database")
+
         //Save new user
         userDao.insert(
             UserEntity(
@@ -185,12 +193,14 @@ internal class SyncWorker @AssistedInject constructor(
                 serverUser.updatedAt
             )
         )
+        d("SyncWorker", "Inserted new user")
 
 
         val serverDailyDatas = dailyDataSource.getAll(tokenRepository.getToken() ?: "")
 
         if (serverDailyDatas is Response.Success) {
             val dailyDatas = serverDailyDatas.data
+            d("SyncWorker", "Got daily datas: \n${dailyDatas.joinToString("\n")}")
 
             dailyDatas.forEach {
                 useServerDailyData(it)
@@ -229,7 +239,7 @@ internal class SyncWorker @AssistedInject constructor(
      */
 
     private suspend fun useServerUser(userData: UserData) {
-        userDao.insert(
+        userDao.update(
             userData.run {
                 UserEntity(email, nameInfo, createdAt, updatedAt)
             }
@@ -237,6 +247,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private suspend fun useServerDailyData(dailyData: DailyData) {
+        d("SyncWorker", "Taking server version for daily data $dailyData")
         useServerDiaryData(dailyData.diaryData)
         useServerSleepData(dailyData.sleepData)
         useServerDreamData(dailyData.dreamData)

@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.aboutme.core.data.AuthService
 import com.aboutme.core.data.repository.DailyDataRepository
 import com.aboutme.core.domain.viewmodel.AboutMeViewModel
+import com.aboutme.core.sync.SyncController
 import com.aboutme.core.ui.feed.dailydata.DailyDataFeedState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,8 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     dailyDataRepository: DailyDataRepository,
-    val authService: AuthService
+    val authService: AuthService,
+    syncController: SyncController
 ) : AboutMeViewModel<HomeEvent, HomeUiEvent, HomeState>() {
+
+    init {
+        syncController.syncNow()
+    }
 
     override val initialState = HomeState()
 
