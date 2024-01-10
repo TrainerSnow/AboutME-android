@@ -7,13 +7,19 @@ import com.aboutme.core.model.daily.data.DiaryData
 import com.aboutme.core.model.daily.data.DreamData
 import com.aboutme.core.model.daily.data.MoodData
 import com.aboutme.core.model.daily.data.SleepData
+import com.aboutme.core.model.data.AuthData
+import com.aboutme.core.model.data.AuthUser
 import com.aboutme.core.model.data.Dream
+import com.aboutme.core.model.data.NameInfo
+import com.aboutme.core.model.data.UserData
+import com.aboutme.fragment.AuthUserFragment
 import com.aboutme.fragment.DayDataFragment
 import com.aboutme.fragment.DiaryDataFragment
 import com.aboutme.fragment.DreamDataFragment
 import com.aboutme.fragment.DreamFragment
 import com.aboutme.fragment.MoodDataFragment
 import com.aboutme.fragment.SleepDataFragment
+import com.aboutme.fragment.UserFragment
 
 internal fun DayDataFragment.toDailyData() = DailyData(
     diaryData = DailyDataInfo(
@@ -60,3 +66,21 @@ internal fun DreamDataFragment.toDreamData() = DreamData(
 
 internal fun DreamFragment.toDream() =
     Dream(id, description, annotation, mood?.toFloat(), clearness?.toFloat(), created, updated)
+
+internal fun AuthUserFragment.toAuthUser(): AuthUser = AuthUser(
+    user = user.userFragment.toUserData(),
+    authData = AuthData(
+        refreshToken = authData.authDataFragment.refreshToken,
+        token = authData.authDataFragment.token
+    )
+)
+
+fun UserFragment.toUserData(): UserData =
+    UserData(
+        nameInfo = nameInfo.run {
+            NameInfo(firstName, middleName, lastName, title)
+        },
+        email = email,
+        createdAt = created,
+        updatedAt = updated
+    )
