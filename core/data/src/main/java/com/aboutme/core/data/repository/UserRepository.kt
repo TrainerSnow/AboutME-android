@@ -20,6 +20,6 @@ interface UserRepository {
     /**
      * Gets the current user
      */
-    fun getUser(): Flow<UserData>
+    fun getUser(): Flow<UserData?>
 
 }

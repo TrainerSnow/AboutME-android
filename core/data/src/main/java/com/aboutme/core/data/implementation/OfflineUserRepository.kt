@@ -17,14 +17,13 @@ internal class OfflineUserRepository(
         userDao.update(current.copy(nameInfo = nameInfo))
     }
 
-    override fun getUser(): Flow<UserData> = userDao
+    override fun getUser(): Flow<UserData?> = userDao
         .getAll()
         .map {
-            UserData(
-                it.first().nameInfo,
-                it.first().email,
-                it.first().createdAt,
-                it.first().updatedAt
-            )
+            it.firstOrNull()
+        }.map {
+            it?.let {
+                UserData(it.nameInfo, it.email, it.createdAt, it.updatedAt)
+            }
         }
 }

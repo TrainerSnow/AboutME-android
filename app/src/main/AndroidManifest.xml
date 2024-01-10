@@ -28,6 +28,7 @@
         </activity>
 
         <provider
+            tools:replace="android:authorities"
             android:name="androidx.startup.InitializationProvider"
             android:authorities="$com.aboutme.androidx-startup"
             android:exported="false"

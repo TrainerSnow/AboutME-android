@@ -5,6 +5,7 @@ import com.aboutme.core.data.AuthService
 import com.aboutme.core.data.repository.UserRepository
 import com.aboutme.core.domain.viewmodel.AboutMeViewModel
 import com.aboutme.core.model.StreakInfo
+import com.aboutme.profile.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +26,8 @@ internal class ProfileViewModel @Inject constructor(
     val profileState: StateFlow<ProfileUserState> = userRepository
         .getUser()
         .map {
-            ProfileUserState.Success(it, StreakInfo(4, 11, 2, 3))
+            if(it == null) ProfileUserState.Loading
+            else ProfileUserState.Success(it, StreakInfo(4, 11, 2, 3))
         }
         .stateIn(
             scope = viewModelScope,
