@@ -5,21 +5,38 @@ input DiaryDataInput {
 
     diaryContent: String!
 
+    date: Date!
+
+    created: Instant!
+    updated: Instant!
 }
 
 extend type Mutation {
 
     """
     Will add a diary data for the given day and input.
-    The provided day must already exist.
-    If a diary data is already present at that day, it will be overwritten.
+    If a diary data is already present at that day, it will be updated.
     """
-    addDiaryData(diaryDataInput: DiaryDataInput!, date: Date!): DiaryData!
+    addDiaryData(diaryDataInput: DiaryDataInput!): DiaryData
 
     """
     Will delete the diary data from the given date.
     """
-    deleteDiaryData(date: Date!): DiaryData!
+    deleteDiaryData(date: Date!): DiaryData
+
+}
+
+extend type Query {
+
+    """
+    Gets the diary data for the given date, or null
+    """
+    getDiaryDataByDate(date: Date!): DiaryData
+
+    """
+    Gets all the diary datas, or an empty list
+    """
+    getAllDiaryDatas: [DiaryData!]
 
 }
 

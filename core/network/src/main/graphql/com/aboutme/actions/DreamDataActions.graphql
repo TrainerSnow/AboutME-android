@@ -1,0 +1,21 @@
+query GetAllDreamDatas {
+    getAllDreamDatas {
+        ...DreamDataFragment
+    }
+}
+
+mutation AddOrUpdateDreamData(
+    $dreamDataInput: DreamDataInput!
+) {
+    addDreamData(dreamDataInput: $dreamDataInput) {
+        ...DreamDataFragment
+    }
+}
+
+mutation DeleteDreamData(
+    $date: Date!
+) {
+    deleteDreamData(date: $date) {
+        ...DreamDataFragment
+    }
+}

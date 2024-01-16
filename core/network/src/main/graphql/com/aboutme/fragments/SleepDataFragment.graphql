@@ -1,7 +1,11 @@
 fragment SleepDataFragment on SleepData {
     id
-    hoursSlept
+
     hoursAim
+    hoursSlept
+
+    date
+
     created
     updated
 }

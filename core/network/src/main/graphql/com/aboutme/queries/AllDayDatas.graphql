@@ -1,5 +1,0 @@
-query AllDayDatas {
-    dayDatas {
-        ...DayDataFragment
-    }
-}

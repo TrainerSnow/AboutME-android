@@ -9,6 +9,15 @@ input NameInfoInput {
     title: String
 }
 
+"""
+Bundles data needed to update a user
+"""
+input UpdateUserInput {
+    nameInfo: NameInfoInput!
+
+    updated: Instant!
+}
+
 extend type Mutation {
 
     #
@@ -18,17 +27,17 @@ extend type Mutation {
     """
     Creates a user
     """
-    signUp(email: String!, password: String!, nameInfo: NameInfoInput): AuthUser!
+    signUp(email: String!, password: String!, nameInfo: NameInfoInput): AuthUser
 
     """
     Refreshes the access and refresh token of a user
     """
-    refresh(refreshToken: String!): AuthUser!
+    refresh(refreshToken: String!): AuthUser
 
     """
     Creates an access and refresh token for the given credentials
     """
-    login(email: String!, password: String!): AuthUser!
+    login(email: String!, password: String!): AuthUser
 
     #
     # Authenticated
@@ -37,18 +46,17 @@ extend type Mutation {
     """
     Logs out the device connected to the given refresh token
     """
-    logout(refreshToken: String!): User!
+    logout(refreshToken: String!): User
 
     """
     Logs out all devices connected to a user
     """
-    logoutAll: User!
+    logoutAll: User
 
     """
     Updates this user.
-    Email and password cannot be updated.
     """
-    updateUser(nameInfoInput: NameInfoInput): User!
+    updateUser(userInput: UpdateUserInput): User
 
 }
 

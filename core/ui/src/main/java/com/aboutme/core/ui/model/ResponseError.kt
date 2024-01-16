@@ -1,7 +1,7 @@
 package com.aboutme.core.ui.model
 
 import androidx.annotation.StringRes
-import com.aboutme.core.model.ResponseError
+import com.aboutme.core.common.ResponseError
 import com.aboutme.core.ui.R
 
 /**

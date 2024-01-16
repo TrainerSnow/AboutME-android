@@ -19,7 +19,7 @@ type Query {
     """
     Gets the current authenticated user
     """
-    user: User!
+    user: User
 
 }
 
@@ -35,7 +35,7 @@ type Mutation {
     """
     Deletes the user
     """
-    deleteUser: User!
+    deleteUser: User
 
 }
 

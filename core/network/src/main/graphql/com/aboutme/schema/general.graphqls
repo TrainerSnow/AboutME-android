@@ -1,40 +1,3 @@
-extend type Query {
-
-    #
-    # Authenticated
-    #
-
-    """
-    Gets all the [DayData] that a user has
-    """
-    dayDatas: [DayData!]!
-
-    """
-    Gets the day data for the given date if it exists
-    """
-    dayData(date: Date!): DayData!
-
-}
-
-extend type Mutation {
-
-    #
-    # Authenticated
-    #
-
-    """
-    Will create the day data for the given date.
-    The provided date cannot lie in the future.
-    """
-    createDayData(date: Date!): DayData!
-
-    """
-    Will delete the day data for the given date.
-    """
-    deleteDayData(date: Date!): DayData!
-
-}
-
 """
 A user that was created
 """
@@ -47,26 +10,9 @@ type User {
 
     persons: [Person!]!
     personRelations: [PersonRelation!]!
-    dayData: [DayData!]!
 
     created: Instant!
     updated: Instant!
-}
-
-
-"""
-A day of data for a specific user
-"""
-type DayData {
-    id: Long!
-    date: Date! #LocalDate (day-month-year)
-
-    moodData: MoodData
-    sleepData: SleepData
-    dreamData: DreamData
-    diaryData: DiaryData
-
-    user: User
 }
 
 """

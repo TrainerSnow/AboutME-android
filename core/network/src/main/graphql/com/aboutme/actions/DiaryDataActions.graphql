@@ -1,0 +1,21 @@
+query GetAllDiaryDatas {
+    getAllDiaryDatas {
+        ...DiaryDataFragment
+    }
+}
+
+mutation AddOrUpdateDiaryData(
+    $diaryDataInput: DiaryDataInput!
+) {
+    addDiaryData(diaryDataInput: $diaryDataInput) {
+        ...DiaryDataFragment
+    }
+}
+
+mutation DeleteDiaryData(
+    $date: Date!
+) {
+    deleteDiaryData(date: $date) {
+        ...DiaryDataFragment
+    }
+}
