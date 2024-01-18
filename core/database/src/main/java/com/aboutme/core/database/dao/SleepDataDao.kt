@@ -4,20 +4,22 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
+import com.aboutme.core.database.dao.base.SyncableEntityAccessor
 import com.aboutme.core.database.entity.daily.SleepDataEntity
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 @Dao
-interface SleepDataDao {
+interface SleepDataDao : SyncableEntityAccessor<SleepDataEntity> {
 
-    @Query("SELECT * FROM sleep_data WHERE sleep_data.date = :date AND sleep_data.deletedOn == null")
+    @Query("SELECT * FROM sleep_data WHERE sleep_data.date = :date AND sleep_data.deletedAt IS NULL")
     fun getByDate(date: LocalDate): Flow<SleepDataEntity?>
 
     @Query("SELECT * FROM sleep_data WHERE sleep_data.date = :date")
     fun getByDateWithDeleted(date: LocalDate): Flow<SleepDataEntity?>
 
-    @Query("SELECT * FROM sleep_data WHERE sleep_data.deletedOn == null")
+    @Query("SELECT * FROM sleep_data WHERE sleep_data.deletedAt IS NULL")
     fun getAll(): Flow<List<SleepDataEntity>>
 
     @Query("SELECT * FROM sleep_data")
@@ -27,9 +29,12 @@ interface SleepDataDao {
     fun deleteAll()
 
     @Insert
-    suspend fun insert(entity: SleepDataEntity)
+    override suspend fun insert(entity: SleepDataEntity)
 
     @Delete
-    suspend fun delete(entity: SleepDataEntity): Int
+    override suspend fun delete(entity: SleepDataEntity): Int
+
+    @Update
+    override suspend fun update(entity: SleepDataEntity)
 
 }

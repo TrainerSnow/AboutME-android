@@ -1,11 +1,10 @@
 package com.aboutme.profile.screen;
 
 import androidx.lifecycle.viewModelScope
-import com.aboutme.core.data.AuthService
+import com.aboutme.core.auth.AuthService
 import com.aboutme.core.data.repository.UserRepository
 import com.aboutme.core.domain.viewmodel.AboutMeViewModel
 import com.aboutme.core.model.StreakInfo
-import com.aboutme.profile.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

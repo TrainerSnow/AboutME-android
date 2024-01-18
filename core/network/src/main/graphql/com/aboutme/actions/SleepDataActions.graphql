@@ -4,6 +4,14 @@ query GetAllSleepDatas {
     }
 }
 
+query GetSleepDataByDate(
+    $date: Date!
+) {
+    getSleepDataByDate(date: $date) {
+        ...SleepDataFragment
+    }
+}
+
 mutation AddOrUpdateSleepData(
     $sleepDataInput: SleepDataInput!
 ) {

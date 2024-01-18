@@ -1,7 +1,7 @@
 package com.aboutme.feature.home.screen;
 
 import androidx.lifecycle.viewModelScope
-import com.aboutme.core.data.AuthService
+import com.aboutme.core.auth.AuthService
 import com.aboutme.core.data.repository.DailyDataRepository
 import com.aboutme.core.domain.viewmodel.AboutMeViewModel
 import com.aboutme.core.sync.SyncController

@@ -1,4 +1,4 @@
-package com.aboutme.core.model
+package com.aboutme.core.common
 
 /**
  * Response states from any kind of request, e.g. database, network or repository.

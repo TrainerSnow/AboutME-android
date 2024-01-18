@@ -21,6 +21,7 @@ dependencies {
     implementation(project(":core:secret"))
     implementation(project(":core:common"))
     implementation(project(":core:sync"))
+    implementation(project(":core:auth"))
     implementation(project(":core:database"))
 
 }

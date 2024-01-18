@@ -1,22 +1,21 @@
-package com.aboutme.core.data.implementation;
+package com.aboutme.core.auth.implementation;
 
-import com.aboutme.core.data.AuthService
+import com.aboutme.core.auth.mapping.toDto
+import com.aboutme.core.auth.mapping.toModel
+import com.aboutme.core.common.Response
+import com.aboutme.core.common.ResponseError
 import com.aboutme.core.database.base.AboutMeDatabase
-import com.aboutme.core.model.Response
-import com.aboutme.core.model.ResponseError
 import com.aboutme.core.model.data.AuthUser
 import com.aboutme.core.model.data.NameInfo
 import com.aboutme.core.model.data.UserData
 import com.aboutme.core.secret.TokenRepository
-import com.aboutme.core.sync.SyncController
 import com.aboutme.network.source.UserNetworkSource
 
 internal class NetworkAuthService(
     private val networkSource: UserNetworkSource,
     private val tokenRepository: TokenRepository,
     private val database: AboutMeDatabase,
-    private val syncController: SyncController
-) : AuthService {
+) : com.aboutme.core.auth.AuthService {
 
     override suspend fun signUp(
         email: String,
@@ -24,7 +23,7 @@ internal class NetworkAuthService(
         nameInfo: NameInfo
     ): Response<AuthUser> {
         val response = networkSource.signUp(
-            email, password, nameInfo
+            email, password, nameInfo.toDto()
         )
 
         if (response is Response.Success) {
@@ -32,8 +31,7 @@ internal class NetworkAuthService(
             tokenRepository.setRefreshToken(response.data.authData.refreshToken)
         }
 
-        syncController.syncNow()
-        return response
+        return response.map { it.toModel() }
     }
 
     override suspend fun logIn(email: String, password: String): Response<AuthUser> {
@@ -44,8 +42,7 @@ internal class NetworkAuthService(
             tokenRepository.setRefreshToken(response.data.authData.refreshToken)
         }
 
-        syncController.syncNow()
-        return response
+        return response.map { it.toModel() }
     }
 
 
@@ -62,7 +59,7 @@ internal class NetworkAuthService(
         return if (refreshToken == null || token == null) {
             Response.Error(setOf(ResponseError.Unknown))
         } else {
-            networkSource.logOut(refreshToken, token)
+            networkSource.logOut(refreshToken, token).map { it.toModel() }
         }
     }
 
@@ -78,12 +75,14 @@ internal class NetworkAuthService(
         return if (token == null) {
             Response.Error(setOf(ResponseError.Unknown))
         } else {
-            networkSource.logOutAll(token)
+            networkSource.logOutAll(token).map { it.toModel() }
         }
     }
 
     override suspend fun refresh(): Response<AuthUser> {
-        val authUser = networkSource.refresh(tokenRepository.getRefreshToken() ?: "")
+        val token = tokenRepository.getRefreshToken()
+            ?: return Response.Error(setOf(ResponseError.NotAuthorized))
+        val authUser = networkSource.refresh(token)
         if (authUser is Response.Success) {
             tokenRepository.setRefreshToken(authUser.data.authData.refreshToken)
             tokenRepository.setToken(authUser.data.authData.token)
@@ -92,21 +91,25 @@ internal class NetworkAuthService(
             tokenRepository.setToken(null)
         }
 
-        return authUser
+        return authUser.map { it.toModel() }
     }
 
     override suspend fun deleteUser(): Response<UserData> {
-        return networkSource.deleteUser(tokenRepository.getToken() ?: "")
+        return saveAuthTransaction {
+            networkSource.deleteUser(it).map { it.toModel() }
+        }
     }
 
     override suspend fun <Data> saveAuthTransaction(networkCall: suspend (token: String) -> Response<Data>): Response<Data> {
-        var result = networkCall(tokenRepository.getToken() ?: "")
-        if ((result as? Response.Error)?.errors?.contains(ResponseError.NotAuthorized) == true) {
+        var token = tokenRepository.getToken() ?: ""
+        var response = networkCall(token)
+        if((response as? Response.Error)?.errors?.contains(ResponseError.NotAuthorized) == true) {
             refresh()
-            result = networkCall(tokenRepository.getToken() ?: "")
+            token = tokenRepository.getToken() ?: ""
+            response = networkCall(token)
         }
 
-        return result
+        return response
     }
 
 }

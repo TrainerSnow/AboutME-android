@@ -1,4 +1,4 @@
-package com.aboutme.core.model;
+package com.aboutme.core.common;
 
 /**
  * Errors that can occur when fetching a [Response]

@@ -67,23 +67,23 @@ extend type Mutation {
     """
     Updates the person of the user with the given id
     """
-    updatePerson(id: Long!, personInput: UpdatePersonInput!): Person
+    updatePerson(id: Long!, personInput: UpdatePersonInput!): Person!
 
 
     """
     Adds a relation to the relations of the user
     """
-    addRelation(personRelationInput: CreatePersonRelationInput!): PersonRelation
+    addRelation(personRelationInput: CreatePersonRelationInput!): PersonRelation!
 
     """
     Deletes a relation from the user
     """
-    deleteRelation(id: Long!): PersonRelation
+    deleteRelation(id: Long!): PersonRelation!
 
     """
     Updates the relation of the user with the given id and data
     """
-    updateRelation(id: Long!, relationInput: UpdatePersonRelationInput): PersonRelation
+    updateRelation(id: Long!, relationInput: UpdatePersonRelationInput): PersonRelation!
 
 }
 
@@ -92,23 +92,23 @@ extend type Query {
     """
     Gets the person with the specified id, or null
     """
-    getPersonById(id: Long!): Person
+    getPersonById(id: Long!): Person!
 
     """
     Gets all persons of the user, or empty
     """
-    getAllPersons: [Person!]
+    getAllPersons: [Person!]!
 
 
     """
     Gets the relation with the specified id, or null
     """
-    getRelationById(id: Long): PersonRelation
+    getRelationById(id: Long): PersonRelation!
 
     """
     Gets all relations of the user, or empty
     """
-    getALRelations: [PersonRelation!]
+    getAllRelations: [PersonRelation!]!
 
 }
 

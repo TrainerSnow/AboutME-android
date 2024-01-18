@@ -4,6 +4,8 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
+import com.aboutme.core.database.dao.base.SyncableEntityAccessor
 import com.aboutme.core.database.entity.daily.DiaryDataEntity
 import com.aboutme.core.database.entity.multi.DreamDataWithDreams
 import com.aboutme.core.model.daily.data.DreamData
@@ -11,15 +13,15 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 @Dao
-interface DiaryDataDao {
+interface DiaryDataDao: SyncableEntityAccessor<DiaryDataEntity> {
 
-    @Query("SELECT * FROM diary_data WHERE diary_data.date = :date AND diary_data.deletedOn == null")
+    @Query("SELECT * FROM diary_data WHERE diary_data.date = :date AND diary_data.deletedAt IS NULL")
     fun getByDate(date: LocalDate): Flow<DiaryDataEntity?>
 
     @Query("SELECT * FROM diary_data WHERE diary_data.date = :date")
     fun getByDateWithDeleted(date: LocalDate): Flow<DiaryDataEntity?>
 
-    @Query("SELECT * FROM diary_data WHERE diary_data.deletedOn == null")
+    @Query("SELECT * FROM diary_data WHERE diary_data.deletedAt IS NULL")
     fun getAll(): Flow<List<DiaryDataEntity>>
 
     @Query("SELECT * FROM diary_data")
@@ -29,9 +31,12 @@ interface DiaryDataDao {
     fun deleteAll()
 
     @Insert
-    suspend fun insert(entity: DiaryDataEntity)
+    override suspend fun insert(entity: DiaryDataEntity)
 
     @Delete
-    suspend fun delete(entity: DiaryDataEntity): Int
+    override suspend fun delete(entity: DiaryDataEntity): Int
+
+    @Update
+    override suspend fun update(entity: DiaryDataEntity)
 
 }

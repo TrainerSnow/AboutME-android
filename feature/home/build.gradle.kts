@@ -14,4 +14,5 @@ kotlin {
 
 dependencies {
     implementation(project(":core:sync"))
+    implementation(project(":core:auth"))
 }

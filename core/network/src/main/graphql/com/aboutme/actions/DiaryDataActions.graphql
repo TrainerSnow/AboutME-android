@@ -4,6 +4,14 @@ query GetAllDiaryDatas {
     }
 }
 
+query GetDiaryDataByDate(
+    $date: Date!
+) {
+    getDiaryDataByDate(date: $date) {
+        ...DiaryDataFragment
+    }
+}
+
 mutation AddOrUpdateDiaryData(
     $diaryDataInput: DiaryDataInput!
 ) {

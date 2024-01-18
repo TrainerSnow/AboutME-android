@@ -1,10 +1,9 @@
-package com.aboutme.core.data
+package com.aboutme.core.auth
 
-import com.aboutme.core.model.Response
+import com.aboutme.core.common.Response
 import com.aboutme.core.model.data.AuthUser
 import com.aboutme.core.model.data.NameInfo
 import com.aboutme.core.model.data.UserData
-import kotlinx.coroutines.flow.Flow
 
 /**
  * Service to handle authentication to the server

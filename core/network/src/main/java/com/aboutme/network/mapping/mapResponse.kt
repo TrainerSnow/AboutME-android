@@ -1,7 +1,7 @@
 package com.aboutme.network.mapping;
 
-import com.aboutme.core.model.Response
-import com.aboutme.core.model.ResponseError
+import com.aboutme.core.common.Response
+import com.aboutme.core.common.ResponseError
 import com.aboutme.network.util.hasErrorOrException
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.Error
@@ -9,6 +9,7 @@ import com.apollographql.apollo3.api.Operation
 
 internal fun <Data : Operation.Data, Aim> ApolloResponse<Data>.mapResponse(mapper: (Data) -> Aim?): Response<Aim> {
     println("Mapping response $this with data = ${this.data} and exception = ${this.exception?.cause} and errors  = ${this.errors?.joinToString()}")
+    //TODO: This logic is bad. It enforces all return types from graphql to be not nullable
     return if (hasErrorOrException()) mapError()
     else mapSuccess(mapper)
 }

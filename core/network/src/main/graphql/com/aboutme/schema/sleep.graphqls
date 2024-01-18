@@ -18,12 +18,12 @@ extend type Mutation {
     """
     Creates a sleep data from the given input and date.
     """
-    addSleepData(sleepDataInput: SleepDataInput): SleepData
+    addSleepData(sleepDataInput: SleepDataInput): SleepData!
 
     """
     Will delete the sleep data from the date.
     """
-    deleteSleepData(date: Date!): SleepData
+    deleteSleepData(date: Date!): SleepData!
 
 }
 
@@ -32,12 +32,12 @@ extend type Query {
     """
     Gets the sleep data for the given date, or null
     """
-    getSleepDataByDate(date: Date!): SleepData
+    getSleepDataByDate(date: Date!): SleepData!
 
     """
     Gets all the sleep datas for the user, or empty
     """
-    getAllSleepDatas: [SleepData!]
+    getAllSleepDatas: [SleepData!]!
 
 }
 

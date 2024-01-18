@@ -58,6 +58,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:ui"))
     implementation(project(":core:data"))
+    implementation(project(":core:auth"))
 
     implementation(libs.compose.activity)
     implementation(libs.android.ui)

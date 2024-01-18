@@ -2,7 +2,7 @@ mutation UpdateUser(
     $updateUserInput: UpdateUserInput!
 ) {
     updateUser(
-        userInput: $updateUserInput
+        updateUserInput: $updateUserInput
     ) {
         ...UserFragment
     }

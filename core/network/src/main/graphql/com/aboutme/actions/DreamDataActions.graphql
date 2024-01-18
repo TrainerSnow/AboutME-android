@@ -4,6 +4,14 @@ query GetAllDreamDatas {
     }
 }
 
+query GetDreamDataByDate(
+    $date: Date!
+) {
+    getDreamData(date: $date) {
+        ...DreamDataFragment
+    }
+}
+
 mutation AddOrUpdateDreamData(
     $dreamDataInput: DreamDataInput!
 ) {

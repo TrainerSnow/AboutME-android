@@ -18,6 +18,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:common"))
     implementation(project(":core:secret"))
+    implementation(project(":core:auth"))
 
     implementation(libs.android.work)
     implementation(libs.hilt.work)

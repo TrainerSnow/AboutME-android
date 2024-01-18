@@ -1,7 +1,6 @@
 package com.aboutme.core.data.repository
 
-import com.aboutme.core.data.AuthService
-import com.aboutme.core.model.Response
+import com.aboutme.core.auth.AuthService
 import com.aboutme.core.model.data.NameInfo
 import com.aboutme.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow

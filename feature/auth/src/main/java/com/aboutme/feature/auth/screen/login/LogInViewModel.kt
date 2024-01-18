@@ -1,10 +1,11 @@
 package com.aboutme.feature.auth.screen.login;
 
+import android.util.Log.d
 import androidx.lifecycle.viewModelScope
-import com.aboutme.core.data.AuthService
+import com.aboutme.core.common.Response
+import com.aboutme.core.common.ResponseError
 import com.aboutme.core.domain.viewmodel.AboutMeViewModel
-import com.aboutme.core.model.Response
-import com.aboutme.core.model.ResponseError
+import com.aboutme.core.sync.SyncController
 import com.snow.core.input.createForEmail
 import com.snow.core.input.data.TextInput
 import com.snow.core.input.error.InputError
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class LogInViewModel @Inject constructor(
-    val authService: AuthService
+    val authService: com.aboutme.core.auth.AuthService,
+    val syncController: SyncController
 ) : AboutMeViewModel<LogInEvent, LogInUiEvent, LogInState>() {
 
     override val initialState = LogInState()
@@ -75,10 +77,12 @@ internal class LogInViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
+            d("LoginViewModel", "Will call login mutation")
             val result = authService.logIn(
                 state.value.uiState.email.input,
                 state.value.uiState.password.input
             )
+            d("LoginViewModel", "Got result $result")
 
             if (result is Response.Success) {
                 updateState {
@@ -87,6 +91,7 @@ internal class LogInViewModel @Inject constructor(
                     )
                 }
                 triggerUiEvent(LogInUiEvent.Continue(result.data))
+                syncController.syncNow()
             } else if (result is Response.Error) {
                 updateState {
                     it.copy(

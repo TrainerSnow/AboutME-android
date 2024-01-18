@@ -1,6 +1,5 @@
 package com.aboutme.core.sync.implementation;
 
-import android.util.Log.d
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType

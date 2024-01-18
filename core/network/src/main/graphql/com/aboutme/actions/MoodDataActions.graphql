@@ -1,5 +1,13 @@
 query GetAllMoodDatas {
-    getAllMoodData {
+    getAllMoodDatas {
+        ...MoodDataFragment
+    }
+}
+
+query GetMoodDataByDate(
+    $date: Date!
+) {
+    getMoodData(date: $date) {
         ...MoodDataFragment
     }
 }

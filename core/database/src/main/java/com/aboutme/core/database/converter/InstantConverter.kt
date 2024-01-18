@@ -9,6 +9,6 @@ internal object InstantConverter {
     fun toString(ins: Instant?): String? = ins?.toString()
 
     @TypeConverter
-    fun fromString(str: String?): Instant? = Instant.parse(str)
+    fun fromString(str: String?): Instant? = str?.let { Instant.parse(it) }
 
 }

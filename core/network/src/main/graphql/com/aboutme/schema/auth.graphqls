@@ -27,17 +27,17 @@ extend type Mutation {
     """
     Creates a user
     """
-    signUp(email: String!, password: String!, nameInfo: NameInfoInput): AuthUser
+    signUp(email: String!, password: String!, nameInfo: NameInfoInput): AuthUser!
 
     """
     Refreshes the access and refresh token of a user
     """
-    refresh(refreshToken: String!): AuthUser
+    refresh(refreshToken: String!): AuthUser!
 
     """
     Creates an access and refresh token for the given credentials
     """
-    login(email: String!, password: String!): AuthUser
+    login(email: String!, password: String!): AuthUser!
 
     #
     # Authenticated
@@ -46,17 +46,17 @@ extend type Mutation {
     """
     Logs out the device connected to the given refresh token
     """
-    logout(refreshToken: String!): User
+    logout(refreshToken: String!): User!
 
     """
     Logs out all devices connected to a user
     """
-    logoutAll: User
+    logoutAll: User!
 
     """
     Updates this user.
     """
-    updateUser(userInput: UpdateUserInput): User
+    updateUser(updateUserInput: UpdateUserInput!): User!
 
 }
 

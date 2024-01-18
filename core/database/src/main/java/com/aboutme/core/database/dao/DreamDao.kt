@@ -4,20 +4,22 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
+import com.aboutme.core.database.dao.base.SyncableEntityAccessor
 import com.aboutme.core.database.entity.DreamEntity
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 @Dao
-interface DreamDao {
+interface DreamDao: SyncableEntityAccessor<DreamEntity> {
 
-    @Query("SELECT * FROM dream WHERE dream.deletedOn == null")
+    @Query("SELECT * FROM dream WHERE dream.deletedAt IS NULL")
     fun getAll(): Flow<List<DreamEntity>>
 
     @Query("SELECT * FROM dream")
     fun getAllWithDeleted(): Flow<List<DreamEntity>>
 
-    @Query("SELECT * FROM dream WHERE dream.date = :date AND dream.deletedOn == null")
+    @Query("SELECT * FROM dream WHERE dream.date = :date AND dream.deletedAt IS NULL")
     fun getByDate(date: LocalDate): Flow<List<DreamEntity>>
 
     @Query("SELECT * FROM dream WHERE dream.date = :date")
@@ -30,9 +32,12 @@ interface DreamDao {
     fun deleteAll()
 
     @Insert
-    suspend fun insert(entity: DreamEntity): Long
+    override suspend fun insert(entity: DreamEntity)
 
     @Delete
-    suspend fun delete(entity: DreamEntity): Int
+    override suspend fun delete(entity: DreamEntity): Int
+
+    @Update
+    override suspend fun update(entity: DreamEntity)
 
 }
