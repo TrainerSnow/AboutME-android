@@ -21,7 +21,7 @@ import com.aboutme.core.cache.entity.daily.SleepDataEntity
 
 @Database(
     entities = [UserEntity::class, DreamEntity::class, DiaryDataEntity::class, DreamDataEntity::class, MoodDataEntity::class, SleepDataEntity::class],
-    version = 2
+    version = 3
 )
 @TypeConverters(
     value = [NameInfoConverter::class, LocalDateConverter::class, InstantConverter::class]

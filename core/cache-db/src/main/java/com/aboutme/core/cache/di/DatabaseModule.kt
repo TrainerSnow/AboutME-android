@@ -29,7 +29,7 @@ object DatabaseModule {
         .databaseBuilder(
             context = context,
             klass = AboutMeDatabaseImpl::class.java,
-            name = "about-me-db"
+            name = "aboutme-cache-db"
         )
         .fallbackToDestructiveMigration()
         .build()

@@ -24,7 +24,7 @@ abstract class LocalDatabase : RoomDatabase() {
 
         const val DB_NAME = "aboutme-local-db"
 
-        const val DB_VERSION = 1
+        const val DB_VERSION = 2
 
     }
 

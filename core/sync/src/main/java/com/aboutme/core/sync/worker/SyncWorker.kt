@@ -189,7 +189,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private suspend fun syncDiaryData(): SyncTraffic {
-        val results = mutableSetOf<AdapterResult>()
+        val results = mutableListOf<AdapterResult>()
 
         val serverDiaryDataResponse = authService.saveAuthTransaction {
             diaryDataSource.getAll(it)
@@ -217,7 +217,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private suspend fun syncSleepData(): SyncTraffic {
-        val results = mutableSetOf<AdapterResult>()
+        val results = mutableListOf<AdapterResult>()
 
         val serverSleepDataResponse = authService.saveAuthTransaction {
             sleepDataSource.getAll(it)
@@ -245,7 +245,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private suspend fun syncDreamData(): SyncTraffic {
-        val results = mutableSetOf<AdapterResult>()
+        val results = mutableListOf<AdapterResult>()
 
         val serverDreamDataResponse = authService.saveAuthTransaction {
             dreamDataSource.getAll(it)
@@ -273,7 +273,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private suspend fun syncMoodData(): SyncTraffic {
-        val results = mutableSetOf<AdapterResult>()
+        val results = mutableListOf<AdapterResult>()
 
         val serverMoodDataResponse = authService.saveAuthTransaction {
             moodDataSource.getAll(it)
@@ -301,7 +301,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private suspend fun syncDreams(): SyncTraffic {
-        val results = mutableSetOf<AdapterResult>()
+        val results = mutableListOf<AdapterResult>()
 
         val serverDreamsResponse = authService.saveAuthTransaction {
             dreamSource.getAll(it)
@@ -352,7 +352,7 @@ internal class SyncWorker @AssistedInject constructor(
         return (result as? Response.Success)?.data
     }
 
-    private fun Set<AdapterResult>.toSyncTraffic() = groupingBy { it }.eachCount().run {
+    private fun List<AdapterResult>.toSyncTraffic() = groupingBy { it }.eachCount().run {
         SyncTraffic(
             serverAdded = get(AdapterResult.AddedServer) ?: 0,
             localAdded = get(AdapterResult.AddedLocal) ?: 0,
