@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package com.aboutme.core.datastore.proto;
+
+option java_package = "com.aboutme.core.datastore.proto";
+option java_multiple_files = true;
+
+import "com/aboutme/core/datastore/proto/color_mode.proto";
+import "com/aboutme/core/datastore/proto/color_theme.proto";
+import "com/aboutme/core/datastore/proto/sync_preferences.proto";
+
+message UserPreferencesProto {
+
+  ColorModeProto colorMode = 1;
+
+  ColorThemeProto colorTheme = 2;
+
+  SyncPreferencesProto syncPreferences = 3;
+
+}

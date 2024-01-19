@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package com.aboutme.core.datastore.proto;
+
+option java_package = "com.aboutme.core.datastore.proto";
+option java_multiple_files = true;
+
+message SyncPreferencesProto {
+
+  bool not = 1;
+
+  bool onEnter = 2;
+
+  bool onChange = 3;
+
+  string duration = 4;
+
+  bool onlyWifi = 5;
+
+}

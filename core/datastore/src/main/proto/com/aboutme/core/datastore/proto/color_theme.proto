@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package com.aboutme.core.datastore.proto;
+
+option java_package = "com.aboutme.core.datastore.proto";
+option java_multiple_files = true;
+
+enum ColorThemeProto {
+
+  Default = 0;
+
+  Dynamic = 1;
+
+}
