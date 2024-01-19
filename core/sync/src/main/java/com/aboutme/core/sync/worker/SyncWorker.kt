@@ -1,12 +1,10 @@
 package com.aboutme.core.sync.worker;
 
 import android.content.Context
-import android.util.Log.d
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.aboutme.core.auth.AuthService
-import com.aboutme.core.common.Response
 import com.aboutme.core.cache.dao.DiaryDataDao
 import com.aboutme.core.cache.dao.DreamDao
 import com.aboutme.core.cache.dao.DreamDataDao
@@ -19,8 +17,14 @@ import com.aboutme.core.cache.entity.daily.DiaryDataEntity
 import com.aboutme.core.cache.entity.daily.DreamDataEntity
 import com.aboutme.core.cache.entity.daily.MoodDataEntity
 import com.aboutme.core.cache.entity.daily.SleepDataEntity
+import com.aboutme.core.common.Response
+import com.aboutme.core.database.dao.SyncStatusDao
+import com.aboutme.core.database.entity.SyncResultData
+import com.aboutme.core.database.entity.SyncStatusEntity
+import com.aboutme.core.database.entity.model.SyncTraffic
 import com.aboutme.core.model.data.AuthUser
 import com.aboutme.core.model.data.UserData
+import com.aboutme.core.sync.adapter.AdapterResult
 import com.aboutme.core.sync.adapter.DailySyncAdapter
 import com.aboutme.core.sync.adapter.SyncAdapter
 import com.aboutme.core.sync.toDto
@@ -41,6 +45,7 @@ import com.aboutme.network.source.daily.SleepDataSource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
+import java.time.Instant
 import java.time.LocalDate
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -50,6 +55,8 @@ internal class SyncWorker @AssistedInject constructor(
     @Assisted params: WorkerParameters,
 
     val authService: AuthService,
+
+    val syncStatusDao: SyncStatusDao,
 
     val diaryDataSource: DiaryDataSource,
     val dreamDataSource: DreamDataSource,
@@ -74,9 +81,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private val diaryDataAdapter = object : DailySyncAdapter<DiaryDataEntity, DiaryDataDto>(
-        diaryDataDao,
-        diaryDataSource,
-        ::authCall
+        diaryDataDao, diaryDataSource, ::authCall
     ) {
         override fun convertEntityToDto(entity: DiaryDataEntity) = entity.toDto()
 
@@ -85,9 +90,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private val moodDataAdapter = object : DailySyncAdapter<MoodDataEntity, MoodDataDto>(
-        moodDataDao,
-        moodDataSource,
-        ::authCall
+        moodDataDao, moodDataSource, ::authCall
     ) {
         override fun convertEntityToDto(entity: MoodDataEntity) = entity.toDto()
 
@@ -96,9 +99,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private val sleepDataAdapter = object : DailySyncAdapter<SleepDataEntity, SleepDataDto>(
-        sleepDataDao,
-        sleepDataSource,
-        ::authCall
+        sleepDataDao, sleepDataSource, ::authCall
     ) {
         override fun convertEntityToDto(entity: SleepDataEntity) = entity.toDto()
 
@@ -107,9 +108,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private val dreamDataAdapter = object : DailySyncAdapter<DreamDataEntity, DreamDataDto>(
-        dreamDataDao,
-        dreamDataSource,
-        ::authCall
+        dreamDataDao, dreamDataSource, ::authCall
     ) {
         override fun convertEntityToDto(entity: DreamDataEntity) = entity.toDto()
 
@@ -118,9 +117,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private val dreamAdapter = object : SyncAdapter<DreamEntity, DreamDto, UpdateDreamDto, Long>(
-        dreamDao,
-        dreamSource,
-        ::authCall
+        dreamDao, dreamSource, ::authCall
     ) {
 
         override fun convertEntityToDto(entity: DreamEntity) = entity.toDto()
@@ -130,30 +127,70 @@ internal class SyncWorker @AssistedInject constructor(
         override fun convertDtoToEntity(dto: DreamDto) = dto.toEntity()
     }
 
-    override suspend fun doWork(): Result {
-        d("SyncWorker", "Started 'doWork'")
-        val serverUser = checkAuth() ?: return Result.failure()
-        d("SyncWorker", "Got currently authenticated user $serverUser")
-        val dbUser = userDao.getAll().first().firstOrNull()
-        d("SyncWorker", "Got currently cached user $dbUser")
-        syncUser(dbUser, serverUser.user)
-        d("SyncWorker", "Finished user syncing. Will now continue")
+    private suspend fun createFailure(): Result {
+        val entity = SyncStatusEntity(
+            finishedAt = Instant.now(), status = 2
+        )
+        syncStatusDao.insert(entity)
+        return Result.failure()
+    }
 
-        syncDiaryData()
-        d("SyncWorker", "Finished diary syncing. Will now continue")
-        syncSleepData()
-        d("SyncWorker", "Finished sleep syncing. Will now continue")
-        syncMoodData()
-        d("SyncWorker", "Finished mood syncing. Will now continue")
-        syncDreamData()
-        d("SyncWorker", "Finished dream data syncing. Will now continue")
-        syncDreams()
-        d("SyncWorker", "Finished dream syncing. Will now return")
+    private suspend fun createSuccess(
+        userTraffic: SyncTraffic,
+        diaryTraffic: SyncTraffic,
+        sleepTraffic: SyncTraffic,
+        moodTraffic: SyncTraffic,
+        dreamDataTraffic: SyncTraffic,
+        dreamTraffic: SyncTraffic
+    ): Result {
+        val statusEntity = SyncStatusEntity(
+            finishedAt = Instant.now(),
+            status = 2
+        )
+        val dataEntity = SyncResultData(
+            id = null,
+            syncStatusEntityId = statusEntity.finishedAt!!,
+            diaryDataTraffic = diaryTraffic,
+            sleepDataTraffic = sleepTraffic,
+            moodDataTraffic = moodTraffic,
+            dreamDataTraffic = dreamDataTraffic,
+            dreamTraffic = dreamTraffic,
+            personsTraffic = SyncTraffic(),
+            relationsTraffic = SyncTraffic(),
+            userTraffic = userTraffic
+        )
+
+        syncStatusDao.insert(statusEntity)
+        syncStatusDao.insert(dataEntity)
 
         return Result.success()
     }
 
-    private suspend fun syncDiaryData() {
+    override suspend fun doWork(): Result {
+        val serverUser = checkAuth() ?: return createFailure()
+        val dbUser = userDao.getAll().first().firstOrNull()
+
+        val userTraffic = syncUser(dbUser, serverUser.user)
+
+        val diaryTraffic = syncDiaryData()
+        val sleepTraffic = syncSleepData()
+        val moodTraffic = syncMoodData()
+        val dreamDataTraffic = syncDreamData()
+        val dreamTraffic = syncDreams()
+
+        return createSuccess(
+            userTraffic,
+            diaryTraffic,
+            sleepTraffic,
+            moodTraffic,
+            dreamDataTraffic,
+            dreamTraffic
+        )
+    }
+
+    private suspend fun syncDiaryData(): SyncTraffic {
+        val results = mutableSetOf<AdapterResult>()
+
         val serverDiaryDataResponse = authService.saveAuthTransaction {
             diaryDataSource.getAll(it)
         }
@@ -161,27 +198,27 @@ internal class SyncWorker @AssistedInject constructor(
         if (serverDiaryDataResponse !is Response.Success) throw IllegalStateException("An error occured trying to fetch diary datas from the server: $serverDiaryDataResponse")
 
         val serverDiaryDatas = serverDiaryDataResponse.data
-        d("SyncWorker", "Got diary datas from server: $serverDiaryDatas")
         val dbDiaryDatas = diaryDataDao.getAll().first()
-        d("SyncWorker", "Got diary datas from local cache: $dbDiaryDatas")
 
         val dates = mutableListOf<LocalDate>()
 
         for (dto in serverDiaryDatas) {
-            d("SyncWorker", "Currently doing data from server $dto")
             val entity = dbDiaryDatas.find { it.date == dto.date }
-            d("SyncWorker", "Got equivalent entity from local cache $entity")
-            diaryDataAdapter.sync(entity, dto, dto.date)
+            diaryDataAdapter.sync(entity, dto, dto.date).let(results::add)
             dates.add(dto.date)
         }
         for (entity in dbDiaryDatas) {
             if (entity.date in dates) continue
             val dto = serverDiaryDatas.find { it.date == entity.date }
-            diaryDataAdapter.sync(entity, dto, entity.date)
+            diaryDataAdapter.sync(entity, dto, entity.date).let(results::add)
         }
+
+        return results.toSyncTraffic()
     }
 
-    private suspend fun syncSleepData() {
+    private suspend fun syncSleepData(): SyncTraffic {
+        val results = mutableSetOf<AdapterResult>()
+
         val serverSleepDataResponse = authService.saveAuthTransaction {
             sleepDataSource.getAll(it)
         }
@@ -195,17 +232,21 @@ internal class SyncWorker @AssistedInject constructor(
 
         for (dto in serverSleepDatas) {
             val entity = dbSleepDatas.find { it.date == dto.date }
-            sleepDataAdapter.sync(entity, dto, dto.date)
+            sleepDataAdapter.sync(entity, dto, dto.date).let(results::add)
             dates.add(dto.date)
         }
         for (entity in dbSleepDatas) {
             if (entity.date in dates) continue
             val dto = serverSleepDatas.find { it.date == entity.date }
-            sleepDataAdapter.sync(entity, dto, entity.date)
+            sleepDataAdapter.sync(entity, dto, entity.date).let(results::add)
         }
+
+        return results.toSyncTraffic()
     }
 
-    private suspend fun syncDreamData() {
+    private suspend fun syncDreamData(): SyncTraffic {
+        val results = mutableSetOf<AdapterResult>()
+
         val serverDreamDataResponse = authService.saveAuthTransaction {
             dreamDataSource.getAll(it)
         }
@@ -219,17 +260,21 @@ internal class SyncWorker @AssistedInject constructor(
 
         for (dto in serverDreamDatas) {
             val entity = dbDreamDatas.find { it.date == dto.date }
-            dreamDataAdapter.sync(entity, dto, dto.date)
+            dreamDataAdapter.sync(entity, dto, dto.date).let(results::add)
             dates.add(dto.date)
         }
         for (entity in dbDreamDatas) {
             if (entity.date in dates) continue
             val dto = serverDreamDatas.find { it.date == entity.date }
-            dreamDataAdapter.sync(entity, dto, entity.date)
+            dreamDataAdapter.sync(entity, dto, entity.date).let(results::add)
         }
+
+        return results.toSyncTraffic()
     }
 
-    private suspend fun syncMoodData() {
+    private suspend fun syncMoodData(): SyncTraffic {
+        val results = mutableSetOf<AdapterResult>()
+
         val serverMoodDataResponse = authService.saveAuthTransaction {
             moodDataSource.getAll(it)
         }
@@ -243,17 +288,21 @@ internal class SyncWorker @AssistedInject constructor(
 
         for (dto in serverMoodDatas) {
             val entity = dbMoodDatas.find { it.date == dto.date }
-            moodDataAdapter.sync(entity, dto, dto.date)
+            moodDataAdapter.sync(entity, dto, dto.date).let(results::add)
             dates.add(dto.date)
         }
         for (entity in dbMoodDatas) {
             if (entity.date in dates) continue
             val dto = serverMoodDatas.find { it.date == entity.date }
-            moodDataAdapter.sync(entity, dto, entity.date)
+            moodDataAdapter.sync(entity, dto, entity.date).let(results::add)
         }
+
+        return results.toSyncTraffic()
     }
 
-    private suspend fun syncDreams() {
+    private suspend fun syncDreams(): SyncTraffic {
+        val results = mutableSetOf<AdapterResult>()
+
         val serverDreamsResponse = authService.saveAuthTransaction {
             dreamSource.getAll(it)
         }
@@ -267,36 +316,51 @@ internal class SyncWorker @AssistedInject constructor(
 
         for (dto in serverDreams) {
             val entity = dbDreams.find { it.date == dto.date }
-            dreamAdapter.sync(entity, dto, dto.id)
+            dreamAdapter.sync(entity, dto, dto.id).let(results::add)
             dates.add(dto.date)
         }
         for (entity in dbDreams) {
             if (entity.date in dates) continue
             val dto = serverDreams.find { it.date == entity.date }
-            dreamAdapter.sync(entity, dto, entity.id!!)
+            dreamAdapter.sync(entity, dto, entity.id!!).let(results::add)
         }
+
+        return results.toSyncTraffic()
     }
 
-    private suspend fun syncUser(dbUser: UserEntity?, serverUser: UserData) {
+    private suspend fun syncUser(dbUser: UserEntity?, serverUser: UserData): SyncTraffic {
         val notSameEmail = dbUser != null && (dbUser.email != serverUser.email)
         val useLocal = dbUser != null && (dbUser.updatedAt >= serverUser.updatedAt)
-        d("SyncWorker", if(notSameEmail) "The emails weren't same, will throw" else if(useLocal) "Will use the local user" else "Will use the server user")
         if (notSameEmail) throw IllegalStateException("The server user and locally cached user do not have the same email addresses.")
 
-        if (useLocal) {
+        return if (useLocal) {
             authCall {
                 userSource.update(dbUser!!.email, dbUser.toUpdateDto(), it)
             }
-        } else if(dbUser == null) {
+            SyncTraffic(serverUpdated = 1)
+        } else if (dbUser == null) {
             userDao.insert(serverUser.toEntity())
+            SyncTraffic(localAdded = 1)
         } else {
             userDao.update(serverUser.toEntity())
+            SyncTraffic(localUpdated = 1)
         }
     }
 
     private suspend fun checkAuth(): AuthUser? {
         val result = authService.refresh()
         return (result as? Response.Success)?.data
+    }
+
+    private fun Set<AdapterResult>.toSyncTraffic() = groupingBy { it }.eachCount().run {
+        SyncTraffic(
+            serverAdded = get(AdapterResult.AddedServer) ?: 0,
+            localAdded = get(AdapterResult.AddedLocal) ?: 0,
+            serverUpdated = get(AdapterResult.UpdatedServer) ?: 0,
+            localUpdated = get(AdapterResult.UpdatedLocal) ?: 0,
+            serverDeleted = get(AdapterResult.DeletedServer) ?: 0,
+            localDeleted = get(AdapterResult.DeletedLocal) ?: 0
+        )
     }
 
 }

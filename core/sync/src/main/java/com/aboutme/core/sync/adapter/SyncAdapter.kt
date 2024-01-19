@@ -52,34 +52,47 @@ internal abstract class SyncAdapter<DbEntity : SyncableEntity, NetworkDto : Sync
      */
     abstract fun convertDtoToEntity(dto: NetworkDto): DbEntity
 
-    suspend fun sync(entity: DbEntity?, dto: NetworkDto?, id: Identifier) {
-        if (entity == null && dto == null) return
-        if (entity != null && dto == null) { // Only exists on client
+    suspend fun sync(entity: DbEntity?, dto: NetworkDto?, id: Identifier): AdapterResult {
+        return if (entity == null && dto == null) {
+            AdapterResult.None
+        } else if (entity != null && dto == null) { // Only exists on client
             if (entity.deletedAt != null) { // Was deleted on client before syncing to server
                 deleteDb(entity)
+                AdapterResult.DeletedLocal
             } else { // Must be given to server
                 insertNetwork(entity, id)
+                AdapterResult.AddedServer
             }
         } else if (dto != null && entity == null) { // Only exists on server
             insertDb(dto)
-        } else if (dto != null && entity != null) { // Exists on both
+            AdapterResult.AddedLocal
+        } else { // Exists on both
+            entity!!
+            dto!!
+
             if (entity.deletedAt != null) { // Was deleted on client
                 if (entity.deletedAt!! > dto.updatedAt) { // Was deleted after last change was made on server
                     deleteDb(entity)
                     deleteNetwork(id)
+                    AdapterResult.DeletedServer
                 } else { // Was deleted before last change made on server
                     updateDb(dto)
+                    AdapterResult.UpdatedLocal
                 }
             } else { // Was not deleted on client
                 if (entity.updatedAt > dto.updatedAt) { // Client was more recently updated
                     updateNetwork(entity, id)
+                    AdapterResult.UpdatedServer
                 } else if (entity.updatedAt < dto.updatedAt) { // Server was more recently updates
                     updateDb(dto)
+                    AdapterResult.UpdatedLocal
                 } else {
                     if (ratherTakeLocal) {
                         updateNetwork(entity, id)
+                        AdapterResult.UpdatedServer
                     } else {
                         updateDb(dto)
+                        AdapterResult.UpdatedLocal
                     }
                 }
             }

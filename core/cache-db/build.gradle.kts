@@ -4,7 +4,7 @@ plugins {
 apply<AndroidHiltLibraryPlugin>()
 
 android {
-    namespace = "com.aboutme.core.database"
+    namespace = "com.aboutme.core.cache"
 }
 
 kotlin {

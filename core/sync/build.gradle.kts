@@ -19,6 +19,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:secret"))
     implementation(project(":core:auth"))
+    implementation(project(":core:local-db"))
 
     implementation(libs.android.work)
     implementation(libs.hilt.work)
