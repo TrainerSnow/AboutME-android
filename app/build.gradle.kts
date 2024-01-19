@@ -58,6 +58,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:ui"))
     implementation(project(":core:data"))
+    implementation(project(":core:auth"))
 
     implementation(libs.compose.activity)
     implementation(libs.android.ui)
@@ -72,4 +73,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.android.work)
+    implementation(libs.hilt.work)
 }

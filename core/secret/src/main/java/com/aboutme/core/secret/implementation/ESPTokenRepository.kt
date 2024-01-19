@@ -1,6 +1,7 @@
 package com.aboutme.core.secret.implementation;
 
 import android.content.SharedPreferences
+import android.util.Log.d
 import androidx.core.content.edit
 import com.aboutme.core.secret.TokenRepository
 
@@ -17,6 +18,7 @@ internal class ESPTokenRepository(
     }
 
     override fun setRefreshToken(refreshToken: String?) {
+        d("ESPTokenRepository", "Setting refresh token to $refreshToken")
         preferences.edit {
             putString(KEY_REFRESH, refreshToken)
         }

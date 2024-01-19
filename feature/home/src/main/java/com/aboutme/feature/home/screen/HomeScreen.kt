@@ -40,6 +40,7 @@ internal fun HomeScreen(
     onGoToProfile: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val dailyFeedState by viewModel.dailyFeedState.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         viewModel.uiEvents.collectLatest {
@@ -52,7 +53,7 @@ internal fun HomeScreen(
     }
 
     HomeScreen(
-        feedState = state.dailyFeedState,
+        feedState = dailyFeedState,
         uiState = state.uiState,
         onEvent = viewModel::onEvent
     )

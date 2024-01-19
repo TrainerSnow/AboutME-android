@@ -1,14 +1,17 @@
 package com.aboutme.network.source
 
-import com.aboutme.core.model.Response
-import com.aboutme.core.model.data.AuthUser
-import com.aboutme.core.model.data.NameInfo
-import com.aboutme.core.model.data.UserData
+import com.aboutme.network.dto.AuthUserDto
+import com.aboutme.network.dto.NameInfoDto
+import com.aboutme.network.dto.UserDto
+import com.aboutme.core.common.Response
+import com.aboutme.network.dto.update.UpdateUserDto
+import com.aboutme.network.source.base.SyncableDtoAccessor
+import com.aboutme.type.AuthUser
 
 /**
  * Network source for getting data about the user
  */
-interface UserNetworkSource {
+interface UserNetworkSource: SyncableDtoAccessor<UserDto, UpdateUserDto, String> {
 
     //
     // Unauthenticated
@@ -22,7 +25,7 @@ interface UserNetworkSource {
      * @param nameInfo The [NameInfo]
      * @return The Response of the data.
      */
-    suspend fun signUp(email: String, password: String, nameInfo: NameInfo): Response<AuthUser>
+    suspend fun signUp(email: String, password: String, nameInfo: NameInfoDto): Response<AuthUserDto>
 
     /**
      * Logs in to a user on the server
@@ -31,7 +34,7 @@ interface UserNetworkSource {
      * @param password The password
      * @return The Response of the data.
      */
-    suspend fun logIn(email: String, password: String): Response<AuthUser>
+    suspend fun logIn(email: String, password: String): Response<AuthUserDto>
 
     //
     // Authenticated
@@ -44,7 +47,7 @@ interface UserNetworkSource {
      * @param token The access token
      * @return The Response of the data.
      */
-    suspend fun logOut(refreshToken: String, token: String): Response<UserData>
+    suspend fun logOut(refreshToken: String, token: String): Response<UserDto>
 
     /**
      * Logs out the user on all devices
@@ -52,7 +55,7 @@ interface UserNetworkSource {
      * @param token The access token
      * @return The Response of the data.
      */
-    suspend fun logOutAll(token: String): Response<UserData>
+    suspend fun logOutAll(token: String): Response<UserDto>
 
     /**
      * Creates a new access-token for the user
@@ -60,20 +63,13 @@ interface UserNetworkSource {
      * @param refreshToken The refresh-token
      * @return The Response of the data.
      */
-    suspend fun refresh(refreshToken: String): Response<AuthUser>
+    suspend fun refresh(refreshToken: String): Response<AuthUserDto>
 
     /**
      * Deletes the logged in user
      *
      * @return The Response of the deleted user
      */
-    suspend fun deleteUser(token: String): Response<UserData>
-
-    /**
-     * Updates the nameInfo of the logged in user
-     *
-     * @return The Response of the updated user
-     */
-    suspend fun updateUser(nameInfo: NameInfo, token: String): Response<UserData>
+    suspend fun deleteUser(token: String): Response<UserDto>
 
 }

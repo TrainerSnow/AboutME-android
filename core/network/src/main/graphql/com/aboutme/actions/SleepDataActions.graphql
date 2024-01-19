@@ -1,0 +1,29 @@
+query GetAllSleepDatas {
+    getAllSleepDatas {
+        ...SleepDataFragment
+    }
+}
+
+query GetSleepDataByDate(
+    $date: Date!
+) {
+    getSleepDataByDate(date: $date) {
+        ...SleepDataFragment
+    }
+}
+
+mutation AddOrUpdateSleepData(
+    $sleepDataInput: SleepDataInput!
+) {
+    addSleepData(sleepDataInput: $sleepDataInput) {
+        ...SleepDataFragment
+    }
+}
+
+mutation DeleteSleepData(
+    $date: Date!
+) {
+    deleteSleepData(date: $date) {
+        ...SleepDataFragment
+    }
+}

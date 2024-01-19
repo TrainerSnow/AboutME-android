@@ -5,9 +5,7 @@ import com.aboutme.core.ui.feed.dailydata.DailyDataFeedState
 
 data class HomeState(
 
-    val uiState: HomeUiState = HomeUiState(),
-
-    val dailyFeedState: DailyDataFeedState = DailyDataFeedState.Loading
+    val uiState: HomeUiState = HomeUiState()
 
 )
 

@@ -9,6 +9,15 @@ input NameInfoInput {
     title: String
 }
 
+"""
+Bundles data needed to update a user
+"""
+input UpdateUserInput {
+    nameInfo: NameInfoInput!
+
+    updated: Instant!
+}
+
 extend type Mutation {
 
     #
@@ -46,9 +55,8 @@ extend type Mutation {
 
     """
     Updates this user.
-    Email and password cannot be updated.
     """
-    updateUser(nameInfoInput: NameInfoInput): User!
+    updateUser(updateUserInput: UpdateUserInput!): User!
 
 }
 

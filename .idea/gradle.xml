@@ -23,12 +23,14 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/auth" />
+            <option value="$PROJECT_DIR$/core/cache-db" />
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/connectivity" />
             <option value="$PROJECT_DIR$/core/data" />
-            <option value="$PROJECT_DIR$/core/database" />
             <option value="$PROJECT_DIR$/core/domain" />
             <option value="$PROJECT_DIR$/core/input" />
+            <option value="$PROJECT_DIR$/core/local-db" />
             <option value="$PROJECT_DIR$/core/model" />
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/core/secret" />

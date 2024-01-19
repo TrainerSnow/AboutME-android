@@ -2,11 +2,12 @@ package com.aboutme.feature.auth.screen.signup;
 
 import androidx.lifecycle.viewModelScope
 import com.aboutme.core.common.takeAsInput
-import com.aboutme.core.data.AuthService
+import com.aboutme.core.auth.AuthService
+import com.aboutme.core.common.Response
+import com.aboutme.core.common.ResponseError
 import com.aboutme.core.domain.viewmodel.AboutMeViewModel
-import com.aboutme.core.model.Response
-import com.aboutme.core.model.ResponseError
 import com.aboutme.core.model.data.NameInfo
+import com.aboutme.core.sync.SyncController
 import com.snow.core.input.createForEmail
 import com.snow.core.input.createForName
 import com.snow.core.input.createForPassword
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class SignUpViewModel @Inject constructor(
-    val authService: AuthService
+    val authService: AuthService,
+    val syncController: SyncController
 ) : AboutMeViewModel<SignUpEvent, SignUpUiEvent, SignUpState>() {
 
     override val initialState = SignUpState()
@@ -161,6 +163,7 @@ internal class SignUpViewModel @Inject constructor(
                     )
                 }
                 triggerUiEvent(SignUpUiEvent.Continue(result.data.user))
+                syncController.syncNow()
             } else {
                 updateState {
                     it.copy(

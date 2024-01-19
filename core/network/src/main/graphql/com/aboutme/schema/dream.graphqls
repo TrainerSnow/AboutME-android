@@ -1,16 +1,39 @@
 """
-Input that bundles data data to create a dream.
+Input that bundles data to create a dream.
 """
-input DreamInput {
-
+input CreateDreamInput {
     description: String!
     annotation: String
 
     clearness: Float
     mood: Float
 
-    persons: [Long!]
+    date: Date!
 
+    created: Instant!
+    updated: Instant!
+}
+
+"""
+Input that bundles data to update a dream.
+"""
+input UpdateDreamInput {
+    description: String!
+    annotation: String
+
+    clearness: Float
+    mood: Float
+
+    date: Date!
+
+    updated: Instant!
+}
+
+input DreamDataInput {
+    date: Date!
+
+    created: Instant!
+    updated: Instant!
 }
 
 extend type Mutation {
@@ -23,10 +46,13 @@ extend type Mutation {
 
     """
     Will create a dream for the given input and date.
-    The provided date must already exist.
-    The date must not be in the future.
     """
-    addDream(dreamInput: DreamInput!, date: Date!): Dream!
+    addDream(dreamInput: CreateDreamInput!): Dream!
+
+    """
+    Will update the dream for the given id and data
+    """
+    updateDream(updateDreamInput: UpdateDreamInput!, id: Long!): Dream!
 
     """
     Will delete a dream matching the id
@@ -36,16 +62,38 @@ extend type Mutation {
     # Dream Data
 
     """
-    Will create a dream data for the given date.
-    The provided day must already exist.
-    The date must not be in the future.
+    Will create a dream data for the given date, or update it if it does already exist.
     """
-    addDreamData(date: Date!): DreamData!
+    addDreamData(dreamDataInput: DreamDataInput): DreamData!
 
     """
     Will delete the dream data at the given date
     """
     deleteDreamData(date: Date!): DreamData!
+
+}
+
+extend type Query {
+
+    """
+    Gets the dream for the given id, or null
+    """
+    getDream(id: Long!): Dream!
+
+    """
+    Gets all the dreams, or an empty list
+    """
+    getAllDreams: [Dream!]!
+
+    """
+    Gets the dream data for the given date, or null
+    """
+    getDreamData(date: Date!): DreamData!
+
+    """
+    Gets all the dream datas, or an empty list
+    """
+    getAllDreamDatas: [DreamData!]!
 
 }
 
@@ -57,6 +105,11 @@ type DreamData {
     id: Long!
 
     dreams: [Dream!]!
+
+    date: Date!
+
+    created: Instant!
+    updated: Instant!
 }
 
 
@@ -73,4 +126,9 @@ type Dream {
     mood: Float
 
     persons: [Person!]!
+
+    date: Date!
+
+    created: Instant!
+    updated: Instant!
 }

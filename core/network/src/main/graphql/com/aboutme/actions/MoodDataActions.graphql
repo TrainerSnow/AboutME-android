@@ -1,0 +1,29 @@
+query GetAllMoodDatas {
+    getAllMoodDatas {
+        ...MoodDataFragment
+    }
+}
+
+query GetMoodDataByDate(
+    $date: Date!
+) {
+    getMoodData(date: $date) {
+        ...MoodDataFragment
+    }
+}
+
+mutation AddOrUpdateMoodData(
+    $moodDataInput: MoodDataInput!
+) {
+    addMoodData(moodDataInput: $moodDataInput) {
+        ...MoodDataFragment
+    }
+}
+
+mutation DeleteMoodData(
+    $date: Date!
+) {
+    deleteMoodData(date: $date) {
+        ...MoodDataFragment
+    }
+}

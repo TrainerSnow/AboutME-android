@@ -21,6 +21,7 @@ apollo {
 
         mapScalarToKotlinLong("Long")
         mapScalar("Date", "java.time.LocalDate", "com.aboutme.network.scalars.DateScalarAdapter")
+        mapScalar("Instant", "java.time.Instant", "com.aboutme.network.scalars.InstantScalarAdapter")
     }
 }
 
@@ -29,7 +30,7 @@ kotlin {
 }
 
 dependencies {
-    implementation(project((":core:model")))
+    implementation(project(":core:common"))
 
     implementation(libs.apollo)
 }

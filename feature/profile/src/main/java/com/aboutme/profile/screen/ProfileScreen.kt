@@ -44,6 +44,8 @@ import com.aboutme.profile.R
 import com.aboutme.profile.components.DeleteProfileDialog
 import com.aboutme.profile.components.ProfilePicture
 import kotlinx.coroutines.flow.collectLatest
+import java.time.Instant
+import java.time.LocalDate
 
 @Composable
 internal fun ProfileScreen(
@@ -55,6 +57,7 @@ internal fun ProfileScreen(
     onReturn: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val profileUserState by viewModel.profileState.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         viewModel.uiEvents.collectLatest {
@@ -68,7 +71,7 @@ internal fun ProfileScreen(
     }
 
     ProfileScreen(
-        userState = state.userState,
+        userState = profileUserState,
         uiState = state.uiState,
         onEvent = viewModel::onEvent
     )
@@ -378,7 +381,9 @@ private fun TopSectionPreview() {
             .width(350.dp),
         user = UserData(
             nameInfo = NameInfo("John", "Peter", "Doe", "Dr."),
-            email = "john.peter.doe@gmx.de"
+            email = "john.peter.doe@gmx.de",
+            Instant.now(),
+            Instant.now()
         ),
         onEvent = {}
     )

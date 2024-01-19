@@ -6,8 +6,6 @@ import com.aboutme.core.model.data.UserData
 
 internal data class ProfileState(
 
-    val userState: ProfileUserState = ProfileUserState.Loading,
-
     val uiState: ProfileUiState = ProfileUiState()
 
 )

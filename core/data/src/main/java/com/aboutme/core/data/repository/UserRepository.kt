@@ -1,9 +1,9 @@
 package com.aboutme.core.data.repository
 
-import com.aboutme.core.data.AuthService
-import com.aboutme.core.model.Response
+import com.aboutme.core.auth.AuthService
 import com.aboutme.core.model.data.NameInfo
 import com.aboutme.core.model.data.UserData
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Grants access to data related to the user that does not fit into the [AuthService]
@@ -12,13 +12,13 @@ import com.aboutme.core.model.data.UserData
 interface UserRepository {
 
     /**
-     * Deletes the currently logged in user
-     */
-    suspend fun deleteUser(): Response<UserData>
-
-    /**
      * Updates the [NameInfo] associated with the current user
      */
-    suspend fun updateUser(nameInfo: NameInfo): Response<UserData>
+    suspend fun updateUser(nameInfo: NameInfo)
+
+    /**
+     * Gets the current user
+     */
+    fun getUser(): Flow<UserData?>
 
 }

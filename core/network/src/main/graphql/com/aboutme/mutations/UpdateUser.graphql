@@ -1,8 +1,8 @@
 mutation UpdateUser(
-    $nameInfo: NameInfoInput!
+    $updateUserInput: UpdateUserInput!
 ) {
     updateUser(
-        nameInfoInput: $nameInfo
+        updateUserInput: $updateUserInput
     ) {
         ...UserFragment
     }

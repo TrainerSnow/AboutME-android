@@ -12,6 +12,7 @@ class AndroidFeaturePlugin: Plugin<Project> {
         project.hiltDependencies()
         project.composeDependencies()
         project.featureDependencies()
+        project.testDependencies()
     }
 
 }

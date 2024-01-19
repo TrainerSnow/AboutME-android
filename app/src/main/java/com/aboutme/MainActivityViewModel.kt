@@ -2,26 +2,26 @@ package com.aboutme;
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aboutme.core.data.AuthService
-import com.aboutme.core.model.Response
-import com.aboutme.core.model.data.AuthUser
+import com.aboutme.core.data.repository.UserRepository
+import com.aboutme.core.model.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    val authService: AuthService
+    val userRepo: UserRepository
 ) : ViewModel() {
 
     val state: MutableStateFlow<MainActivityState> = MutableStateFlow(MainActivityState.Loading)
 
     init {
         viewModelScope.launch {
-            val result = authService.refresh()
-            if (result is Response.Success) {
-                state.emit(MainActivityState.Authenticated(result.data))
+            val user = userRepo.getUser().first()
+            if (user != null) {
+                state.emit(MainActivityState.Authenticated(user))
             } else {
                 state.emit(MainActivityState.NonAuthenticated)
             }
@@ -37,7 +37,7 @@ sealed interface MainActivityState {
     data object NonAuthenticated : MainActivityState
 
     data class Authenticated(
-        val authUser: AuthUser
+        val userData: UserData
     ) : MainActivityState
 
 }

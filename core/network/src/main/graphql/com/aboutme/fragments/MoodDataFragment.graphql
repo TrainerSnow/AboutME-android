@@ -6,4 +6,9 @@ fragment MoodDataFragment on MoodData {
     moodMorning
     moodNoon
     moodEvening
+
+    date
+
+    created
+    updated
 }

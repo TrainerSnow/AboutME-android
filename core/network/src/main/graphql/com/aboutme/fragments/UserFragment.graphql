@@ -1,5 +1,6 @@
 fragment UserFragment on User {
     id
+
     email
     nameInfo {
         firstName
@@ -7,4 +8,8 @@ fragment UserFragment on User {
         lastName
         title
     }
+
+    
+    created
+    updated
 }

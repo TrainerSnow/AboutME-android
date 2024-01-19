@@ -15,6 +15,11 @@ fun Project.featureDependencies() {
     project.dependencies.add("implementation", project(":core:model"))
     project.dependencies.add("implementation", project(":core:input"))
     project.dependencies.add("implementation", project(":core:data"))
+    project.dependencies.add("implementation", project(":core:auth"))
     project.dependencies.add("implementation", project(":core:common"))
     project.dependencies.add("implementation", project(":core:ui"))
+}
+
+fun Project.testDependencies() {
+    project.dependencies.add("testImplementation", versionCatalog().getLibrary("junit"))
 }

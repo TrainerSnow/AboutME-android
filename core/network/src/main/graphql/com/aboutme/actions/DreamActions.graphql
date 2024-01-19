@@ -1,0 +1,33 @@
+query GetAllDreams {
+    getAllDreams {
+        ...DreamFragment
+    }
+}
+
+mutation AddDream(
+    $addDreamInput: CreateDreamInput!
+) {
+    addDream(dreamInput: $addDreamInput) {
+        ...DreamFragment
+    }
+}
+
+mutation CreateDream(
+    $updateDreamInput: UpdateDreamInput!,
+    $id: Long!
+) {
+    updateDream(
+        updateDreamInput: $updateDreamInput,
+        id: $id
+    ) {
+        ...DreamFragment
+    }
+}
+
+mutation DeleteDream(
+    $id: Long!
+) {
+    deleteDream(id: $id) {
+        ...DreamFragment
+    }
+}
