@@ -19,3 +19,7 @@ fun Project.featureDependencies() {
     project.dependencies.add("implementation", project(":core:common"))
     project.dependencies.add("implementation", project(":core:ui"))
 }
+
+fun Project.testDependencies() {
+    project.dependencies.add("testImplementation", versionCatalog().getLibrary("junit"))
+}

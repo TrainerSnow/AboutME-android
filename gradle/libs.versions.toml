@@ -23,6 +23,7 @@ splash = "1.0.1"
 gson = "2.10.1"
 work = "2.9.0"
 hilt_work = "1.1.0"
+junit = "4.13.2"
 
 [libraries]
 apollo = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo" }
@@ -57,6 +58,8 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 google-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

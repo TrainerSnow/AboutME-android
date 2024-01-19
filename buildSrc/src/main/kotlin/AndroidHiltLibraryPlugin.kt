@@ -8,6 +8,7 @@ class AndroidHiltLibraryPlugin: Plugin<Project> {
 
         project.hiltAndroidPlugins()
         project.hiltDependencies()
+        project.testDependencies()
     }
 
 }
