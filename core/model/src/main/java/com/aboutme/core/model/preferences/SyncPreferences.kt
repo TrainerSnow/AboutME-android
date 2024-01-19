@@ -19,16 +19,16 @@ sealed interface SyncPreferences {
     ) {
 
         /**
-         * Always sync when a change was made
+         * Always sync when the app is entered
          */
-        data class OnChange(
+        data class OnEnter(
             override val onlyWifi: Boolean
         ) : EnabledSyncPreferences(onlyWifi)
 
         /**
-         * Always sync when the app is entered
+         * Always sync when a change was made
          */
-        data class OnEnter(
+        data class OnChange(
             override val onlyWifi: Boolean
         ) : EnabledSyncPreferences(onlyWifi)
 
