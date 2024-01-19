@@ -18,13 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     dailyDataRepository: DailyDataRepository,
-    val authService: AuthService,
-    syncController: SyncController
+    val authService: AuthService
 ) : AboutMeViewModel<HomeEvent, HomeUiEvent, HomeState>() {
-
-    init {
-        syncController.syncNow()
-    }
 
     override val initialState = HomeState()
 
