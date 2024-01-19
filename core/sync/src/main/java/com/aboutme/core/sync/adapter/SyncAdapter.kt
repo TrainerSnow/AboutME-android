@@ -28,7 +28,12 @@ internal abstract class SyncAdapter<DbEntity : SyncableEntity, NetworkDto : Sync
     /**
      * Lambda to execute authenticated network calls
      */
-    private val networkCall: suspend (suspend (String) -> Unit) -> Unit
+    private val networkCall: suspend (suspend (String) -> Unit) -> Unit,
+
+    /**
+     * When two entities have been updated at the same timestamp, the adapter will use the local entity
+     */
+    private val ratherTakeLocal: Boolean = true
 ) {
 
     /**
@@ -62,14 +67,20 @@ internal abstract class SyncAdapter<DbEntity : SyncableEntity, NetworkDto : Sync
                 if (entity.deletedAt!! > dto.updatedAt) { // Was deleted after last change was made on server
                     deleteDb(entity)
                     deleteNetwork(id)
-                } else { // Was before last change made on server
+                } else { // Was deleted before last change made on server
                     updateDb(dto)
                 }
             } else { // Was not deleted on client
                 if (entity.updatedAt > dto.updatedAt) { // Client was more recently updated
                     updateNetwork(entity, id)
-                } else { // Server was more recently updates
+                } else if (entity.updatedAt < dto.updatedAt) { // Server was more recently updates
                     updateDb(dto)
+                } else {
+                    if (ratherTakeLocal) {
+                        updateNetwork(entity, id)
+                    } else {
+                        updateDb(dto)
+                    }
                 }
             }
         }
