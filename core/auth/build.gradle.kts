@@ -15,7 +15,7 @@ kotlin {
 dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:common"))
-    implementation(project(":core:database"))
+    implementation(project(":core:cache-db"))
     implementation(project(":core:secret"))
     implementation(project(":core:model"))
 }

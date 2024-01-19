@@ -2,7 +2,7 @@ package com.aboutme.core.auth.di
 
 import com.aboutme.core.auth.AuthService
 import com.aboutme.core.auth.implementation.NetworkAuthService
-import com.aboutme.core.database.base.AboutMeDatabase
+import com.aboutme.core.cache.base.AboutMeDatabase
 import com.aboutme.core.secret.TokenRepository
 import com.aboutme.network.source.UserNetworkSource
 import dagger.Module

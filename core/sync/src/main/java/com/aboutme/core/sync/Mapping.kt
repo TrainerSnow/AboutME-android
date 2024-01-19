@@ -1,11 +1,11 @@
 package com.aboutme.core.sync
 
-import com.aboutme.core.database.entity.DreamEntity
-import com.aboutme.core.database.entity.UserEntity
-import com.aboutme.core.database.entity.daily.DiaryDataEntity
-import com.aboutme.core.database.entity.daily.DreamDataEntity
-import com.aboutme.core.database.entity.daily.MoodDataEntity
-import com.aboutme.core.database.entity.daily.SleepDataEntity
+import com.aboutme.core.cache.entity.DreamEntity
+import com.aboutme.core.cache.entity.UserEntity
+import com.aboutme.core.cache.entity.daily.DiaryDataEntity
+import com.aboutme.core.cache.entity.daily.DreamDataEntity
+import com.aboutme.core.cache.entity.daily.MoodDataEntity
+import com.aboutme.core.cache.entity.daily.SleepDataEntity
 import com.aboutme.core.model.data.NameInfo
 import com.aboutme.core.model.data.UserData
 import com.aboutme.network.dto.DreamDto

@@ -1,10 +1,10 @@
 package com.aboutme.core.data.mapping
 
-import com.aboutme.core.database.entity.DreamEntity
-import com.aboutme.core.database.entity.daily.DiaryDataEntity
-import com.aboutme.core.database.entity.daily.MoodDataEntity
-import com.aboutme.core.database.entity.daily.SleepDataEntity
-import com.aboutme.core.database.entity.multi.DreamDataWithDreams
+import com.aboutme.core.cache.entity.DreamEntity
+import com.aboutme.core.cache.entity.daily.DiaryDataEntity
+import com.aboutme.core.cache.entity.daily.MoodDataEntity
+import com.aboutme.core.cache.entity.daily.SleepDataEntity
+import com.aboutme.core.cache.entity.multi.DreamDataWithDreams
 import com.aboutme.core.model.daily.data.DiaryData
 import com.aboutme.core.model.daily.data.DreamData
 import com.aboutme.core.model.daily.data.MoodData

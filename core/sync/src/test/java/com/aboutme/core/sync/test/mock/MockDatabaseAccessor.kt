@@ -1,6 +1,6 @@
 package com.aboutme.core.sync.test.mock;
 
-import com.aboutme.core.database.dao.base.SyncableEntityAccessor
+import com.aboutme.core.cache.dao.base.SyncableEntityAccessor
 
 internal class MockDatabaseAccessor :
     SyncableEntityAccessor<TestEntity> {

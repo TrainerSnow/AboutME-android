@@ -1,7 +1,7 @@
 package com.aboutme.core.data.implementation;
 
 import com.aboutme.core.data.repository.UserRepository
-import com.aboutme.core.database.dao.UserDao
+import com.aboutme.core.cache.dao.UserDao
 import com.aboutme.core.model.data.NameInfo
 import com.aboutme.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow

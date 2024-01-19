@@ -22,6 +22,6 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:sync"))
     implementation(project(":core:auth"))
-    implementation(project(":core:database"))
+    implementation(project(":core:cache-db"))
 
 }

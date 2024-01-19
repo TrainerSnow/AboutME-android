@@ -4,7 +4,7 @@ import com.aboutme.core.auth.mapping.toDto
 import com.aboutme.core.auth.mapping.toModel
 import com.aboutme.core.common.Response
 import com.aboutme.core.common.ResponseError
-import com.aboutme.core.database.base.AboutMeDatabase
+import com.aboutme.core.cache.base.AboutMeDatabase
 import com.aboutme.core.model.data.AuthUser
 import com.aboutme.core.model.data.NameInfo
 import com.aboutme.core.model.data.UserData

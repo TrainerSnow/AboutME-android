@@ -7,18 +7,18 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.aboutme.core.auth.AuthService
 import com.aboutme.core.common.Response
-import com.aboutme.core.database.dao.DiaryDataDao
-import com.aboutme.core.database.dao.DreamDao
-import com.aboutme.core.database.dao.DreamDataDao
-import com.aboutme.core.database.dao.MoodDataDao
-import com.aboutme.core.database.dao.SleepDataDao
-import com.aboutme.core.database.dao.UserDao
-import com.aboutme.core.database.entity.DreamEntity
-import com.aboutme.core.database.entity.UserEntity
-import com.aboutme.core.database.entity.daily.DiaryDataEntity
-import com.aboutme.core.database.entity.daily.DreamDataEntity
-import com.aboutme.core.database.entity.daily.MoodDataEntity
-import com.aboutme.core.database.entity.daily.SleepDataEntity
+import com.aboutme.core.cache.dao.DiaryDataDao
+import com.aboutme.core.cache.dao.DreamDao
+import com.aboutme.core.cache.dao.DreamDataDao
+import com.aboutme.core.cache.dao.MoodDataDao
+import com.aboutme.core.cache.dao.SleepDataDao
+import com.aboutme.core.cache.dao.UserDao
+import com.aboutme.core.cache.entity.DreamEntity
+import com.aboutme.core.cache.entity.UserEntity
+import com.aboutme.core.cache.entity.daily.DiaryDataEntity
+import com.aboutme.core.cache.entity.daily.DreamDataEntity
+import com.aboutme.core.cache.entity.daily.MoodDataEntity
+import com.aboutme.core.cache.entity.daily.SleepDataEntity
 import com.aboutme.core.model.data.AuthUser
 import com.aboutme.core.model.data.UserData
 import com.aboutme.core.sync.adapter.DailySyncAdapter
@@ -41,8 +41,6 @@ import com.aboutme.network.source.daily.SleepDataSource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.single
 import java.time.LocalDate
 
 @Suppress("MemberVisibilityCanBePrivate")

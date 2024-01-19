@@ -2,10 +2,10 @@ package com.aboutme.core.data.implementation;
 
 import com.aboutme.core.data.mapping.toModel
 import com.aboutme.core.data.repository.DailyDataRepository
-import com.aboutme.core.database.dao.DiaryDataDao
-import com.aboutme.core.database.dao.DreamDataDao
-import com.aboutme.core.database.dao.MoodDataDao
-import com.aboutme.core.database.dao.SleepDataDao
+import com.aboutme.core.cache.dao.DiaryDataDao
+import com.aboutme.core.cache.dao.DreamDataDao
+import com.aboutme.core.cache.dao.MoodDataDao
+import com.aboutme.core.cache.dao.SleepDataDao
 import com.aboutme.core.model.daily.DailyData
 import com.aboutme.core.model.daily.DailyDataCategory
 import com.aboutme.core.model.daily.DailyDataInfo

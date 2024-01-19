@@ -1,6 +1,6 @@
 package com.aboutme.core.sync.test.mock
 
-import com.aboutme.core.database.entity.base.SyncableEntity
+import com.aboutme.core.cache.entity.base.SyncableEntity
 import com.aboutme.network.dto.base.SyncableDto
 import com.aboutme.network.dto.base.UpdateDto
 import java.time.Instant

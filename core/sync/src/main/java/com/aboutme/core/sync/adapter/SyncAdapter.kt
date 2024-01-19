@@ -1,7 +1,7 @@
 package com.aboutme.core.sync.adapter;
 
-import com.aboutme.core.database.dao.base.SyncableEntityAccessor
-import com.aboutme.core.database.entity.base.SyncableEntity
+import com.aboutme.core.cache.dao.base.SyncableEntityAccessor
+import com.aboutme.core.cache.entity.base.SyncableEntity
 import com.aboutme.network.dto.base.SyncableDto
 import com.aboutme.network.dto.base.UpdateDto
 import com.aboutme.network.source.base.SyncableDtoAccessor
