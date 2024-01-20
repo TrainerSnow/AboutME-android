@@ -2,6 +2,7 @@ package com.aboutme.core.sync.di
 
 import android.content.Context
 import androidx.work.WorkManager
+import com.aboutme.core.database.dao.SyncStatusDao
 import com.aboutme.core.sync.SyncController
 import com.aboutme.core.sync.SyncMonitor
 import com.aboutme.core.sync.implementation.WorkerSyncController
@@ -26,8 +27,9 @@ object SyncModule {
     @Singleton
     @Provides
     fun provideSyncController(
-        workManager: WorkManager
-    ): SyncController = WorkerSyncController(workManager)
+        workManager: WorkManager,
+        syncStatusDao: SyncStatusDao
+    ): SyncController = WorkerSyncController(workManager, syncStatusDao)
 
     @Singleton
     @Provides
