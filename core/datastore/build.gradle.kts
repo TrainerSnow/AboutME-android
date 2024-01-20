@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.google.protobuf)
 }
 
-apply<AndroidLibraryPlugin>()
+apply<AndroidHiltLibraryPlugin>()
 
 android {
     namespace = "com.aboutme.core.datastore"
@@ -16,6 +16,8 @@ kotlin {
 dependencies {
     implementation(libs.android.datastore)
     implementation(libs.google.protobuf)
+
+    implementation(project(":core:model"))
 }
 
 protobuf {

@@ -16,7 +16,7 @@ sealed interface SyncPreferences {
          */
 
         open val onlyWifi: Boolean
-    ) {
+    ): SyncPreferences {
 
         /**
          * Always sync when the app is entered
