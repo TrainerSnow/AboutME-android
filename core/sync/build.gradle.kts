@@ -24,5 +24,7 @@ dependencies {
     implementation(libs.android.work)
     implementation(libs.hilt.work)
 
+    implementation(libs.google.gson)
+
     add("kapt", "androidx.hilt:hilt-compiler:1.1.0")
 }

@@ -10,11 +10,14 @@ import java.time.Instant
 data class SyncStatusEntity(
 
     @PrimaryKey
-    val finishedAt: Instant?,
+    val startedAt: Instant,
+
+    val finishedAt: Instant,
 
     /**
      * 1: Success
      * 2: Error
+     * 3: Auth error
      */
     val status: Int
 
