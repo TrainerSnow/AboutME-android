@@ -11,7 +11,7 @@ data class SyncStatusWithResult(
     val syncStatus: SyncStatusEntity,
 
     @Relation(
-        parentColumn = "finishedAt",
+        parentColumn = "startedAt",
         entityColumn = "syncStatusEntityId"
     )
     val syncResult: SyncResultData? = null

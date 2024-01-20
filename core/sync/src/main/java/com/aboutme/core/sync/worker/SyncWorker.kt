@@ -3,7 +3,9 @@ package com.aboutme.core.sync.worker;
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.Data
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.aboutme.core.auth.AuthService
 import com.aboutme.core.cache.dao.DiaryDataDao
 import com.aboutme.core.cache.dao.DreamDao
@@ -18,9 +20,6 @@ import com.aboutme.core.cache.entity.daily.DreamDataEntity
 import com.aboutme.core.cache.entity.daily.MoodDataEntity
 import com.aboutme.core.cache.entity.daily.SleepDataEntity
 import com.aboutme.core.common.Response
-import com.aboutme.core.database.dao.SyncStatusDao
-import com.aboutme.core.database.entity.SyncResultData
-import com.aboutme.core.database.entity.SyncStatusEntity
 import com.aboutme.core.database.entity.model.SyncTraffic
 import com.aboutme.core.model.data.AuthUser
 import com.aboutme.core.model.data.UserData
@@ -42,6 +41,7 @@ import com.aboutme.network.source.daily.DiaryDataSource
 import com.aboutme.network.source.daily.DreamDataSource
 import com.aboutme.network.source.daily.MoodDataSource
 import com.aboutme.network.source.daily.SleepDataSource
+import com.google.gson.Gson
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
@@ -55,8 +55,6 @@ internal class SyncWorker @AssistedInject constructor(
     @Assisted params: WorkerParameters,
 
     val authService: AuthService,
-
-    val syncStatusDao: SyncStatusDao,
 
     val diaryDataSource: DiaryDataSource,
     val dreamDataSource: DreamDataSource,
@@ -127,15 +125,15 @@ internal class SyncWorker @AssistedInject constructor(
         override fun convertDtoToEntity(dto: DreamDto) = dto.toEntity()
     }
 
-    private suspend fun createFailure(): Result {
-        val entity = SyncStatusEntity(
-            finishedAt = Instant.now(), status = 2
-        )
-        syncStatusDao.insert(entity)
-        return Result.failure()
+    private fun createSyncFailure(start: Instant): Result {
+        val dto = SyncErrorDto(start, Instant.now())
+        val json = Gson().toJson(dto)
+        val data = workDataOf(OUTPUT_DATA_KEY to json)
+        return Result.failure(data)
     }
 
-    private suspend fun createSuccess(
+    private fun createSuccess(
+        start: Instant,
         userTraffic: SyncTraffic,
         diaryTraffic: SyncTraffic,
         sleepTraffic: SyncTraffic,
@@ -143,13 +141,9 @@ internal class SyncWorker @AssistedInject constructor(
         dreamDataTraffic: SyncTraffic,
         dreamTraffic: SyncTraffic
     ): Result {
-        val statusEntity = SyncStatusEntity(
-            finishedAt = Instant.now(),
-            status = 2
-        )
-        val dataEntity = SyncResultData(
-            id = null,
-            syncStatusEntityId = statusEntity.finishedAt!!,
+        val dto = SyncSuccessDto(
+            start,
+            Instant.now(),
             diaryDataTraffic = diaryTraffic,
             sleepDataTraffic = sleepTraffic,
             moodDataTraffic = moodTraffic,
@@ -159,15 +153,14 @@ internal class SyncWorker @AssistedInject constructor(
             relationsTraffic = SyncTraffic(),
             userTraffic = userTraffic
         )
-
-        syncStatusDao.insert(statusEntity)
-        syncStatusDao.insert(dataEntity)
-
-        return Result.success()
+        val json = Gson().toJson(dto)
+        val data = workDataOf(OUTPUT_DATA_KEY to json)
+        return Result.success(data)
     }
 
     override suspend fun doWork(): Result {
-        val serverUser = checkAuth() ?: return createFailure()
+        val start = Instant.now()
+        val serverUser = checkAuth() ?: return createSyncFailure(start)
         val dbUser = userDao.getAll().first().firstOrNull()
 
         val userTraffic = syncUser(dbUser, serverUser.user)
@@ -179,6 +172,7 @@ internal class SyncWorker @AssistedInject constructor(
         val dreamTraffic = syncDreams()
 
         return createSuccess(
+            start,
             userTraffic,
             diaryTraffic,
             sleepTraffic,
@@ -361,6 +355,12 @@ internal class SyncWorker @AssistedInject constructor(
             serverDeleted = get(AdapterResult.DeletedServer) ?: 0,
             localDeleted = get(AdapterResult.DeletedLocal) ?: 0
         )
+    }
+
+    companion object {
+
+        internal const val OUTPUT_DATA_KEY = "com.aboutme.core.sync.SyncWorker.result"
+
     }
 
 }
