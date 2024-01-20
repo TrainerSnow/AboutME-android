@@ -23,5 +23,6 @@ dependencies {
     implementation(project(":core:sync"))
     implementation(project(":core:auth"))
     implementation(project(":core:cache-db"))
+    implementation(project(":core:datastore"))
 
 }
