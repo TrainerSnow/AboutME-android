@@ -22,7 +22,7 @@ fun PreferenceDivider(
             .padding(PreferenceDividerDefaults.padding)
     ) {
         ProvideTextStyle(
-            value = MaterialTheme.typography.labelMedium,
+            value = MaterialTheme.typography.labelMedium.copy(color = MaterialTheme.colorScheme.primary),
             content = label
         )
     }
@@ -43,7 +43,7 @@ private fun PreferenceDividerPreview() {
 object PreferenceDividerDefaults {
 
     val padding = PaddingValues(
-        start = 8.dp,
+        start = 16.dp,
         top = 16.dp,
         bottom = 4.dp
     )

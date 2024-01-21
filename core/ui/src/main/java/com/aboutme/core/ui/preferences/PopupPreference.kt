@@ -26,7 +26,7 @@ fun <Item> PopupPreference(
     title: @Composable () -> Unit
 ) {
     var showPopup by remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
 
     Box(

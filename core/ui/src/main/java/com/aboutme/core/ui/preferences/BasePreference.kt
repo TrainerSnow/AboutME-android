@@ -105,7 +105,7 @@ private fun BasePreferencePreviewDisabled() {
 object BasePreferenceDefaults {
 
     val padding = PaddingValues(
-        horizontal = 12.dp,
+        horizontal = 16.dp,
         vertical = 12.dp
     )
 
