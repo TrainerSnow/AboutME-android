@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PreferenceDivider(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     label: @Composable () -> Unit
 ) {
     Box(
@@ -22,7 +23,9 @@ fun PreferenceDivider(
             .padding(PreferenceDividerDefaults.padding)
     ) {
         ProvideTextStyle(
-            value = MaterialTheme.typography.labelMedium.copy(color = MaterialTheme.colorScheme.primary),
+            value = MaterialTheme.typography.labelLarge.copy(
+                color = MaterialTheme.colorScheme.primary.copy(alpha = if(enabled) 1F else 0.38F)
+            ),
             content = label
         )
     }

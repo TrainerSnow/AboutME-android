@@ -1,9 +1,9 @@
 package com.aboutme.core.sync.worker;
 
 import android.content.Context
+import android.util.Log.d
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.Data
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.aboutme.core.auth.AuthService
@@ -126,7 +126,7 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private fun createSyncFailure(start: Instant): Result {
-        val dto = SyncErrorDto(start, Instant.now())
+        val dto = SyncErrorDto(start.epochSecond, Instant.now().epochSecond)
         val json = Gson().toJson(dto)
         val data = workDataOf(OUTPUT_DATA_KEY to json)
         return Result.failure(data)
@@ -142,8 +142,8 @@ internal class SyncWorker @AssistedInject constructor(
         dreamTraffic: SyncTraffic
     ): Result {
         val dto = SyncSuccessDto(
-            start,
-            Instant.now(),
+            start.epochSecond,
+            Instant.now().epochSecond,
             diaryDataTraffic = diaryTraffic,
             sleepDataTraffic = sleepTraffic,
             moodDataTraffic = moodTraffic,

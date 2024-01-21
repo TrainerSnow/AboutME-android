@@ -1,13 +1,12 @@
 package com.aboutme.core.sync.worker
 
 import com.aboutme.core.database.entity.model.SyncTraffic
-import java.time.Instant
 
 internal data class SyncSuccessDto(
 
-    val start: Instant,
+    val start: Long,
 
-    val end: Instant,
+    val end: Long,
 
     val diaryDataTraffic: SyncTraffic,
 

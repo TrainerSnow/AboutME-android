@@ -8,6 +8,15 @@
       <entry key="SyncPeriodPreferencePreview">
         <State />
       </entry>
+      <entry key="SyncPreferencesScreenPreviewNoAuth">
+        <State />
+      </entry>
+      <entry key="SyncPreferencesScreenPreviewSuccess">
+        <State />
+      </entry>
+      <entry key="SyncPreferencesScreenPreviewSyncing">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>

@@ -1,12 +1,10 @@
 package com.aboutme.core.sync.worker
 
-import java.time.Instant
-
 
 internal data class SyncErrorDto (
 
-    val start: Instant,
+    val start: Long,
 
-    val end: Instant
+    val end: Long
 
 )

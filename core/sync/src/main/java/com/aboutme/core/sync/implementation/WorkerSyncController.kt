@@ -19,6 +19,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.flow.collectLatest
 import java.time.Duration
+import java.time.Instant
 import java.util.UUID
 
 internal class WorkerSyncController(
@@ -76,7 +77,7 @@ internal class WorkerSyncController(
             return
         }
 
-        val entity = SyncStatusEntity(dto.start, dto.end, 3)
+        val entity = SyncStatusEntity(Instant.ofEpochSecond(dto.start), Instant.ofEpochSecond(dto.end), 3)
         syncStatusDao.insert(entity)
     }
 
@@ -87,7 +88,7 @@ internal class WorkerSyncController(
             return
         }
 
-        val statusEntity = SyncStatusEntity(dto.start, dto.end, 1)
+        val statusEntity = SyncStatusEntity(Instant.ofEpochSecond(dto.start), Instant.ofEpochSecond(dto.end), 1)
         val dataEntity = SyncResultData(
             null,
             statusEntity.startedAt,
