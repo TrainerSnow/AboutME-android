@@ -1,4 +1,4 @@
-package com.aboutme.feature.preferences.screen
+package com.aboutme.feature.preferences.screen.main
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

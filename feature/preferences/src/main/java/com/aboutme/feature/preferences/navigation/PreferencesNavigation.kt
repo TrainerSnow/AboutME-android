@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.aboutme.feature.preferences.screen.PreferencesScreen
+import com.aboutme.feature.preferences.screen.main.PreferencesScreen
 
 private const val PreferencesRoute = "preferences"
 

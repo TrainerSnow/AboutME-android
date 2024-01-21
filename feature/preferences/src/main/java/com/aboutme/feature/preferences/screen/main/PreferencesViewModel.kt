@@ -1,4 +1,4 @@
-package com.aboutme.feature.preferences.screen;
+package com.aboutme.feature.preferences.screen.main;
 
 import androidx.lifecycle.viewModelScope
 import com.aboutme.core.data.repository.PreferencesRepository

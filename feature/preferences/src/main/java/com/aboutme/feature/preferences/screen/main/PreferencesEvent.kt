@@ -1,4 +1,4 @@
-package com.aboutme.feature.preferences.screen
+package com.aboutme.feature.preferences.screen.main
 
 import com.aboutme.core.model.preferences.ColorMode
 import com.aboutme.core.model.preferences.ColorTheme
