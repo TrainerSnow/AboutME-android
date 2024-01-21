@@ -53,7 +53,7 @@ private fun CheckboxPreferencePreview() {
     }
 }
 
-@Preview
+@Preview(device = "spec:width=1080px,height=2340px,dpi=440")
 @Composable
 private fun CheckboxPreferencePreviewDisabled() {
     Surface {

@@ -9,16 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.aboutme.core.ui.util.disabled
+import com.aboutme.core.ui.util.ProvideDisabledContentColor
 import com.aboutme.core.ui.util.loremIpsum
 
 @Composable
@@ -46,15 +44,19 @@ fun BasePreference(
                 .weight(1F),
             verticalArrangement = Arrangement.spacedBy(BasePreferenceDefaults.titleSubtitleSpacing)
         ) {
-            ProvideTextStyle(
-                value = MaterialTheme.typography.titleMedium.disabled(enabled),
-                content = title
-            )
-            subtitle?.let {
+            ProvideDisabledContentColor(enabled) {
                 ProvideTextStyle(
-                    value = MaterialTheme.typography.bodySmall.disabled(enabled),
-                    content = subtitle
+                    value = MaterialTheme.typography.titleMedium,
+                    content = title
                 )
+            }
+            subtitle?.let {
+                ProvideDisabledContentColor(enabled) {
+                    ProvideTextStyle(
+                        value = MaterialTheme.typography.bodySmall,
+                        content = subtitle
+                    )
+                }
             }
         }
         trailingContent?.let {

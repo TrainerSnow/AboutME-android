@@ -48,7 +48,7 @@ fun <Item> PopupPreference(
         )
 
         DropdownMenu(
-            expanded = showPopup,
+            expanded = showPopup && enabled,
             onDismissRequest = { showPopup = false }
         ) {
             items.forEach {
