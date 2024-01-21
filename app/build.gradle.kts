@@ -55,6 +55,7 @@ dependencies {
     implementation(project(":feature:auth"))
     implementation(project(":feature:home"))
     implementation(project(":feature:profile"))
+    implementation(project(":feature:preferences"))
     implementation(project(":core:model"))
     implementation(project(":core:ui"))
     implementation(project(":core:data"))

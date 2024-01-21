@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -37,7 +38,8 @@ internal fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel(),
     onAuthError: () -> Unit,
     onLogOut: () -> Unit,
-    onGoToProfile: () -> Unit
+    onGoToProfile: () -> Unit,
+    onGoToPreferences: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val dailyFeedState by viewModel.dailyFeedState.collectAsStateWithLifecycle()
@@ -48,6 +50,7 @@ internal fun HomeScreen(
                 HomeUiEvent.AuthError -> onAuthError()
                 HomeUiEvent.LogOut -> onLogOut()
                 HomeUiEvent.GoToProfile -> onGoToProfile()
+                HomeUiEvent.GoToPreferences -> onGoToPreferences()
             }
         }
     }
@@ -83,6 +86,14 @@ fun HomeScreen(
                     Icon(
                         imageVector = Icons.Outlined.Person,
                         contentDescription = stringResource(R.string.toggle_user_popup)
+                    )
+                }
+                IconButton(
+                    onClick = { onEvent(HomeEvent.GoToPreferences) }
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Settings,
+                        contentDescription = stringResource(R.string.action_preferences)
                     )
                 }
 

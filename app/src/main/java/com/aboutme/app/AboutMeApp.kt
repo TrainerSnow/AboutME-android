@@ -14,6 +14,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import com.aboutme.feature.home.navigation.HomeRoute
 import com.aboutme.feature.home.navigation.home
+import com.aboutme.feature.preferences.navigation.navigateToPreferences
 import com.aboutme.navigation.TopLevelDestinations
 import com.aboutme.profile.navigation.navigateToProfile
 
@@ -40,7 +41,8 @@ internal fun AboutMeApp(
             ) {
                 appNavGraph(
                     navigateToAuth = appState::returnToAuth,
-                    goToProfile = appState.mainNavController::navigateToProfile
+                    goToProfile = appState.mainNavController::navigateToProfile,
+                    onGoToPreferences = appState.mainNavController::navigateToPreferences
                 )
             }
         }
@@ -75,11 +77,13 @@ private fun NavigationSuiteScope.aboutMeNavItems(
 
 private fun NavGraphBuilder.appNavGraph(
     navigateToAuth: () -> Unit,
-    goToProfile: () -> Unit
+    goToProfile: () -> Unit,
+    onGoToPreferences: () -> Unit
 ) {
     home(
         onAuthError = navigateToAuth,
         onLogOut = navigateToAuth,
-        onGoToProfile = goToProfile
+        onGoToProfile = goToProfile,
+        onGoToPreferences = onGoToPreferences
     )
 }
