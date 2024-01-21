@@ -2,44 +2,12 @@ package com.aboutme.core.model.preferences
 
 import kotlin.time.Duration
 
-sealed interface SyncPreferences {
+data class SyncPreferences(
 
-    /**
-     * Don't sync at all
-     */
-    data object Not : SyncPreferences
+    val onlyWifi: Boolean,
 
-    sealed class EnabledSyncPreferences(
+    val period: Duration,
 
-        /**
-         * Whether sync should only be done when user is connected to wifi
-         */
+    val syncOption: SyncOption
 
-        open val onlyWifi: Boolean
-    ): SyncPreferences {
-
-        /**
-         * Always sync when the app is entered
-         */
-        data class OnEnter(
-            override val onlyWifi: Boolean
-        ) : EnabledSyncPreferences(onlyWifi)
-
-        /**
-         * Always sync when a change was made
-         */
-        data class OnChange(
-            override val onlyWifi: Boolean
-        ) : EnabledSyncPreferences(onlyWifi)
-
-        /**
-         * Sync in a periodic manner
-         */
-        data class Periodically(
-            override val onlyWifi: Boolean,
-            val period: Duration
-        ) : EnabledSyncPreferences(onlyWifi)
-
-    }
-
-}
+)
