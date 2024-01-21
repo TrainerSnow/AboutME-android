@@ -1,6 +1,5 @@
 package com.aboutme.feature.preferences.screen
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -147,6 +146,7 @@ private fun SyncCategory(
     onEvent: (PreferencesEvent) -> Unit
 ) {
     val isSyncEnabled = syncPreferences.syncOption != SyncOption.Not
+    val isPeriodicSync = syncPreferences.syncOption == SyncOption.Periodically
 
     Column(
         modifier = modifier
@@ -182,17 +182,14 @@ private fun SyncCategory(
             )
         }
 
-        AnimatedVisibility(
-            visible = isSyncEnabled
-        ) {
-            SyncPeriodPreference(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                period = syncPreferences.period.toSyncPeriod(),
-                onPeriodChange = {
-                    onEvent(PreferencesEvent.ChangeSyncPeriod(it))
-                }
-            )
-        }
+        SyncPeriodPreference(
+            modifier = Modifier
+                .fillMaxWidth(),
+            period = syncPreferences.period.toSyncPeriod(),
+            onPeriodChange = {
+                onEvent(PreferencesEvent.ChangeSyncPeriod(it))
+            },
+            enabled = isPeriodicSync
+        )
     }
 }
