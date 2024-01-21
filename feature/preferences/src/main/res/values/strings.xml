@@ -31,4 +31,6 @@
     <string name="sync_option_not">Not</string>
     <string name="sync_preferences_return">Return to the settings screen</string>
     <string name="preference_open_sync">Configure synchronization</string>
+    <string name="sync_category_auto">Auto synchronization</string>
+    <string name="sync_preferences_screen_title">Synchronization settings</string>
 </resources>

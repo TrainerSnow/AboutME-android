@@ -67,7 +67,7 @@ private fun SyncPreferencesScreen(
         TopAppBar(
             title = {
                 Text(
-                    text = stringResource(R.string.preferences_screen_title)
+                    text = stringResource(R.string.sync_preferences_screen_title)
                 )
             },
             navigationIcon = {
@@ -83,7 +83,7 @@ private fun SyncPreferencesScreen(
         )
         PreferenceDivider {
             Text(
-                text = stringResource(R.string.category_sync)
+                text = stringResource(R.string.sync_category_auto)
             )
         }
         SwitchPreference(
