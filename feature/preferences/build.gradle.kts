@@ -2,7 +2,7 @@ plugins {
     androidPlugins()
 }
 
-apply<AndroidComposeLibraryPlugin>()
+apply<AndroidFeaturePlugin>()
 
 android {
     namespace = "com.aboutme.feature.preferences"
