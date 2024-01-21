@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.aboutme.feature.preferences.screen.main.PreferencesScreen
+import com.aboutme.feature.preferences.screen.root.RootPreferencesScreen
 
 private const val PreferencesRoute = "preferences"
 
@@ -17,7 +17,7 @@ fun NavGraphBuilder.preferences(
     composable(
         route = PreferencesRoute
     ) {
-        PreferencesScreen(
+        RootPreferencesScreen(
             onReturn = onReturn
         )
     }
