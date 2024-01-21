@@ -1,5 +1,6 @@
 package com.aboutme.feature.preferences.screen.main
 
+import com.aboutme.core.data.repository.PreferencesRepository
 import com.aboutme.core.model.preferences.ColorMode
 import com.aboutme.core.model.preferences.ColorTheme
 import com.aboutme.core.model.preferences.SyncOption
@@ -9,11 +10,7 @@ internal sealed interface PreferencesEvent {
 
     data object Return: PreferencesEvent
 
-    data object ToggleSyncEnabled: PreferencesEvent
-
-    data class ChangeSyncOption(val syncOption: SyncOption): PreferencesEvent
-
-    data class ChangeSyncPeriod(val syncPeriod: SyncPeriod): PreferencesEvent
+    data object OpenSyncPreferences: PreferencesEvent
 
     data class ChangeColorTheme(val colorTheme: ColorTheme): PreferencesEvent
 
@@ -23,5 +20,7 @@ internal sealed interface PreferencesEvent {
 internal sealed interface PreferencesUiEvent {
 
     data object Return: PreferencesUiEvent
+
+    data object GoToSyncPreferences: PreferencesUiEvent
 
 }

@@ -19,22 +19,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aboutme.core.model.preferences.ColorMode
 import com.aboutme.core.model.preferences.ColorTheme
-import com.aboutme.core.model.preferences.SyncOption
-import com.aboutme.core.model.preferences.SyncPreferences
 import com.aboutme.core.model.preferences.UserPreferences
+import com.aboutme.core.ui.preferences.BasePreference
 import com.aboutme.core.ui.preferences.PopupPreference
 import com.aboutme.core.ui.preferences.PreferenceDivider
-import com.aboutme.core.ui.preferences.SwitchPreference
 import com.aboutme.feature.preferences.R
-import com.aboutme.feature.preferences.components.SyncPeriodPreference
 import com.aboutme.feature.preferences.model.localizedName
-import com.aboutme.feature.preferences.model.toSyncPeriod
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 internal fun PreferencesScreen(
     viewModel: PreferencesViewModel = hiltViewModel(),
-    onReturn: () -> Unit
+    onReturn: () -> Unit,
+    onGoToSyncPreferences: () -> Unit
 ) {
     val preferences by viewModel.preferences.collectAsStateWithLifecycle()
 
@@ -42,6 +39,7 @@ internal fun PreferencesScreen(
         viewModel.uiEvents.collectLatest {
             when (it) {
                 PreferencesUiEvent.Return -> onReturn()
+                PreferencesUiEvent.GoToSyncPreferences -> onGoToSyncPreferences()
             }
         }
     }
@@ -89,7 +87,6 @@ private fun PreferencesScreen(
         )
         SyncCategory(
             modifier = Modifier.fillMaxWidth(),
-            syncPreferences = preferences.syncPreferences,
             onEvent = onEvent
         )
     }
@@ -142,12 +139,8 @@ private fun VisualCategory(
 @Composable
 private fun SyncCategory(
     modifier: Modifier = Modifier,
-    syncPreferences: SyncPreferences,
     onEvent: (PreferencesEvent) -> Unit
 ) {
-    val isSyncEnabled = syncPreferences.syncOption != SyncOption.Not
-    val isPeriodicSync = syncPreferences.syncOption == SyncOption.Periodically
-
     Column(
         modifier = modifier
     ) {
@@ -156,40 +149,15 @@ private fun SyncCategory(
                 text = stringResource(R.string.category_sync)
             )
         }
-        SwitchPreference(
-            switched = isSyncEnabled,
-            onSwitchedChange = {
-                onEvent(PreferencesEvent.ToggleSyncEnabled)
-            },
+        BasePreference(
             title = {
                 Text(
-                    text = stringResource(R.string.preference_sync_enabled)
+                    text = stringResource(R.string.preference_open_sync)
                 )
+            },
+            onClick = {
+                onEvent(PreferencesEvent.OpenSyncPreferences)
             }
-        )
-
-        PopupPreference(
-            items = SyncOption.entries.filterNot { it == SyncOption.Not },
-            selectedItem = if (syncPreferences.syncOption == SyncOption.Not) SyncOption.OnEnter else syncPreferences.syncOption,
-            nameOf = { localizedName },
-            onSelect = {
-                onEvent(PreferencesEvent.ChangeSyncOption(it))
-            },
-            enabled = isSyncEnabled
-        ) {
-            Text(
-                text = stringResource(R.string.preference_sync_option)
-            )
-        }
-
-        SyncPeriodPreference(
-            modifier = Modifier
-                .fillMaxWidth(),
-            period = syncPreferences.period.toSyncPeriod(),
-            onPeriodChange = {
-                onEvent(PreferencesEvent.ChangeSyncPeriod(it))
-            },
-            enabled = isPeriodicSync
         )
     }
 }

@@ -30,4 +30,5 @@
     <string name="preference_color_mode">Color Mode</string>
     <string name="sync_option_not">Not</string>
     <string name="sync_preferences_return">Return to the settings screen</string>
+    <string name="preference_open_sync">Configure synchronization</string>
 </resources>

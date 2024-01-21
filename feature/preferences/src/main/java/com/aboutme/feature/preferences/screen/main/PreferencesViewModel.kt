@@ -3,8 +3,6 @@ package com.aboutme.feature.preferences.screen.main;
 import androidx.lifecycle.viewModelScope
 import com.aboutme.core.data.repository.PreferencesRepository
 import com.aboutme.core.domain.viewmodel.AboutMeViewModel
-import com.aboutme.core.model.preferences.SyncOption
-import com.aboutme.feature.preferences.model.toDuration
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -36,35 +34,12 @@ internal class PreferencesViewModel @Inject constructor(
                 preferencesRepos.updateColorTheme(event.colorTheme)
             }
 
-            is PreferencesEvent.ChangeSyncOption -> {
-                val newSyncPref = preferences.value?.syncPreferences?.copy(
-                    syncOption = event.syncOption
-                ) ?: return
-                viewModelScope.launch {
-                    preferencesRepos.updateSyncPreferences(newSyncPref)
-                }
-            }
-
-            is PreferencesEvent.ChangeSyncPeriod -> {
-                val newSyncPref = preferences.value?.syncPreferences?.copy(
-                    period = event.syncPeriod.toDuration()
-                ) ?: return
-                viewModelScope.launch {
-                    preferencesRepos.updateSyncPreferences(newSyncPref)
-                }
-            }
-
             PreferencesEvent.Return -> {
                 triggerUiEvent(PreferencesUiEvent.Return)
             }
-            PreferencesEvent.ToggleSyncEnabled -> {
-                val newSyncPref = preferences.value?.syncPreferences?.copy(
-                    syncOption = if (preferences.value?.syncPreferences?.syncOption != SyncOption.Not) SyncOption.Not
-                    else SyncOption.OnEnter
-                ) ?: return
-                viewModelScope.launch {
-                    preferencesRepos.updateSyncPreferences(newSyncPref)
-                }
+
+            PreferencesEvent.OpenSyncPreferences -> {
+                triggerUiEvent(PreferencesUiEvent.GoToSyncPreferences)
             }
         }
     }
