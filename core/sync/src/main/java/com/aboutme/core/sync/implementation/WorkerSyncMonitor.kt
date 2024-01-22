@@ -14,8 +14,7 @@ internal class WorkerSyncMonitor(
             .getWorkInfosByTagFlow(WorkerSyncController.SYNC_WORKER_TAG)
             .map {
                 it
-                    .firstOrNull()
-                    ?.state == WorkInfo.State.RUNNING
+                    .any { it.state == WorkInfo.State.RUNNING }
             }
 
 }

@@ -48,6 +48,7 @@ class HomeScreenViewModel @Inject constructor(
         HomeEvent.LogOut -> handleLogOut()
 
         HomeEvent.LogOutAll -> handleLogOutAll()
+        HomeEvent.GoToPreferences -> triggerUiEvent(HomeUiEvent.GoToPreferences)
     }
 
     private fun handleLogOut() {

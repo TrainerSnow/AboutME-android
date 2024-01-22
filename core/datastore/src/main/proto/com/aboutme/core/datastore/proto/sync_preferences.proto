@@ -7,14 +7,24 @@ option java_multiple_files = true;
 
 message SyncPreferencesProto {
 
+  //
+  // Modes
+  //
+
   bool not = 1;
 
   bool onEnter = 2;
 
   bool onChange = 3;
 
-  string duration = 4;
+  bool periodically = 4;
 
-  bool onlyWifi = 5;
+  //
+  // Misc. info
+  //
+
+  string duration = 5;
+
+  bool onlyWifi = 6;
 
 }

@@ -6,9 +6,12 @@ import com.aboutme.core.datastore.proto.SyncPreferencesProto
 import com.aboutme.core.datastore.proto.UserPreferencesProto
 import com.aboutme.core.model.preferences.ColorMode
 import com.aboutme.core.model.preferences.ColorTheme
+import com.aboutme.core.model.preferences.SyncOption
 import com.aboutme.core.model.preferences.SyncPreferences
 import com.aboutme.core.model.preferences.UserPreferences
 import kotlin.time.Duration
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 internal fun UserPreferencesProto.toModel() = UserPreferences(
     colorMode = colorMode.toModel(),
@@ -30,12 +33,15 @@ internal fun ColorThemeProto.toModel() = when (this) {
 }
 
 internal fun SyncPreferencesProto.toModel() =
-    if (not) SyncPreferences.Not
-    else if (onChange) SyncPreferences.EnabledSyncPreferences.OnChange(onlyWifi)
-    else if (onEnter) SyncPreferences.EnabledSyncPreferences.OnEnter(onEnter)
-    else if (duration != "") SyncPreferences.EnabledSyncPreferences.Periodically(
+    SyncPreferences(
         onlyWifi = onlyWifi,
-        period = Duration.parseOrNull(duration)
-            ?: throw IllegalStateException("Could not parse a 'SyncPreferencesProto' to the model version!")
+        period = duration.parseDuration(),
+        syncOption = if (not) SyncOption.Not
+        else if (onEnter) SyncOption.OnEnter
+        else if (onChange) SyncOption.OnChange
+        else if (periodically) SyncOption.Periodically
+        else SyncOption.Not
     )
-    else throw IllegalStateException("Could not parse a 'SyncPreferencesProto' to the model version!")
+
+private fun String.parseDuration() = Duration.parseOrNull(this)
+    ?: (5L).toDuration(DurationUnit.HOURS)

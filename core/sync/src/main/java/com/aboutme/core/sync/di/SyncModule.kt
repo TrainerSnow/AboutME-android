@@ -27,9 +27,8 @@ object SyncModule {
     @Singleton
     @Provides
     fun provideSyncController(
-        workManager: WorkManager,
-        syncStatusDao: SyncStatusDao
-    ): SyncController = WorkerSyncController(workManager, syncStatusDao)
+        workManager: WorkManager
+    ): SyncController = WorkerSyncController(workManager)
 
     @Singleton
     @Provides

@@ -6,4 +6,5 @@
     <string name="user_popup_logout_all">Log out all</string>
     <string name="user_popup_profile">Profile</string>
     <string name="sort">Sort list</string>
+    <string name="action_preferences">Go to the preferences screen</string>
 </resources>

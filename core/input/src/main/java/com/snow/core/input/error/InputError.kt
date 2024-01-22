@@ -43,6 +43,10 @@ enum class InputError(
     /**
      * The entered value does not match the email of the account
      */
-    EmailConfirmationNotMatch(R.string.error_email_confirmation_not_match)
+    EmailConfirmationNotMatch(R.string.error_email_confirmation_not_match),
+
+    InvalidIntegerLiteral(R.string.error_invalid_integegr),
+
+    SyncPeriodTooShort(R.string.error_sync_period_short),
 
 }

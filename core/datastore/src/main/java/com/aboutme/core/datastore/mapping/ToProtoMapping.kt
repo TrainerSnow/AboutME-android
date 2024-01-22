@@ -5,6 +5,7 @@ import com.aboutme.core.datastore.proto.ColorThemeProto
 import com.aboutme.core.datastore.proto.SyncPreferencesProto
 import com.aboutme.core.model.preferences.ColorMode
 import com.aboutme.core.model.preferences.ColorTheme
+import com.aboutme.core.model.preferences.SyncOption
 import com.aboutme.core.model.preferences.SyncPreferences
 
 fun ColorTheme.toProto() = when (this) {
@@ -18,12 +19,12 @@ fun ColorMode.toProto() = when (this) {
     ColorMode.System -> ColorModeProto.System
 }
 
-fun SyncPreferences.toProto() = SyncPreferencesProto
+fun SyncPreferences.toProto(): SyncPreferencesProto = SyncPreferencesProto
     .newBuilder()
-    .setNot(this is SyncPreferences.Not)
-    .setDuration(
-        (this as? SyncPreferences.EnabledSyncPreferences.Periodically)?.period?.toString() ?: ""
-    )
-    .setOnChange(this is SyncPreferences.EnabledSyncPreferences.OnChange)
-    .setOnEnter(this is SyncPreferences.EnabledSyncPreferences.OnEnter)
-    .setOnlyWifi((this as? SyncPreferences.EnabledSyncPreferences)?.onlyWifi ?: false)
+    .setNot(syncOption == SyncOption.Not)
+    .setDuration(period.toString())
+    .setOnChange(syncOption == SyncOption.OnChange)
+    .setOnEnter(syncOption == SyncOption.OnEnter)
+    .setOnlyWifi(onlyWifi)
+    .setPeriodically(syncOption == SyncOption.Periodically)
+    .build()

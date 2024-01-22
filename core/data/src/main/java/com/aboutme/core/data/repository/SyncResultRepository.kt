@@ -19,4 +19,9 @@ interface SyncResultRepository {
      */
     fun getByStarted(started: Instant): Flow<SyncResult?>
 
+    /**
+     * Gets the most recently finished sync result
+     */
+    fun getMostRecent(): Flow<SyncResult?>
+
 }

@@ -7,4 +7,6 @@
     <string name="error_name_empty">The name can\'t be empty</string>
     <string name="error_invalid_credential">The entered credentials are invalid</string>
     <string name="error_email_confirmation_not_match">The entered email address does not matche the email address of you account</string>
+    <string name="error_invalid_integegr">The input must be a valid integer number.</string>
+    <string name="error_sync_period_short">The entered period must be at least 16 Minutes long.</string>
 </resources>

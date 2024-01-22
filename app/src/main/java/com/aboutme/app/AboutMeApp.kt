@@ -10,16 +10,20 @@ import androidx.compose.material3.adaptive.navigation.suite.NavigationSuiteScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import com.aboutme.feature.home.navigation.HomeRoute
 import com.aboutme.feature.home.navigation.home
+import com.aboutme.feature.preferences.navigation.navigateToPreferences
 import com.aboutme.navigation.TopLevelDestinations
 import com.aboutme.profile.navigation.navigateToProfile
 
 @OptIn(ExperimentalMaterial3AdaptiveNavigationSuiteApi::class)
 @Composable
 internal fun AboutMeApp(
+    //For now only exists so that the init { } block is executed
+    viewModel: AboutMeAppViewModel = hiltViewModel(),
     appState: AboutMeAppState
 ) {
     val selected = appState.currentTopLevelDestination
@@ -40,7 +44,8 @@ internal fun AboutMeApp(
             ) {
                 appNavGraph(
                     navigateToAuth = appState::returnToAuth,
-                    goToProfile = appState.mainNavController::navigateToProfile
+                    goToProfile = appState.mainNavController::navigateToProfile,
+                    onGoToPreferences = appState.mainNavController::navigateToPreferences
                 )
             }
         }
@@ -75,11 +80,13 @@ private fun NavigationSuiteScope.aboutMeNavItems(
 
 private fun NavGraphBuilder.appNavGraph(
     navigateToAuth: () -> Unit,
-    goToProfile: () -> Unit
+    goToProfile: () -> Unit,
+    onGoToPreferences: () -> Unit
 ) {
     home(
         onAuthError = navigateToAuth,
         onLogOut = navigateToAuth,
-        onGoToProfile = goToProfile
+        onGoToProfile = goToProfile,
+        onGoToPreferences = onGoToPreferences
     )
 }

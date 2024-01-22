@@ -12,7 +12,8 @@ fun NavController.navigateToHome() = navigate(HomeRoute)
 fun NavGraphBuilder.home(
     onAuthError: () -> Unit,
     onLogOut: () -> Unit,
-    onGoToProfile: () -> Unit
+    onGoToProfile: () -> Unit,
+    onGoToPreferences: () -> Unit
 ) {
     composable(
         route = HomeRoute
@@ -20,7 +21,8 @@ fun NavGraphBuilder.home(
         HomeScreen(
             onAuthError = onAuthError,
             onLogOut = onLogOut,
-            onGoToProfile = onGoToProfile
+            onGoToProfile = onGoToProfile,
+            onGoToPreferences = onGoToPreferences
         )
     }
 }

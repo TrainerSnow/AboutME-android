@@ -3,7 +3,6 @@ package com.aboutme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -26,6 +25,7 @@ import com.aboutme.core.ui.theme.AboutMeTheme
 import com.aboutme.feature.auth.navigation.AuthRoute
 import com.aboutme.feature.auth.navigation.authentication
 import com.aboutme.feature.auth.navigation.navigateToAuth
+import com.aboutme.feature.preferences.navigation.preferences
 import com.aboutme.navigation.AppRoute
 import com.aboutme.navigation.app
 import com.aboutme.navigation.navigateToApp
@@ -84,6 +84,9 @@ class MainActivity : ComponentActivity() {
                                     onGoToAuth = navController::navigateToAuth,
                                     onGoToChangeEmail = { TODO() },
                                     onGoToResetPassword = { TODO() },
+                                    onReturn = navController::popBackStack
+                                )
+                                preferences(
                                     onReturn = navController::popBackStack
                                 )
                             }
