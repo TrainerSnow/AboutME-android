@@ -39,7 +39,6 @@ internal class WorkerSyncController(
             .addTag(SYNC_WORKER_TAG)
             .setId(id)
             .setInitialDelay((10L).toDuration(DurationUnit.SECONDS).toJavaDuration())
-            .setConstraints(Constraints(requiredNetworkType = NetworkType.NOT_ROAMING))
             .build()
 
         workManager.enqueueUniquePeriodicWork(
