@@ -39,7 +39,7 @@ internal fun SyncPreferencesProto.toModel() =
         syncOption = if (not) SyncOption.Not
         else if (onEnter) SyncOption.OnEnter
         else if (onChange) SyncOption.OnChange
-        else if (duration != null) SyncOption.Periodically
+        else if (periodically) SyncOption.Periodically
         else SyncOption.Not
     )
 

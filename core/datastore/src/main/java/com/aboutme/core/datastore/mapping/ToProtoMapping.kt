@@ -26,4 +26,5 @@ fun SyncPreferences.toProto(): SyncPreferencesProto = SyncPreferencesProto
     .setOnChange(syncOption == SyncOption.OnChange)
     .setOnEnter(syncOption == SyncOption.OnEnter)
     .setOnlyWifi(onlyWifi)
+    .setPeriodically(syncOption == SyncOption.Periodically)
     .build()
