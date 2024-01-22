@@ -60,6 +60,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:data"))
     implementation(project(":core:auth"))
+    implementation(project(":core:sync"))
 
     implementation(libs.compose.activity)
     implementation(libs.android.ui)
@@ -73,6 +74,7 @@ dependencies {
     implementation(libs.material.windowsizeclass)
 
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
     kapt(libs.hilt.compiler)
 
     implementation(libs.android.work)

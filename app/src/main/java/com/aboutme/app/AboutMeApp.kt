@@ -10,6 +10,7 @@ import androidx.compose.material3.adaptive.navigation.suite.NavigationSuiteScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import com.aboutme.feature.home.navigation.HomeRoute
@@ -21,6 +22,8 @@ import com.aboutme.profile.navigation.navigateToProfile
 @OptIn(ExperimentalMaterial3AdaptiveNavigationSuiteApi::class)
 @Composable
 internal fun AboutMeApp(
+    //For now only exists so that the init { } block is executed
+    viewModel: AboutMeAppViewModel = hiltViewModel(),
     appState: AboutMeAppState
 ) {
     val selected = appState.currentTopLevelDestination
