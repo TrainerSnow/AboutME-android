@@ -54,8 +54,11 @@ internal class WorkerSyncController(
 
     //TODO: In user preferences, allow to change for only wifi
     override suspend fun schedulePeriodically(hours: Long) {
+        val id = UUID.randomUUID()
+
         val request = PeriodicWorkRequestBuilder<SyncWorker>(Duration.ofHours(hours))
             .addTag(SYNC_WORKER_TAG)
+            .setId(id)
             .setConstraints(Constraints(requiredNetworkType = NetworkType.NOT_ROAMING))
             .build()
 
@@ -64,6 +67,19 @@ internal class WorkerSyncController(
             ExistingPeriodicWorkPolicy.UPDATE,
             request
         )
+
+        workManager.getWorkInfoByIdFlow(id).collectLatest {
+            if (it.state == WorkInfo.State.FAILED) {
+                val json =
+                    it.outputData.getString(SyncWorker.OUTPUT_DATA_KEY) ?: return@collectLatest
+                saveAuthError(json)
+            }
+            if (it.state == WorkInfo.State.SUCCEEDED) {
+                val json =
+                    it.outputData.getString(SyncWorker.OUTPUT_DATA_KEY) ?: return@collectLatest
+                saveSuccess(json)
+            }
+        }
     }
 
     override suspend fun unscheduleAll() {
@@ -77,7 +93,8 @@ internal class WorkerSyncController(
             return
         }
 
-        val entity = SyncStatusEntity(Instant.ofEpochSecond(dto.start), Instant.ofEpochSecond(dto.end), 3)
+        val entity =
+            SyncStatusEntity(Instant.ofEpochSecond(dto.start), Instant.ofEpochSecond(dto.end), 3)
         syncStatusDao.insert(entity)
     }
 
@@ -88,7 +105,8 @@ internal class WorkerSyncController(
             return
         }
 
-        val statusEntity = SyncStatusEntity(Instant.ofEpochSecond(dto.start), Instant.ofEpochSecond(dto.end), 1)
+        val statusEntity =
+            SyncStatusEntity(Instant.ofEpochSecond(dto.start), Instant.ofEpochSecond(dto.end), 1)
         val dataEntity = SyncResultData(
             null,
             statusEntity.startedAt,
