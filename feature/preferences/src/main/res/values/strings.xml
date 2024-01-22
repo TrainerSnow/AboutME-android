@@ -45,4 +45,6 @@
     <string name="preference_sync_period_summary">Adjust how often your data should be synchronized with the server.</string>
     <string name="preference_sync_period_value">Value</string>
     <string name="preference_sync_period_unit">Unit</string>
+    <string name="sync_result_list_title">Sync results</string>
+    <string name="sync_result_list_return">Return</string>
 </resources>

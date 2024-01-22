@@ -7,6 +7,7 @@ import com.aboutme.feature.preferences.navigation.MainPreferencesRoute
 import com.aboutme.feature.preferences.navigation.mainPreferences
 import com.aboutme.feature.preferences.navigation.navigateToSyncPreferences
 import com.aboutme.feature.preferences.navigation.syncPreferences
+import com.aboutme.feature.preferences.navigation.syncResultFeed
 
 @Composable
 internal fun RootPreferencesScreen(
@@ -20,5 +21,11 @@ internal fun RootPreferencesScreen(
     ) {
         mainPreferences(onReturn, navController::navigateToSyncPreferences)
         syncPreferences(navController::popBackStack)
+        syncResultFeed(
+            onReturn = navController::popBackStack,
+            onGoToDetail = {
+
+            }
+        )
     }
 }
