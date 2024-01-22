@@ -52,7 +52,6 @@ internal class WorkerSyncController(
         }
     }
 
-    //TODO: In user preferences, allow to change for only wifi
     override suspend fun schedulePeriodically(hours: Long) {
         val id = UUID.randomUUID()
 
