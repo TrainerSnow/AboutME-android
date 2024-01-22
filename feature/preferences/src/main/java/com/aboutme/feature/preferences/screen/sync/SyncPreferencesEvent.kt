@@ -20,10 +20,14 @@ internal sealed interface SyncPreferencesEvent {
 
     data object Return : SyncPreferencesEvent
 
+    data object GoToSyncResultFeed : SyncPreferencesEvent
+
 }
 
 internal sealed interface SyncPreferencesUiEvent {
 
     data object Return : SyncPreferencesUiEvent
+
+    data object GoToSyncResultFeed : SyncPreferencesUiEvent
 
 }

@@ -47,4 +47,7 @@
     <string name="preference_sync_period_unit">Unit</string>
     <string name="sync_result_list_title">Sync results</string>
     <string name="sync_result_list_return">Return</string>
+    <string name="sync_category_logs">Synchronization logs</string>
+    <string name="sync_preferences_log_title">View synchronization logs</string>
+    <string name="sync_preferences_log_summary">Get more insights on when your data is synchronized and when an error happened.</string>
 </resources>

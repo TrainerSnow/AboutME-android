@@ -92,6 +92,10 @@ internal class SyncPreferencesViewModel @Inject constructor(
                     syncController.syncNow()
                 }
             }
+
+            SyncPreferencesEvent.GoToSyncResultFeed -> {
+                triggerUiEvent(SyncPreferencesUiEvent.GoToSyncResultFeed)
+            }
         }
     }
 

@@ -12,13 +12,15 @@ internal fun NavController.navigateToSyncPreferences(navOptions: NavOptions? = n
     navigate(SyncPreferencesRoute, navOptions)
 
 internal fun NavGraphBuilder.syncPreferences(
-    onReturn: () -> Unit
+    onReturn: () -> Unit,
+    onGoToSyncResultFeed: () -> Unit
 ) {
     composable(
         route = SyncPreferencesRoute
     ) {
         SyncPreferencesScreen(
-            onReturn = onReturn
+            onReturn = onReturn,
+            onGoToSyncResultFeed = onGoToSyncResultFeed
         )
     }
 }
