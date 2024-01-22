@@ -157,7 +157,7 @@ private fun SyncPreferencesScreen(
             onPeriodChange = {
                 onEvent(SyncPreferencesEvent.ChangeSyncPeriod(it))
             },
-            enabled = isPeriodicallyEnabled && !isSyncing
+            enabled = !isSyncing && isPeriodicallyEnabled
         )
     }
 }

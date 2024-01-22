@@ -13,11 +13,8 @@
     <string name="sync_periodic_unit_days">Days</string>
     <string name="sync_periodic_unit_weeks">Weeks</string>
     <string name="preference_sync_period">Synchronization period</string>
-    <string name="preference_sync_period_subtitle">Set how often your data should be synchronized with the server.</string>
-    <string name="preference_sync_period_1">Synchronize every</string>
-    <string name="preference_sync_period_2" />
+    <string name="preference_sync_period_subtitle">Every %s %s</string>
     <string name="preference_sync_period_expand_unit">Expand</string>
-    <string name="preference_sync_period_3" />
     <string name="preference_sync_period_error_format">Please enter only valid numbers</string>
     <string name="preference_sync_period_error_small">The period must be bigger than 15 minutes.</string>
     <string name="category_visuals">Design</string>
@@ -43,4 +40,9 @@
     <string name="sync_preferences_relogin">Relogin now</string>
     <string name="sync_preferences_recent_sync_more">More info</string>
     <string name="sync_preferences_screen_title_syncing">Currently synchronizing…</string>
+    <string name="preference_sync_period_confirm">Confirm</string>
+    <string name="preference_sync_period_dismiss">Cancel</string>
+    <string name="preference_sync_period_summary">Adjust how often your data should be synchronized with the server.</string>
+    <string name="preference_sync_period_value">Value</string>
+    <string name="preference_sync_period_unit">Unit</string>
 </resources>

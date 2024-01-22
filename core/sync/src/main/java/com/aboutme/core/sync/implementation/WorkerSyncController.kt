@@ -50,7 +50,7 @@ internal class WorkerSyncController(
     }
 
     override suspend fun unscheduleAll() {
-        workManager.cancelAllWorkByTag(SYNC_WORKER_TAG)
+        workManager.cancelAllWork()
     }
 
     companion object {
