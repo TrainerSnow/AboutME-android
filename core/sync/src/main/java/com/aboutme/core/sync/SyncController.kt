@@ -13,9 +13,9 @@ interface SyncController {
     /**
      * Schedules a synchronization periodically
      *
-     * @param hours The period in hours
+     * @param minutes The period in minutes
      */
-    suspend fun schedulePeriodically(hours: Long)
+    suspend fun schedulePeriodically(minutes: Long)
 
     /**
      * Unschedules all currently scheduled

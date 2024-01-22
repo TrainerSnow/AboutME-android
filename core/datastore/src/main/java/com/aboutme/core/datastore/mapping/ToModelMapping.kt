@@ -39,7 +39,8 @@ internal fun SyncPreferencesProto.toModel() =
         syncOption = if (not) SyncOption.Not
         else if (onEnter) SyncOption.OnEnter
         else if (onChange) SyncOption.OnChange
-        else SyncOption.Periodically
+        else if (duration != null) SyncOption.Periodically
+        else SyncOption.Not
     )
 
 private fun String.parseDuration() = Duration.parseOrNull(this)

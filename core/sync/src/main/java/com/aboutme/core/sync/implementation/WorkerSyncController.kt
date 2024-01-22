@@ -52,10 +52,11 @@ internal class WorkerSyncController(
         }
     }
 
-    override suspend fun schedulePeriodically(hours: Long) {
+    override suspend fun schedulePeriodically(minutes: Long) {
         val id = UUID.randomUUID()
+        require(minutes > 15)
 
-        val request = PeriodicWorkRequestBuilder<SyncWorker>(Duration.ofHours(hours))
+        val request = PeriodicWorkRequestBuilder<SyncWorker>(Duration.ofMinutes(minutes))
             .addTag(SYNC_WORKER_TAG)
             .setId(id)
             .setConstraints(Constraints(requiredNetworkType = NetworkType.NOT_ROAMING))

@@ -5,6 +5,7 @@ import com.aboutme.core.data.repository.PreferencesRepository
 import com.aboutme.core.data.repository.SyncResultRepository
 import com.aboutme.core.domain.viewmodel.AboutMeViewModel
 import com.aboutme.core.model.preferences.SyncOption
+import com.aboutme.core.model.preferences.SyncPreferences
 import com.aboutme.core.sync.SyncController
 import com.aboutme.core.sync.SyncMonitor
 import com.aboutme.feature.preferences.model.toDuration
@@ -51,6 +52,9 @@ internal class SyncPreferencesViewModel @Inject constructor(
                 ) ?: return
                 viewModelScope.launch {
                     prefRepo.updateSyncPreferences(newSyncPref)
+                    syncPrefs.value?.let {
+                        adjustSyncForNewPrefs(it)
+                    }
                 }
             }
 
@@ -60,6 +64,10 @@ internal class SyncPreferencesViewModel @Inject constructor(
                 ) ?: return
                 viewModelScope.launch {
                     prefRepo.updateSyncPreferences(newSyncPref)
+
+                    syncPrefs.value?.let {
+                        adjustSyncForNewPrefs(it)
+                    }
                 }
             }
 
@@ -84,6 +92,14 @@ internal class SyncPreferencesViewModel @Inject constructor(
                     syncController.syncNow()
                 }
             }
+        }
+    }
+
+    private suspend fun adjustSyncForNewPrefs(newPrefs: SyncPreferences) {
+        syncController.unscheduleAll()
+        when (newPrefs.syncOption) {
+            SyncOption.Periodically -> syncController.schedulePeriodically(newPrefs.period.inWholeMinutes)
+            else -> {}
         }
     }
 
