@@ -45,4 +45,9 @@
     <string name="sortdirection_none">None</string>
     <string name="sortsection_title">Sort configuration:</string>
     <string name="sort_dialog_title">Select sort</string>
+    <string name="sync_result_feed_error_headline">Failed at %s</string>
+    <string name="sync_result_feed_error_supporting">Synchronization failed because your account could not be authorized. Relogin to fix this issue.</string>
+    <string name="sync_result_feed_success_headline">Success at %s</string>
+    <string name="sync_result_feed_success_supporting">The synchronization finished successfully. Click for more information.</string>
+    <string name="sync_result_feed_success_timing">Took %s</string>
 </resources>
