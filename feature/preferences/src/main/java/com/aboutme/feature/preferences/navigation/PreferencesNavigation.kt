@@ -12,13 +12,15 @@ fun NavController.navigateToPreferences(navOptions: NavOptions? = null) =
     navigate(PreferencesRoute, navOptions)
 
 fun NavGraphBuilder.preferences(
-    onReturn: () -> Unit
+    onReturn: () -> Unit,
+    onGoToAuth: () -> Unit
 ) {
     composable(
         route = PreferencesRoute
     ) {
         RootPreferencesScreen(
-            onReturn = onReturn
+            onReturn = onReturn,
+            onGoToAuth = onGoToAuth
         )
     }
 }

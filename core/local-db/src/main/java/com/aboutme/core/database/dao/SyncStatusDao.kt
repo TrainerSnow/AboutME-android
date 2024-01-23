@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SyncStatusDao {
 
-    @Query("SELECT * FROM sync_status_entity")
+    @Query("SELECT * FROM sync_status_entity ORDER BY sync_status_entity.startedAt DESC")
     fun getAll(): Flow<List<SyncStatusEntity>>
 
-    @Query("SELECT * FROM sync_status_entity")
+    @Query("SELECT * FROM sync_status_entity ORDER BY sync_status_entity.startedAt DESC")
     @Transaction
     fun getAllWithResult(): Flow<List<SyncStatusWithResult>>
 

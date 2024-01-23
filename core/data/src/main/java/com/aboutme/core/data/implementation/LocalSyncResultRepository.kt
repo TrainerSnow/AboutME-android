@@ -33,11 +33,9 @@ internal class LocalSyncResultRepository(
     override fun getMostRecent(): Flow<SyncResult?> = syncResultDao
         .getAllWithResult()
         .map {
-            val recent = it
-                .sortedBy { it.syncStatus.finishedAt }
-                .lastOrNull()
+            val recent = it.maxByOrNull { it.syncStatus.finishedAt }
 
-            if (recent?.syncResult == null) null
+            if (recent == null) null
             else (recent.syncStatus to recent.syncResult).toSyncResult()
         }
 

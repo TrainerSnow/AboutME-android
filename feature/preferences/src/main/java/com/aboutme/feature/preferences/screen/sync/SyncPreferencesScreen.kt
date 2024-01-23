@@ -26,6 +26,7 @@ import com.aboutme.core.model.preferences.SyncOption
 import com.aboutme.core.model.preferences.SyncPreferences
 import com.aboutme.core.model.sync.SyncResult
 import com.aboutme.core.model.sync.SyncTrafficInfo
+import com.aboutme.core.ui.preferences.BasePreference
 import com.aboutme.core.ui.preferences.PopupPreference
 import com.aboutme.core.ui.preferences.PreferenceDivider
 import com.aboutme.core.ui.preferences.SwitchPreference
@@ -42,7 +43,10 @@ import kotlin.time.toDuration
 @Composable
 internal fun SyncPreferencesScreen(
     viewModel: SyncPreferencesViewModel = hiltViewModel(),
-    onReturn: () -> Unit
+    onReturn: () -> Unit,
+    onGoToSyncResultFeed: () -> Unit,
+    onGoToAuth: () -> Unit,
+    onGoToSyncDetail: (SyncResult.Success) -> Unit
 ) {
     val syncPrefs by viewModel.syncPrefs.collectAsStateWithLifecycle()
     val syncState by viewModel.syncState.collectAsStateWithLifecycle()
@@ -51,6 +55,9 @@ internal fun SyncPreferencesScreen(
         viewModel.uiEvents.collectLatest {
             when (it) {
                 SyncPreferencesUiEvent.Return -> onReturn()
+                SyncPreferencesUiEvent.GoToSyncResultFeed -> onGoToSyncResultFeed()
+                SyncPreferencesUiEvent.GoToAuth -> onGoToAuth()
+                is SyncPreferencesUiEvent.GoToSyncResultInfo -> onGoToSyncDetail(it.syncResult)
             }
         }
     }
@@ -158,6 +165,29 @@ private fun SyncPreferencesScreen(
                 onEvent(SyncPreferencesEvent.ChangeSyncPeriod(it))
             },
             enabled = !isSyncing && isPeriodicallyEnabled
+        )
+
+        PreferenceDivider {
+            Text(
+                text = stringResource(R.string.sync_category_logs)
+            )
+        }
+        BasePreference(
+            modifier = Modifier
+                .fillMaxWidth(),
+            title = {
+                Text(
+                    text = stringResource(R.string.sync_preferences_log_title)
+                )
+            },
+            subtitle = {
+                Text(
+                    text = stringResource(R.string.sync_preferences_log_summary)
+                )
+            },
+            onClick = {
+                onEvent(SyncPreferencesEvent.GoToSyncResultFeed)
+            }
         )
     }
 }

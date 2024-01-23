@@ -2,6 +2,7 @@ package com.aboutme.feature.auth.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -26,14 +27,26 @@ internal fun AuthNavigationRoot(
         signUpRoute(
             onContinue = onAuthenticate,
             onGoToLogIn = {
-                navController.navigate(RouteLogIn)
+                //We replace the signup screen with the login screen
+                navController.navigate(
+                    RouteLogIn,
+                    NavOptions.Builder()
+                        .setPopUpTo(RouteSignUp, true)
+                        .build()
+                )
             }
         )
 
         logInRoute(
             onContinue = onAuthenticate,
             onGoToSignUp = {
-                navController.navigate(RouteSignUp)
+                //We replace the login screen with the signup screen
+                navController.navigate(
+                    RouteSignUp,
+                    NavOptions.Builder()
+                        .setPopUpTo(RouteLogIn, true)
+                        .build()
+                )
             }
         )
     }

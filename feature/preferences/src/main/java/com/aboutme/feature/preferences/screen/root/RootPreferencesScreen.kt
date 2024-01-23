@@ -6,11 +6,14 @@ import androidx.navigation.compose.rememberNavController
 import com.aboutme.feature.preferences.navigation.MainPreferencesRoute
 import com.aboutme.feature.preferences.navigation.mainPreferences
 import com.aboutme.feature.preferences.navigation.navigateToSyncPreferences
+import com.aboutme.feature.preferences.navigation.navigateToSyncResultFeed
 import com.aboutme.feature.preferences.navigation.syncPreferences
+import com.aboutme.feature.preferences.navigation.syncResultFeed
 
 @Composable
 internal fun RootPreferencesScreen(
-    onReturn: () -> Unit
+    onReturn: () -> Unit,
+    onGoToAuth: () -> Unit
 ) {
     val navController = rememberNavController()
 
@@ -19,6 +22,19 @@ internal fun RootPreferencesScreen(
         startDestination = MainPreferencesRoute
     ) {
         mainPreferences(onReturn, navController::navigateToSyncPreferences)
-        syncPreferences(navController::popBackStack)
+        syncPreferences(
+            onReturn = navController::popBackStack,
+            onGoToSyncResultFeed = navController::navigateToSyncResultFeed,
+            onGoToAuth = onGoToAuth,
+            onGoToSyncDetail = {
+
+            }
+        )
+        syncResultFeed(
+            onReturn = navController::popBackStack,
+            onGoToDetail = {
+
+            }
+        )
     }
 }

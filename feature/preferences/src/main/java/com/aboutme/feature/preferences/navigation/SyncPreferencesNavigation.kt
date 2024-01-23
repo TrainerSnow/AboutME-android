@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.aboutme.core.model.sync.SyncResult
 import com.aboutme.feature.preferences.screen.sync.SyncPreferencesScreen
 
 internal const val SyncPreferencesRoute = "sync_preferences"
@@ -12,13 +13,19 @@ internal fun NavController.navigateToSyncPreferences(navOptions: NavOptions? = n
     navigate(SyncPreferencesRoute, navOptions)
 
 internal fun NavGraphBuilder.syncPreferences(
-    onReturn: () -> Unit
+    onReturn: () -> Unit,
+    onGoToSyncResultFeed: () -> Unit,
+    onGoToAuth: () -> Unit,
+    onGoToSyncDetail: (SyncResult.Success) -> Unit
 ) {
     composable(
         route = SyncPreferencesRoute
     ) {
         SyncPreferencesScreen(
-            onReturn = onReturn
+            onReturn = onReturn,
+            onGoToSyncResultFeed = onGoToSyncResultFeed,
+            onGoToAuth = onGoToAuth,
+            onGoToSyncDetail = onGoToSyncDetail
         )
     }
 }
