@@ -77,7 +77,12 @@ class MainActivity : ComponentActivity() {
                                 )
                                 authentication(
                                     onAuthenticate = {
-                                        navController.navigateToApp()
+                                        val isOverlay = navController.previousBackStackEntry != null
+                                        if(isOverlay) {
+                                            navController.popBackStack()
+                                        } else {
+                                            navController.navigateToApp()
+                                        }
                                     }
                                 )
                                 profile(
