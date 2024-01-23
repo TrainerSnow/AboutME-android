@@ -14,7 +14,7 @@ internal sealed interface SyncPreferencesEvent {
 
     data object SyncNow : SyncPreferencesEvent
 
-    data class SyncInfo(val syncResult: SyncResult) : SyncPreferencesEvent
+    data class SyncInfo(val syncResult: SyncResult.Success) : SyncPreferencesEvent
 
     data object ToggleSyncEnabled : SyncPreferencesEvent
 
@@ -29,5 +29,9 @@ internal sealed interface SyncPreferencesUiEvent {
     data object Return : SyncPreferencesUiEvent
 
     data object GoToSyncResultFeed : SyncPreferencesUiEvent
+
+    data object GoToAuth : SyncPreferencesUiEvent
+
+    data class GoToSyncResultInfo(val syncResult: SyncResult.Success): SyncPreferencesUiEvent
 
 }

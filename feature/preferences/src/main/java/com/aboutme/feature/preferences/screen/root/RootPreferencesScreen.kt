@@ -12,7 +12,8 @@ import com.aboutme.feature.preferences.navigation.syncResultFeed
 
 @Composable
 internal fun RootPreferencesScreen(
-    onReturn: () -> Unit
+    onReturn: () -> Unit,
+    onGoToAuth: () -> Unit
 ) {
     val navController = rememberNavController()
 
@@ -23,7 +24,11 @@ internal fun RootPreferencesScreen(
         mainPreferences(onReturn, navController::navigateToSyncPreferences)
         syncPreferences(
             onReturn = navController::popBackStack,
-            onGoToSyncResultFeed = navController::navigateToSyncResultFeed
+            onGoToSyncResultFeed = navController::navigateToSyncResultFeed,
+            onGoToAuth = onGoToAuth,
+            onGoToSyncDetail = {
+
+            }
         )
         syncResultFeed(
             onReturn = navController::popBackStack,

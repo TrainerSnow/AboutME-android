@@ -44,7 +44,9 @@ import kotlin.time.toDuration
 internal fun SyncPreferencesScreen(
     viewModel: SyncPreferencesViewModel = hiltViewModel(),
     onReturn: () -> Unit,
-    onGoToSyncResultFeed: () -> Unit
+    onGoToSyncResultFeed: () -> Unit,
+    onGoToAuth: () -> Unit,
+    onGoToSyncDetail: (SyncResult.Success) -> Unit
 ) {
     val syncPrefs by viewModel.syncPrefs.collectAsStateWithLifecycle()
     val syncState by viewModel.syncState.collectAsStateWithLifecycle()
@@ -54,6 +56,8 @@ internal fun SyncPreferencesScreen(
             when (it) {
                 SyncPreferencesUiEvent.Return -> onReturn()
                 SyncPreferencesUiEvent.GoToSyncResultFeed -> onGoToSyncResultFeed()
+                SyncPreferencesUiEvent.GoToAuth -> onGoToAuth()
+                is SyncPreferencesUiEvent.GoToSyncResultInfo -> onGoToSyncDetail(it.syncResult)
             }
         }
     }
@@ -171,7 +175,7 @@ private fun SyncPreferencesScreen(
         BasePreference(
             modifier = Modifier
                 .fillMaxWidth(),
-            title =  {
+            title = {
                 Text(
                     text = stringResource(R.string.sync_preferences_log_title)
                 )

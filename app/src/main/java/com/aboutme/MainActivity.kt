@@ -87,7 +87,8 @@ class MainActivity : ComponentActivity() {
                                     onReturn = navController::popBackStack
                                 )
                                 preferences(
-                                    onReturn = navController::popBackStack
+                                    onReturn = navController::popBackStack,
+                                    onGoToAuth = navController::navigateToAuth
                                 )
                             }
                         }

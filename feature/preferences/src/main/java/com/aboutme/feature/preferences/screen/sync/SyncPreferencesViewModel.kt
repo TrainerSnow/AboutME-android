@@ -85,8 +85,12 @@ internal class SyncPreferencesViewModel @Inject constructor(
                 }
             }
 
-            SyncPreferencesEvent.GoToAuth -> TODO()
-            is SyncPreferencesEvent.SyncInfo -> TODO()
+            SyncPreferencesEvent.GoToAuth -> {
+                triggerUiEvent(SyncPreferencesUiEvent.GoToAuth)
+            }
+            is SyncPreferencesEvent.SyncInfo -> {
+                triggerUiEvent(SyncPreferencesUiEvent.GoToSyncResultInfo(event.syncResult))
+            }
             SyncPreferencesEvent.SyncNow -> {
                 viewModelScope.launch {
                     syncController.syncNow()
