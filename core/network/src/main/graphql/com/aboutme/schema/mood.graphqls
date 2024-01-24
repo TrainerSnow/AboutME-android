@@ -2,7 +2,6 @@
 Input that bundles the data needed to create a mood data
 """
 input MoodDataInput {
-
     mood: Float
 
     moodMorning: Float

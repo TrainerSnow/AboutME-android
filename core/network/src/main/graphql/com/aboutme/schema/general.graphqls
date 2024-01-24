@@ -2,7 +2,7 @@
 A user that was created
 """
 type User {
-    id: Long!
+    id: UUID!
 
     email: String!
 
@@ -19,7 +19,7 @@ type User {
 Stores information about the naming preference of a user
 """
 type NameInfo {
-    id: Long!
+    id: UUID!
 
     firstName: String!
 

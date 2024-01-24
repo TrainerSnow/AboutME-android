@@ -7,6 +7,8 @@ scalar Long
 
 scalar Instant
 
+scalar UUID
+
 """
 Base query type
 """
