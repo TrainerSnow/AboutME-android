@@ -40,12 +40,11 @@ class ApolloMoodDataSource(
         insert(id, dto, token)
     }
 
-    override suspend fun insert(id: LocalDate, dto: MoodDataDto, token: String) {
-        client
-            .mutation(AddOrUpdateMoodDataMutation(dto.toInput()))
-            .authentication(token)
-            .execute()
-    }
+    override suspend fun insert(id: LocalDate, dto: MoodDataDto, token: String) = client
+        .mutation(AddOrUpdateMoodDataMutation(dto.toInput()))
+        .authentication(token)
+        .execute()
+        .mapResponse { it.addMoodData.moodDataFragment.date }
 
 
 }

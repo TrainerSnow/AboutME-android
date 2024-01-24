@@ -7,6 +7,7 @@ import com.aboutme.LogOutMutation
 import com.aboutme.RefreshMutation
 import com.aboutme.SignUpMutation
 import com.aboutme.UpdateUserMutation
+import com.aboutme.core.common.Response
 import com.aboutme.network.dto.NameInfoDto
 import com.aboutme.network.dto.UserDto
 import com.aboutme.network.dto.update.UpdateUserDto
@@ -95,7 +96,7 @@ internal class ApolloUserNetworkSource(
             .execute()
     }
 
-    override suspend fun insert(id: String, dto: UserDto, token: String) {
+    override suspend fun insert(id: String, dto: UserDto, token: String): Response<String> {
         throw NotImplementedError("Inserting a user via the Syncable API is not supported!")
     }
 

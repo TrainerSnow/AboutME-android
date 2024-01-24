@@ -39,12 +39,11 @@ class ApolloSleepDataSource(
         insert(id, dto, token)
     }
 
-    override suspend fun insert(id: LocalDate, dto: SleepDataDto, token: String) {
-        client
-            .mutation(AddOrUpdateSleepDataMutation(dto.toInput()))
-            .authentication(token)
-            .execute()
-    }
+    override suspend fun insert(id: LocalDate, dto: SleepDataDto, token: String) = client
+        .mutation(AddOrUpdateSleepDataMutation(dto.toInput()))
+        .authentication(token)
+        .execute()
+        .mapResponse { it.addSleepData.sleepDataFragment.date }
 
 
 }

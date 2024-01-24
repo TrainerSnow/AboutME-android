@@ -39,12 +39,11 @@ internal class ApolloDiaryDataSource(
         insert(id, dto, token)
     }
 
-    override suspend fun insert(id: LocalDate, dto: DiaryDataDto, token: String) {
-        client
-            .mutation(AddOrUpdateDiaryDataMutation(dto.toInput()))
-            .authentication(token)
-            .execute()
-    }
+    override suspend fun insert(id: LocalDate, dto: DiaryDataDto, token: String) = client
+        .mutation(AddOrUpdateDiaryDataMutation(dto.toInput()))
+        .authentication(token)
+        .execute()
+        .mapResponse { it.addDiaryData.diaryDataFragment.date }
 
 
 }
