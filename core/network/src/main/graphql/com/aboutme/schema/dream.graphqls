@@ -102,8 +102,6 @@ extend type Query {
 Data for the dreams of a user for a day
 """
 type DreamData {
-    id: Long!
-
     dreams: [Dream!]!
 
     date: Date!
