@@ -60,6 +60,7 @@ fun <Item> PopupPreference(
                     },
                     onClick = {
                         onSelect(it)
+                        showPopup = false
                     }
                 )
             }
