@@ -1,4 +1,6 @@
 fragment DreamDataFragment on DreamData {
+    id
+
     dreams {
         ...DreamFragment
     }

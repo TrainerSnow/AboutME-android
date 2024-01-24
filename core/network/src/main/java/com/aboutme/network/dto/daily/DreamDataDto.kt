@@ -4,6 +4,7 @@ import com.aboutme.network.dto.base.SyncableDto
 import com.aboutme.type.DreamDataInput
 import java.time.Instant
 import java.time.LocalDate
+import java.util.UUID
 
 data class DreamDataDto(
 
@@ -11,7 +12,9 @@ data class DreamDataDto(
 
     override val createdAt: Instant,
 
-    override val updatedAt: Instant
+    override val updatedAt: Instant,
+
+    override val remoteId: UUID
 
 ) : SyncableDto {
 

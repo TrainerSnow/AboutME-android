@@ -17,17 +17,16 @@ import com.aboutme.network.dto.daily.DiaryDataDto
 import com.aboutme.network.dto.daily.DreamDataDto
 import com.aboutme.network.dto.daily.MoodDataDto
 import com.aboutme.network.dto.daily.SleepDataDto
-import java.time.LocalDate
 
 //
 // Fragments
 //
 
 internal fun DiaryDataFragment.toDiaryData() =
-    DiaryDataDto(diaryContent, date, updated, created)
+    DiaryDataDto(diaryContent, date, updated, created, id)
 
 internal fun SleepDataFragment.toSleepData() =
-    SleepDataDto(hoursSlept.toInt(), hoursAim?.toInt(), date, created, updated)
+    SleepDataDto(hoursSlept.toInt(), hoursAim?.toInt(), date, created, updated, id)
 
 internal fun MoodDataFragment.toMoodData() = MoodDataDto(
     mood?.toFloat(),
@@ -36,25 +35,27 @@ internal fun MoodDataFragment.toMoodData() = MoodDataDto(
     moodNoon?.toFloat(),
     date,
     created,
-    updated
+    updated,
+    id
 )
 
 internal fun DreamDataFragment.toDreamData() = DreamDataDto(
     date,
     created,
-    updated
+    updated,
+    id
 )
 
 internal fun DreamFragment.toDream() =
     DreamDto(
-        id,
         description,
         annotation,
         mood?.toFloat(),
         clearness?.toFloat(),
         date,
         created,
-        updated
+        updated,
+        id
     )
 
 internal fun AuthUserFragment.toAuthUser(): AuthUserDto = AuthUserDto(
@@ -72,5 +73,6 @@ fun UserFragment.toUserData() =
         },
         email = email,
         createdAt = created,
-        updatedAt = updated
+        updatedAt = updated,
+        remoteId = id
     )

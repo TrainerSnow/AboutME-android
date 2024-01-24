@@ -5,6 +5,7 @@ import com.aboutme.type.MoodDataInput
 import com.apollographql.apollo3.api.Optional
 import java.time.Instant
 import java.time.LocalDate
+import java.util.UUID
 
 
 data class MoodDataDto(
@@ -21,7 +22,9 @@ data class MoodDataDto(
 
     override val createdAt: Instant,
 
-    override val updatedAt: Instant
+    override val updatedAt: Instant,
+
+    override val remoteId: UUID
 
 ) : SyncableDto {
 

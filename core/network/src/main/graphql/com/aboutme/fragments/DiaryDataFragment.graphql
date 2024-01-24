@@ -1,4 +1,6 @@
 fragment DiaryDataFragment on DiaryData {
+    id
+
     diaryContent
 
     date
