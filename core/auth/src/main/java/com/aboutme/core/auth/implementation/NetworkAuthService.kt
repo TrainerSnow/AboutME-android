@@ -5,6 +5,7 @@ import com.aboutme.core.auth.mapping.toModel
 import com.aboutme.core.common.Response
 import com.aboutme.core.common.ResponseError
 import com.aboutme.core.cache.base.AboutMeDatabase
+import com.aboutme.core.common.coroutines.dbCall
 import com.aboutme.core.model.data.AuthUser
 import com.aboutme.core.model.data.NameInfo
 import com.aboutme.core.model.data.UserData
@@ -46,7 +47,7 @@ internal class NetworkAuthService(
     }
 
 
-    override suspend fun logOut(): Response<UserData> {
+    override suspend fun logOut(): Response<UserData> = dbCall {
         val refreshToken = tokenRepository.getRefreshToken()
         val token = tokenRepository.getToken()
 
@@ -56,14 +57,14 @@ internal class NetworkAuthService(
         tokenRepository.setToken(null)
         tokenRepository.setRefreshToken(null)
 
-        return if (refreshToken == null || token == null) {
+        if (refreshToken == null || token == null) {
             Response.Error(setOf(ResponseError.Unknown))
         } else {
             networkSource.logOut(refreshToken, token).map { it.toModel() }
         }
     }
 
-    override suspend fun logOutAll(): Response<UserData> {
+    override suspend fun logOutAll(): Response<UserData> = dbCall {
         val token = tokenRepository.getToken()
 
         //Clear cache, because it is not needed anymore
@@ -72,7 +73,7 @@ internal class NetworkAuthService(
         tokenRepository.setToken(null)
         tokenRepository.setRefreshToken(null)
 
-        return if (token == null) {
+        if (token == null) {
             Response.Error(setOf(ResponseError.Unknown))
         } else {
             networkSource.logOutAll(token).map { it.toModel() }
