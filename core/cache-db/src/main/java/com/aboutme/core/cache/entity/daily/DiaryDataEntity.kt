@@ -8,8 +8,7 @@ import java.time.LocalDate
 import java.util.UUID
 
 @Entity(
-    tableName = "diary_data",
-    primaryKeys = ["date", "localId", "remoteId"]
+    tableName = "diary_data"
 )
 data class DiaryDataEntity(
 
