@@ -4,17 +4,19 @@ import com.apollographql.apollo3.api.Adapter
 import com.apollographql.apollo3.api.CustomScalarAdapters
 import com.apollographql.apollo3.api.json.JsonReader
 import com.apollographql.apollo3.api.json.JsonWriter
-import java.time.Instant
+import java.util.UUID
 
-internal object InstantScalarAdapter : Adapter<Instant> {
-    override fun fromJson(reader: JsonReader, customScalarAdapters: CustomScalarAdapters): Instant =
-        Instant.parse(reader.nextString())
+internal object UUIDScalarAdapter : Adapter<UUID> {
+
+    override fun fromJson(reader: JsonReader, customScalarAdapters: CustomScalarAdapters): UUID =
+        UUID.fromString(reader.nextString())
 
     override fun toJson(
         writer: JsonWriter,
         customScalarAdapters: CustomScalarAdapters,
-        value: Instant
+        value: UUID
     ) {
         writer.value(value.toString())
     }
+
 }

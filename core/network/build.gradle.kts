@@ -22,6 +22,7 @@ apollo {
         mapScalarToKotlinLong("Long")
         mapScalar("Date", "java.time.LocalDate", "com.aboutme.network.scalars.DateScalarAdapter")
         mapScalar("Instant", "java.time.Instant", "com.aboutme.network.scalars.InstantScalarAdapter")
+        mapScalar("UUID", "java.util.UUID", "com.aboutme.network.scalars.UUIDScalarAdapter")
     }
 }
 
