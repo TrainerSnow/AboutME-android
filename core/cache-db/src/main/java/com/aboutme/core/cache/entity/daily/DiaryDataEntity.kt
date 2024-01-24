@@ -5,13 +5,14 @@ import androidx.room.PrimaryKey
 import com.aboutme.core.cache.entity.base.SyncableEntity
 import java.time.Instant
 import java.time.LocalDate
+import java.util.UUID
 
 @Entity(
-    tableName = "diary_data"
+    tableName = "diary_data",
+    primaryKeys = ["date", "localId", "remoteId"]
 )
 data class DiaryDataEntity(
 
-    @PrimaryKey
     val date: LocalDate,
 
     val content: String,
@@ -20,6 +21,11 @@ data class DiaryDataEntity(
 
     override val updatedAt: Instant,
 
-    override val deletedAt: Instant? = null
+    override val deletedAt: Instant? = null,
 
-): SyncableEntity
+    override val remoteId: UUID? = null,
+
+    @PrimaryKey(autoGenerate = true)
+    override val localId: Long?
+
+) : SyncableEntity

@@ -5,13 +5,13 @@ import androidx.room.PrimaryKey
 import com.aboutme.core.cache.entity.base.SyncableEntity
 import java.time.Instant
 import java.time.LocalDate
+import java.util.UUID
 
 @Entity(
     tableName = "mood_data"
 )
 data class MoodDataEntity(
 
-    @PrimaryKey
     val date: LocalDate,
 
     val mood: Float?,
@@ -26,6 +26,11 @@ data class MoodDataEntity(
 
     override val updatedAt: Instant,
 
-    override val deletedAt: Instant? = null
+    override val deletedAt: Instant? = null,
+
+    override val remoteId: UUID?,
+
+    @PrimaryKey(autoGenerate = true)
+    override val localId: Long?
 
 ): SyncableEntity

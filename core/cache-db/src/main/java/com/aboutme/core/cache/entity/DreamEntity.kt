@@ -12,12 +12,10 @@ import java.util.UUID
 )
 data class DreamEntity(
 
-    //Nullable in order to let it autogenerate. When it has been inserted, this should not be null anymore
     @PrimaryKey(autoGenerate = true)
-    val localId: Long? = null,
+    override val localId: Long? = null,
 
-    //Null when the entity has not yet been synced to the remote storage
-    val remoteId: UUID? = null,
+    override val remoteId: UUID? = null,
 
     //Foreign key to [DreamData]
     val date: LocalDate,
