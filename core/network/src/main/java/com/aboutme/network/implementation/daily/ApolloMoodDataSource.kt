@@ -44,7 +44,7 @@ class ApolloMoodDataSource(
         .mutation(AddOrUpdateMoodDataMutation(dto.toInput()))
         .authentication(token)
         .execute()
-        .mapResponse { it.addMoodData.moodDataFragment.date }
+        .mapResponse { it.addMoodData.moodDataFragment.toMoodData() }
 
 
 }

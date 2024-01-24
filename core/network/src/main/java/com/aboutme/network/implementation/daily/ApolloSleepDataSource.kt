@@ -43,7 +43,7 @@ class ApolloSleepDataSource(
         .mutation(AddOrUpdateSleepDataMutation(dto.toInput()))
         .authentication(token)
         .execute()
-        .mapResponse { it.addSleepData.sleepDataFragment.date }
+        .mapResponse { it.addSleepData.sleepDataFragment.toSleepData() }
 
 
 }

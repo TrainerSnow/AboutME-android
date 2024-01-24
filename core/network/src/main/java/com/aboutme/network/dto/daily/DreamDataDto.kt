@@ -14,7 +14,7 @@ data class DreamDataDto(
 
     override val updatedAt: Instant,
 
-    override val remoteId: UUID
+    override val remoteId: UUID?
 
 ) : SyncableDto {
 

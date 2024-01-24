@@ -82,50 +82,70 @@ internal class SyncWorker @AssistedInject constructor(
     }
 
     private val diaryDataAdapter = object : DailySyncAdapter<DiaryDataEntity, DiaryDataDto>(
-        diaryDataDao, diaryDataSource, ::authCall
+        diaryDataDao, diaryDataSource
     ) {
         override fun convertEntityToDto(entity: DiaryDataEntity) = entity.toDto()
 
-        override fun convertDtoToEntity(dto: DiaryDataDto) = dto.toEntity()
+        override fun convertDtoToEntity(dto: DiaryDataDto, localId: Long?) = dto.toEntity(localId)
+
+        override suspend fun <T> networkCall(call: suspend (String) -> T): T {
+            return networkCall(call)
+        }
 
     }
 
     private val moodDataAdapter = object : DailySyncAdapter<MoodDataEntity, MoodDataDto>(
-        moodDataDao, moodDataSource, ::authCall
+        moodDataDao, moodDataSource
     ) {
         override fun convertEntityToDto(entity: MoodDataEntity) = entity.toDto()
 
-        override fun convertDtoToEntity(dto: MoodDataDto) = dto.toEntity()
+        override fun convertDtoToEntity(dto: MoodDataDto, localId: Long?) = dto.toEntity(localId)
+
+        override suspend fun <T> networkCall(call: suspend (String) -> T): T {
+            return networkCall(call)
+        }
 
     }
 
     private val sleepDataAdapter = object : DailySyncAdapter<SleepDataEntity, SleepDataDto>(
-        sleepDataDao, sleepDataSource, ::authCall
+        sleepDataDao, sleepDataSource
     ) {
         override fun convertEntityToDto(entity: SleepDataEntity) = entity.toDto()
 
-        override fun convertDtoToEntity(dto: SleepDataDto) = dto.toEntity()
+        override fun convertDtoToEntity(dto: SleepDataDto, localId: Long?) = dto.toEntity(localId)
+
+        override suspend fun <T> networkCall(call: suspend (String) -> T): T {
+            return networkCall(call)
+        }
 
     }
 
     private val dreamDataAdapter = object : DailySyncAdapter<DreamDataEntity, DreamDataDto>(
-        dreamDataDao, dreamDataSource, ::authCall
+        dreamDataDao, dreamDataSource
     ) {
         override fun convertEntityToDto(entity: DreamDataEntity) = entity.toDto()
 
-        override fun convertDtoToEntity(dto: DreamDataDto) = dto.toEntity()
+        override fun convertDtoToEntity(dto: DreamDataDto, localId: Long?) = dto.toEntity(localId)
+
+        override suspend fun <T> networkCall(call: suspend (String) -> T): T {
+            return networkCall(call)
+        }
 
     }
 
     private val dreamAdapter = object : SyncAdapter<DreamEntity, DreamDto, UpdateDreamDto, UUID>(
-        dreamDao, dreamSource, ::authCall
+        dreamDao, dreamSource
     ) {
 
         override fun convertEntityToDto(entity: DreamEntity) = entity.toDto()
 
         override fun convertEntityToUpdateDto(entity: DreamEntity) = entity.toUpdateDto()
 
-        override fun convertDtoToEntity(dto: DreamDto) = dto.toEntity()
+        override fun convertDtoToEntity(dto: DreamDto, localId: Long?) = dto.toEntity(localId)
+
+        override suspend fun <T> networkCall(call: suspend (String) -> T): T {
+            return networkCall(call)
+        }
     }
 
     private fun createFailure(start: Instant) =
@@ -334,8 +354,8 @@ internal class SyncWorker @AssistedInject constructor(
 
         for (dto in serverDreams) {
             val entity = dbDreams.find { it.date == dto.date }
-            dreamAdapter.sync(entity, dto, dto.id).let(results::add)
-            syncedIds.add(dto.id)
+            dreamAdapter.sync(entity, dto, dto.remoteId!!).let(results::add)
+            syncedIds.add(dto.remoteId!!)
         }
         for (entity in dbDreams) {
             if (entity.remoteId in syncedIds) continue
@@ -379,12 +399,6 @@ internal class SyncWorker @AssistedInject constructor(
             serverDeleted = get(AdapterResult.DeletedServer) ?: 0,
             localDeleted = get(AdapterResult.DeletedLocal) ?: 0
         )
-    }
-
-    companion object {
-
-        internal const val OUTPUT_DATA_KEY = "com.aboutme.core.sync.SyncWorker.result"
-
     }
 
 }

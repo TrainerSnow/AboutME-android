@@ -96,7 +96,7 @@ internal class ApolloUserNetworkSource(
             .execute()
     }
 
-    override suspend fun insert(id: String, dto: UserDto, token: String): Response<String> {
+    override suspend fun insert(id: String, dto: UserDto, token: String): Response<UserDto> {
         throw NotImplementedError("Inserting a user via the Syncable API is not supported!")
     }
 

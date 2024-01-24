@@ -13,6 +13,6 @@ interface SyncableDtoAccessor<
 
     suspend fun update(id: Identifier, dto: UpdateDto, token: String)
 
-    suspend fun insert(id: Identifier, dto: CreateDto, token: String): Response<Identifier>
+    suspend fun insert(id: Identifier, dto: CreateDto, token: String): Response<CreateDto>
 
 }

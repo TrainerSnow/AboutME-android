@@ -1,19 +1,16 @@
 package com.aboutme.core.model.data
 
 import com.aboutme.core.model.base.DatedModel
+import com.aboutme.core.model.base.IdentifiableModel
 import com.aboutme.core.model.sort.SortMode
 import com.aboutme.core.model.sort.Sortable
 import java.time.Instant
+import java.util.UUID
 
 /**
  * Represents a dream of a user
  */
 data class Dream(
-
-    /**
-     * The unique id
-     */
-    val id: Long,
 
     /**
      * The content, aka what happened in the dream
@@ -37,9 +34,13 @@ data class Dream(
 
     override val createdAt: Instant,
 
-    override val updatedAt: Instant
+    override val updatedAt: Instant,
 
-): Sortable<Dream>, DatedModel {
+    override val localId: Long?,
+
+    override val remoteId: UUID?
+
+): Sortable<Dream>, DatedModel, IdentifiableModel {
 
     override fun comparatorFor(mode: SortMode): Comparator<Dream>? = when (mode) {
         SortMode.Length -> compareBy { it.content.length }

@@ -20,7 +20,7 @@ data class SleepDataDto(
 
     override val updatedAt: Instant,
 
-    override val remoteId: UUID
+    override val remoteId: UUID?
 
 ) : SyncableDto {
 

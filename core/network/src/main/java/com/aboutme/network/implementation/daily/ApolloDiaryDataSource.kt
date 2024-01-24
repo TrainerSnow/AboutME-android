@@ -43,7 +43,7 @@ internal class ApolloDiaryDataSource(
         .mutation(AddOrUpdateDiaryDataMutation(dto.toInput()))
         .authentication(token)
         .execute()
-        .mapResponse { it.addDiaryData.diaryDataFragment.date }
+        .mapResponse { it.addDiaryData.diaryDataFragment.toDiaryData() }
 
 
 }

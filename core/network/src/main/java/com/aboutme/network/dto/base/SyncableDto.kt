@@ -7,6 +7,6 @@ interface SyncableDto: UpdateDto {
 
     val createdAt: Instant
 
-    val remoteId: UUID
+    val remoteId: UUID?
 
 }

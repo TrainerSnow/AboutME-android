@@ -10,14 +10,11 @@ internal abstract class DailySyncAdapter<
         DbEntity : SyncableEntity, NetworkDto : SyncableDto>(
     dbAccessor: SyncableEntityAccessor<DbEntity>,
 
-    networkAccessor: SyncableDtoAccessor<NetworkDto, NetworkDto, LocalDate>,
-
-    networkCall: suspend (suspend (String) -> Unit) -> Unit
+    networkAccessor: SyncableDtoAccessor<NetworkDto, NetworkDto, LocalDate>
 ) :
     SyncAdapter<DbEntity, NetworkDto, NetworkDto, LocalDate>(
         dbAccessor,
-        networkAccessor,
-        networkCall
+        networkAccessor
     ) {
 
     override fun convertEntityToUpdateDto(entity: DbEntity): NetworkDto {

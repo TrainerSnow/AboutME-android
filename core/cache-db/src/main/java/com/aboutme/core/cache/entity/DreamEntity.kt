@@ -12,11 +12,6 @@ import java.util.UUID
 )
 data class DreamEntity(
 
-    @PrimaryKey(autoGenerate = true)
-    override val localId: Long? = null,
-
-    override val remoteId: UUID? = null,
-
     //Foreign key to [DreamData]
     val date: LocalDate,
 
@@ -32,6 +27,11 @@ data class DreamEntity(
 
     override val updatedAt: Instant,
 
-    override val deletedAt: Instant? = null
+    override val deletedAt: Instant? = null,
+
+    override val remoteId: UUID? = null,
+
+    @PrimaryKey(autoGenerate = true)
+    override val localId: Long? = null
 
 ) : SyncableEntity

@@ -34,7 +34,7 @@ internal class ApolloDreamSource(
     override suspend fun insert(id: UUID, dto: DreamDto, token: String) = client
         .mutation(AddDreamMutation(dto.toAddInput()))
         .execute()
-        .mapResponse { it.addDream.dreamFragment.id }
+        .mapResponse { it.addDream.dreamFragment.toDream() }
 
     override suspend fun getAll(token: String) = client
         .query(GetAllDreamsQuery())

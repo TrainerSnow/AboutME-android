@@ -43,7 +43,7 @@ class ApolloDreamDataSource(
         .mutation(AddOrUpdateDreamDataMutation(dto.toInput()))
         .authentication(token)
         .execute()
-        .mapResponse { it.addDreamData.dreamDataFragment.date }
+        .mapResponse { it.addDreamData.dreamDataFragment.toDreamData() }
 
 
 }
