@@ -5,14 +5,19 @@ import androidx.room.PrimaryKey
 import com.aboutme.core.cache.entity.base.SyncableEntity
 import java.time.Instant
 import java.time.LocalDate
+import java.util.UUID
 
 @Entity(
     tableName = "dream"
 )
 data class DreamEntity(
 
+    //Nullable in order to let it autogenerate. When it has been inserted, this should not be null anymore
     @PrimaryKey(autoGenerate = true)
-    val id: Long? = null,
+    val localId: Long? = null,
+
+    //Null when the entity has not yet been synced to the remote storage
+    val remoteId: UUID? = null,
 
     //Foreign key to [DreamData]
     val date: LocalDate,
@@ -30,4 +35,5 @@ data class DreamEntity(
     override val updatedAt: Instant,
 
     override val deletedAt: Instant? = null
+
 ) : SyncableEntity
