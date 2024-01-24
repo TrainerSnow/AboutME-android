@@ -1,4 +1,4 @@
-package com.aboutme.network.implementation.daily;
+package com.aboutme.network.implementation.daily
 
 import com.aboutme.AddOrUpdateDiaryDataMutation
 import com.aboutme.DeleteDiaryDataMutation
@@ -20,13 +20,13 @@ internal class ApolloDiaryDataSource(
         .query(GetAllDiaryDatasQuery())
         .authentication(token)
         .execute()
-        .mapResponse { it.getAllDiaryDatas?.map { it.diaryDataFragment.toDiaryData() } }
+        .mapResponse { it.getAllDiaryDatas.map { it.diaryDataFragment.toDiaryData() } }
 
     override suspend fun getByDate(date: LocalDate, token: String): Response<DiaryDataDto> = client
         .query(GetDiaryDataByDateQuery(date))
         .authentication(token)
         .execute()
-        .mapResponse { it.getDiaryDataByDate?.diaryDataFragment?.toDiaryData() }
+        .mapResponse { it.getDiaryDataByDate.diaryDataFragment.toDiaryData() }
 
     override suspend fun delete(id: LocalDate, token: String) {
         client

@@ -43,7 +43,7 @@ internal class ApolloUserNetworkSource(
                 )
             )
         ).execute()
-        .mapResponse { it.signUp?.authUserFragment?.toAuthUser() }
+        .mapResponse { it.signUp.authUserFragment.toAuthUser() }
 
     override suspend fun logIn(email: String, password: String) = client
         .mutation(
@@ -52,7 +52,7 @@ internal class ApolloUserNetworkSource(
                 password = password
             )
         ).execute()
-        .mapResponse { it.login?.authUserFragment?.toAuthUser() }
+        .mapResponse { it.login.authUserFragment.toAuthUser() }
 
     override suspend fun logOut(
         refreshToken: String,
@@ -61,20 +61,20 @@ internal class ApolloUserNetworkSource(
         .mutation(LogOutMutation(refreshToken))
         .authentication(token)
         .execute()
-        .mapResponse { it.logout?.userFragment?.toUserData() }
+        .mapResponse { it.logout.userFragment.toUserData() }
 
     override suspend fun logOutAll(token: String) = client
         .mutation(mutation = LogOutAllMutation())
         .authentication(token)
         .execute()
-        .mapResponse { it.logoutAll?.userFragment?.toUserData() }
+        .mapResponse { it.logoutAll.userFragment.toUserData() }
 
     override suspend fun refresh(refreshToken: String) = client
         .mutation(
             RefreshMutation(refreshToken)
         ).execute()
         .mapResponse {
-            it.refresh?.authUserFragment?.toAuthUser()
+            it.refresh.authUserFragment.toAuthUser()
         }
 
     override suspend fun deleteUser(token: String) = client

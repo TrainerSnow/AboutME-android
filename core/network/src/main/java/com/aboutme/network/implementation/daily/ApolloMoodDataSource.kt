@@ -1,4 +1,4 @@
-package com.aboutme.network.implementation.daily;
+package com.aboutme.network.implementation.daily
 
 import com.aboutme.AddOrUpdateMoodDataMutation
 import com.aboutme.DeleteMoodDataMutation
@@ -26,7 +26,7 @@ class ApolloMoodDataSource(
         .query(GetMoodDataByDateQuery(date))
         .authentication(token)
         .execute()
-        .mapResponse { it.getMoodData.moodDataFragment?.toMoodData() }
+        .mapResponse { it.getMoodData.moodDataFragment.toMoodData() }
 
 
     override suspend fun delete(id: LocalDate, token: String) {

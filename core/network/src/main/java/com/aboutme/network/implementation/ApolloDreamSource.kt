@@ -1,4 +1,4 @@
-package com.aboutme.network.implementation;
+package com.aboutme.network.implementation
 
 import com.aboutme.AddDreamMutation
 import com.aboutme.CreateDreamMutation
@@ -40,6 +40,6 @@ internal class ApolloDreamSource(
         .query(GetAllDreamsQuery())
         .authentication(token)
         .execute()
-        .mapResponse { it.getAllDreams?.map { it.dreamFragment.toDream() } }
+        .mapResponse { it.getAllDreams.map { it.dreamFragment.toDream() } }
 
 }
