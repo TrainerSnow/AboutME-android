@@ -52,6 +52,8 @@ extend type Query {
 Base for all mood data types
 """
 type MoodData {
+    id: UUID!
+
     mood: Float
 
     moodMorning: Float

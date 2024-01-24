@@ -47,6 +47,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
 import java.time.Instant
 import java.time.LocalDate
+import java.util.UUID
 
 @Suppress("MemberVisibilityCanBePrivate")
 @HiltWorker
@@ -116,7 +117,7 @@ internal class SyncWorker @AssistedInject constructor(
 
     }
 
-    private val dreamAdapter = object : SyncAdapter<DreamEntity, DreamDto, UpdateDreamDto, Long>(
+    private val dreamAdapter = object : SyncAdapter<DreamEntity, DreamDto, UpdateDreamDto, UUID>(
         dreamDao, dreamSource, ::authCall
     ) {
 
@@ -329,17 +330,17 @@ internal class SyncWorker @AssistedInject constructor(
         val serverDreams = serverDreamsResponse.data
         val dbDreams = dreamDao.getAll().first()
 
-        val dates = mutableListOf<LocalDate>()
+        val syncedIds = mutableListOf<UUID>()
 
         for (dto in serverDreams) {
             val entity = dbDreams.find { it.date == dto.date }
             dreamAdapter.sync(entity, dto, dto.id).let(results::add)
-            dates.add(dto.date)
+            syncedIds.add(dto.id)
         }
         for (entity in dbDreams) {
-            if (entity.date in dates) continue
+            if (entity.remoteId in syncedIds) continue
             val dto = serverDreams.find { it.date == entity.date }
-            dreamAdapter.sync(entity, dto, entity.id!!).let(results::add)
+            dreamAdapter.sync(entity, dto, entity.remoteId!!).let(results::add)
         }
 
         return results.toSyncTraffic()
