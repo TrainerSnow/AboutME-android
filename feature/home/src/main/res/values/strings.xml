@@ -7,4 +7,6 @@
     <string name="user_popup_profile">Profile</string>
     <string name="sort">Sort list</string>
     <string name="action_preferences">Go to the preferences screen</string>
+    <string name="progress_title">Progress today</string>
+    <string name="progress_numeric">Completed %s of %s</string>
 </resources>

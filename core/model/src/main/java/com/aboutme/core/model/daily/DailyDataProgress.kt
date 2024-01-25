@@ -17,6 +17,9 @@ data class DailyDataProgress(
     init {
         require(completed >= 0)
         require(total >= 0)
+        require(completed <= total)
     }
+
+    fun getPercentage() = completed.toFloat() / total.toFloat()
 
 }
