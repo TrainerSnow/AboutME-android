@@ -1,15 +1,17 @@
 package com.aboutme.core.data.implementation;
 
-import com.aboutme.core.data.mapping.toModel
-import com.aboutme.core.data.repository.DailyDataRepository
 import com.aboutme.core.cache.dao.DiaryDataDao
 import com.aboutme.core.cache.dao.DreamDataDao
 import com.aboutme.core.cache.dao.MoodDataDao
 import com.aboutme.core.cache.dao.SleepDataDao
+import com.aboutme.core.data.mapping.toModel
+import com.aboutme.core.data.repository.DailyDataRepository
 import com.aboutme.core.model.daily.DailyData
 import com.aboutme.core.model.daily.DailyDataCategory
 import com.aboutme.core.model.daily.DailyDataInfo
+import com.aboutme.core.model.daily.DailyDataProgress
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 
 internal class OfflineDailyDataRepository(
@@ -32,6 +34,14 @@ internal class OfflineDailyDataRepository(
             moodData = DailyDataInfo(mood?.toModel(), date, DailyDataCategory.MoodData),
         )
     }
+
+    override fun getProgress(date: LocalDate) = getForDay(date)
+        .map {
+            DailyDataProgress(
+                completed = it.all().count { it.data != null },
+                total = it.all().size
+            )
+        }
 
 }
 
