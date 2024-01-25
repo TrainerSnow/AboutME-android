@@ -1,11 +1,14 @@
 package com.aboutme.feature.home.screen
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Logout
@@ -23,14 +26,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aboutme.core.model.daily.DailyDataProgress
 import com.aboutme.core.ui.adaptive.AdaptiveTopAppBar
 import com.aboutme.core.ui.feed.dailydata.DailyDataFeedState
 import com.aboutme.core.ui.feed.dailydata.dailyDataFeed
 import com.aboutme.feature.home.R
+import com.aboutme.feature.home.components.HomeHeader
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -43,6 +49,7 @@ internal fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val dailyFeedState by viewModel.dailyFeedState.collectAsStateWithLifecycle()
+    val progressState by viewModel.dailyProgressState.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         viewModel.uiEvents.collectLatest {
@@ -51,12 +58,14 @@ internal fun HomeScreen(
                 HomeUiEvent.LogOut -> onLogOut()
                 HomeUiEvent.GoToProfile -> onGoToProfile()
                 HomeUiEvent.GoToPreferences -> onGoToPreferences()
+                HomeUiEvent.GoToPersons -> {}
             }
         }
     }
 
     HomeScreen(
         feedState = dailyFeedState,
+        progressState = progressState,
         uiState = state.uiState,
         onEvent = viewModel::onEvent
     )
@@ -66,6 +75,7 @@ internal fun HomeScreen(
 @Composable
 fun HomeScreen(
     feedState: DailyDataFeedState,
+    progressState: DailyDataProgress?,
     uiState: HomeUiState,
     onEvent: (HomeEvent) -> Unit
 ) {
@@ -116,8 +126,26 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            if (progressState != null) {
+                header(progressState) {
+                    onEvent(HomeEvent.GoToPersons)
+                }
+            }
             dailyDataFeed(feedState) { }
         }
+    }
+}
+
+private fun LazyGridScope.header(
+    progress: DailyDataProgress,
+    onPersonsClick: () -> Unit
+) {
+    item {
+        HomeHeader(
+            modifier = Modifier,
+            progress = progress,
+            onPersonsClick = onPersonsClick
+        )
     }
 }
 

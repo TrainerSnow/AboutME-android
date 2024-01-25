@@ -21,10 +21,12 @@ class HomeScreenViewModel @Inject constructor(
     val authService: AuthService
 ) : AboutMeViewModel<HomeEvent, HomeUiEvent, HomeState>() {
 
+    private val today: LocalDate = LocalDate.now()
+
     override val initialState = HomeState()
 
-    val dailyFeedState: StateFlow<DailyDataFeedState> =
-        dailyDataRepository.getForDay(LocalDate.now())
+    val dailyFeedState =
+        dailyDataRepository.getForDay(today)
             .map {
                 DailyDataFeedState.Success(it.all().toList())
             }
@@ -32,6 +34,15 @@ class HomeScreenViewModel @Inject constructor(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = DailyDataFeedState.Loading
+            )
+
+    val dailyProgressState =
+        dailyDataRepository
+            .getProgress(today)
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = null
             )
 
     override fun handleEvent(event: HomeEvent) = when (event) {
@@ -49,6 +60,7 @@ class HomeScreenViewModel @Inject constructor(
 
         HomeEvent.LogOutAll -> handleLogOutAll()
         HomeEvent.GoToPreferences -> triggerUiEvent(HomeUiEvent.GoToPreferences)
+        HomeEvent.GoToPersons -> triggerUiEvent(HomeUiEvent.GoToPersons)
     }
 
     private fun handleLogOut() {
