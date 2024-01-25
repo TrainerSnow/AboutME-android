@@ -1,7 +1,10 @@
 package com.aboutme.feature.home.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -10,6 +13,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.aboutme.core.model.daily.DailyDataProgress
@@ -22,31 +26,32 @@ internal fun HomeHeader(
     progress: DailyDataProgress,
     onPersonsClick: () -> Unit
 ) {
-    val doWide = LocalWindowSizeClass.current.widthSizeClass > WindowWidthSizeClass.Compact
+    val doVertical = LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
-    if (doWide) {
-        HomeHeaderHorizontal(modifier, progress, onPersonsClick)
-    } else {
+    if (doVertical) {
         HomeHeaderVertical(modifier, progress, onPersonsClick)
+    } else {
+        HomeHeaderHorizontal(modifier, progress, onPersonsClick)
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun HomeHeaderVertical(
     modifier: Modifier = Modifier,
     progress: DailyDataProgress,
     onPersonsClick: () -> Unit
 ) {
-    Row(
+    Column(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(36.dp),
-        verticalAlignment = Alignment.CenterVertically
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         ProgressCard(
             modifier = Modifier,
             progress = progress
         )
-        Column {
+        FlowRow {
             HomeHeaderLink(
                 onClick = onPersonsClick,
                 title = stringResource(R.string.home_link_persons_title),
@@ -65,7 +70,7 @@ private fun HomeHeaderHorizontal(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(36.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProgressCard(

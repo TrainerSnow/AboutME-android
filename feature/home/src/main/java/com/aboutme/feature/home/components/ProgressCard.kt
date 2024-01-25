@@ -123,7 +123,7 @@ private val ColorGradient = object {
 
     fun getForPercent(percent: Float): Color {
         require(percent in 0F..1F)
-        return colors[(percent * colors.size).roundToInt() - 1]
+        return colors[(percent * (colors.size - 1)).roundToInt()]
     }
 
 }
