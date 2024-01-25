@@ -16,19 +16,19 @@ import com.aboutme.core.model.data.Dream
 import com.aboutme.core.model.sync.SyncResult
 import com.aboutme.core.model.sync.SyncTrafficInfo
 
-internal fun DiaryDataEntity.toModel() = DiaryData(content, createdAt, updatedAt)
+internal fun DiaryDataEntity.toModel() = DiaryData(content, createdAt, updatedAt, localId, remoteId)
 
-internal fun SleepDataEntity.toModel() = SleepData(hoursSlept, hoursAim, createdAt, updatedAt)
+internal fun SleepDataEntity.toModel() = SleepData(hoursSlept, hoursAim, createdAt, updatedAt, localId, remoteId)
 
 internal fun DreamDataWithDreams.toModel() =
-    DreamData(dreams.map { it.toModel() }, dreamData.createdAt, dreamData.updatedAt)
+    DreamData(dreams.map { it.toModel() }, dreamData.createdAt, dreamData.updatedAt, dreamData.localId, dreamData.remoteId)
 
 internal fun MoodDataEntity.toModel() =
-    if (mood != null) MoodData.ConstantMoodData(mood!!, createdAt, updatedAt)
-    else MoodData.VaryingMoodData(moodMorning!!, moodNoon!!, moodEvening!!, createdAt, updatedAt)
+    if (mood != null) MoodData.ConstantMoodData(mood!!, createdAt, updatedAt, localId, remoteId)
+    else MoodData.VaryingMoodData(moodMorning!!, moodNoon!!, moodEvening!!, createdAt, updatedAt, localId, remoteId)
 
 internal fun DreamEntity.toModel() =
-    Dream(id!!, content, annotation, mood, clearness, createdAt, updatedAt)
+    Dream(content, annotation, mood, clearness, createdAt, updatedAt, localId, remoteId)
 
 internal fun Pair<SyncStatusEntity, SyncResultData?>.toSyncResult() =
     if (second == null) SyncResult.NotAuthorized(first.startedAt, first.finishedAt)

@@ -7,6 +7,7 @@ import com.aboutme.LogOutMutation
 import com.aboutme.RefreshMutation
 import com.aboutme.SignUpMutation
 import com.aboutme.UpdateUserMutation
+import com.aboutme.core.common.Response
 import com.aboutme.network.dto.NameInfoDto
 import com.aboutme.network.dto.UserDto
 import com.aboutme.network.dto.update.UpdateUserDto
@@ -42,7 +43,7 @@ internal class ApolloUserNetworkSource(
                 )
             )
         ).execute()
-        .mapResponse { it.signUp?.authUserFragment?.toAuthUser() }
+        .mapResponse { it.signUp.authUserFragment.toAuthUser() }
 
     override suspend fun logIn(email: String, password: String) = client
         .mutation(
@@ -51,7 +52,7 @@ internal class ApolloUserNetworkSource(
                 password = password
             )
         ).execute()
-        .mapResponse { it.login?.authUserFragment?.toAuthUser() }
+        .mapResponse { it.login.authUserFragment.toAuthUser() }
 
     override suspend fun logOut(
         refreshToken: String,
@@ -60,20 +61,20 @@ internal class ApolloUserNetworkSource(
         .mutation(LogOutMutation(refreshToken))
         .authentication(token)
         .execute()
-        .mapResponse { it.logout?.userFragment?.toUserData() }
+        .mapResponse { it.logout.userFragment.toUserData() }
 
     override suspend fun logOutAll(token: String) = client
         .mutation(mutation = LogOutAllMutation())
         .authentication(token)
         .execute()
-        .mapResponse { it.logoutAll?.userFragment?.toUserData() }
+        .mapResponse { it.logoutAll.userFragment.toUserData() }
 
     override suspend fun refresh(refreshToken: String) = client
         .mutation(
             RefreshMutation(refreshToken)
         ).execute()
         .mapResponse {
-            it.refresh?.authUserFragment?.toAuthUser()
+            it.refresh.authUserFragment.toAuthUser()
         }
 
     override suspend fun deleteUser(token: String) = client
@@ -95,7 +96,7 @@ internal class ApolloUserNetworkSource(
             .execute()
     }
 
-    override suspend fun insert(id: String, dto: UserDto, token: String) {
+    override suspend fun insert(id: String, dto: UserDto, token: String): Response<UserDto> {
         throw NotImplementedError("Inserting a user via the Syncable API is not supported!")
     }
 

@@ -5,6 +5,7 @@ import com.aboutme.type.SleepDataInput
 import com.apollographql.apollo3.api.Optional
 import java.time.Instant
 import java.time.LocalDate
+import java.util.UUID
 
 
 data class SleepDataDto(
@@ -17,7 +18,9 @@ data class SleepDataDto(
 
     override val createdAt: Instant,
 
-    override val updatedAt: Instant
+    override val updatedAt: Instant,
+
+    override val remoteId: UUID?
 
 ) : SyncableDto {
 

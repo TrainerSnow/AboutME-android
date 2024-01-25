@@ -1,4 +1,4 @@
-package com.aboutme.network.implementation.daily;
+package com.aboutme.network.implementation.daily
 
 import com.aboutme.AddOrUpdateSleepDataMutation
 import com.aboutme.DeleteSleepDataMutation
@@ -20,13 +20,13 @@ class ApolloSleepDataSource(
         .query(GetAllSleepDatasQuery())
         .authentication(token)
         .execute()
-        .mapResponse { it.getAllSleepDatas?.map { it.sleepDataFragment.toSleepData() } }
+        .mapResponse { it.getAllSleepDatas.map { it.sleepDataFragment.toSleepData() } }
 
     override suspend fun getByDate(date: LocalDate, token: String): Response<SleepDataDto> = client
         .query(GetSleepDataByDateQuery(date))
         .authentication(token)
         .execute()
-        .mapResponse { it.getSleepDataByDate?.sleepDataFragment?.toSleepData() }
+        .mapResponse { it.getSleepDataByDate.sleepDataFragment.toSleepData() }
 
     override suspend fun delete(id: LocalDate, token: String) {
         client
@@ -39,12 +39,11 @@ class ApolloSleepDataSource(
         insert(id, dto, token)
     }
 
-    override suspend fun insert(id: LocalDate, dto: SleepDataDto, token: String) {
-        client
-            .mutation(AddOrUpdateSleepDataMutation(dto.toInput()))
-            .authentication(token)
-            .execute()
-    }
+    override suspend fun insert(id: LocalDate, dto: SleepDataDto, token: String) = client
+        .mutation(AddOrUpdateSleepDataMutation(dto.toInput()))
+        .authentication(token)
+        .execute()
+        .mapResponse { it.addSleepData.sleepDataFragment.toSleepData() }
 
 
 }

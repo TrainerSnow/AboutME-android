@@ -2,6 +2,7 @@ package com.aboutme.network.dto
 
 import com.aboutme.network.dto.base.SyncableDto
 import java.time.Instant
+import java.util.UUID
 
 data class UserDto(
 
@@ -11,6 +12,8 @@ data class UserDto(
 
     override val createdAt: Instant,
 
-    override val updatedAt: Instant
+    override val updatedAt: Instant,
+
+    override val remoteId: UUID?
 
 ): SyncableDto

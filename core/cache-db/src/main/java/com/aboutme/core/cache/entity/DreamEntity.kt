@@ -5,14 +5,12 @@ import androidx.room.PrimaryKey
 import com.aboutme.core.cache.entity.base.SyncableEntity
 import java.time.Instant
 import java.time.LocalDate
+import java.util.UUID
 
 @Entity(
     tableName = "dream"
 )
 data class DreamEntity(
-
-    @PrimaryKey(autoGenerate = true)
-    val id: Long? = null,
 
     //Foreign key to [DreamData]
     val date: LocalDate,
@@ -29,5 +27,11 @@ data class DreamEntity(
 
     override val updatedAt: Instant,
 
-    override val deletedAt: Instant? = null
+    override val deletedAt: Instant? = null,
+
+    override val remoteId: UUID? = null,
+
+    @PrimaryKey(autoGenerate = true)
+    override val localId: Long? = null
+
 ) : SyncableEntity

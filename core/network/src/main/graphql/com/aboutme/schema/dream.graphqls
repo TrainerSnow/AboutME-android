@@ -52,12 +52,12 @@ extend type Mutation {
     """
     Will update the dream for the given id and data
     """
-    updateDream(updateDreamInput: UpdateDreamInput!, id: Long!): Dream!
+    updateDream(updateDreamInput: UpdateDreamInput!, id: UUID!): Dream!
 
     """
     Will delete a dream matching the id
     """
-    deleteDream(id: Long!): Dream!
+    deleteDream(id: UUID!): Dream!
 
     # Dream Data
 
@@ -78,7 +78,7 @@ extend type Query {
     """
     Gets the dream for the given id, or null
     """
-    getDream(id: Long!): Dream!
+    getDream(id: UUID!): Dream!
 
     """
     Gets all the dreams, or an empty list
@@ -102,7 +102,7 @@ extend type Query {
 Data for the dreams of a user for a day
 """
 type DreamData {
-    id: Long!
+    id: UUID!
 
     dreams: [Dream!]!
 
@@ -117,7 +117,7 @@ type DreamData {
 Stores information about a dream the user added
 """
 type Dream {
-    id: Long!
+    id: UUID!
 
     description: String!
     annotation: String

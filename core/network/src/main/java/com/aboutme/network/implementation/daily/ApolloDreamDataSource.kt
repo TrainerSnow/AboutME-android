@@ -1,4 +1,4 @@
-package com.aboutme.network.implementation.daily;
+package com.aboutme.network.implementation.daily
 
 import com.aboutme.AddOrUpdateDreamDataMutation
 import com.aboutme.DeleteDiaryDataMutation
@@ -20,13 +20,13 @@ class ApolloDreamDataSource(
         .query(GetAllDreamDatasQuery())
         .authentication(token)
         .execute()
-        .mapResponse { it.getAllDreamDatas?.map { it.dreamDataFragment.toDreamData() } }
+        .mapResponse { it.getAllDreamDatas.map { it.dreamDataFragment.toDreamData() } }
 
     override suspend fun getByDate(date: LocalDate, token: String): Response<DreamDataDto> = client
         .query(GetDreamDataByDateQuery(date))
         .authentication(token)
         .execute()
-        .mapResponse { it.getDreamData?.dreamDataFragment?.toDreamData() }
+        .mapResponse { it.getDreamData.dreamDataFragment.toDreamData() }
 
     override suspend fun delete(id: LocalDate, token: String) {
         client
@@ -39,12 +39,11 @@ class ApolloDreamDataSource(
         insert(id, dto, token)
     }
 
-    override suspend fun insert(id: LocalDate, dto: DreamDataDto, token: String) {
-        client
-            .mutation(AddOrUpdateDreamDataMutation(dto.toInput()))
-            .authentication(token)
-            .execute()
-    }
+    override suspend fun insert(id: LocalDate, dto: DreamDataDto, token: String) = client
+        .mutation(AddOrUpdateDreamDataMutation(dto.toInput()))
+        .authentication(token)
+        .execute()
+        .mapResponse { it.addDreamData.dreamDataFragment.toDreamData() }
 
 
 }

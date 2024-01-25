@@ -2,6 +2,7 @@ package com.aboutme.core.sync.adapter;
 
 import com.aboutme.core.cache.dao.base.SyncableEntityAccessor
 import com.aboutme.core.cache.entity.base.SyncableEntity
+import com.aboutme.core.common.Response
 import com.aboutme.network.dto.base.SyncableDto
 import com.aboutme.network.dto.base.UpdateDto
 import com.aboutme.network.source.base.SyncableDtoAccessor
@@ -14,7 +15,13 @@ import com.aboutme.network.source.base.SyncableDtoAccessor
  * @param NetworkUpdateDto The type of the DTO used to update data on the server
  * @param Identifier The type of the identifier used to identify an entity/dto
  */
-internal abstract class SyncAdapter<DbEntity : SyncableEntity, NetworkDto : SyncableDto, NetworkUpdateDto : UpdateDto, Identifier>(
+internal abstract class SyncAdapter<
+        DbEntity : SyncableEntity,
+        NetworkDto : SyncableDto,
+        NetworkUpdateDto : UpdateDto,
+        Identifier
+        >(
+
     /**
      * The interface to the db
      */
@@ -24,11 +31,6 @@ internal abstract class SyncAdapter<DbEntity : SyncableEntity, NetworkDto : Sync
      * The interface to the network
      */
     private val networkAccessor: SyncableDtoAccessor<NetworkDto, NetworkUpdateDto, Identifier>,
-
-    /**
-     * Lambda to execute authenticated network calls
-     */
-    private val networkCall: suspend (suspend (String) -> Unit) -> Unit,
 
     /**
      * When two entities have been updated at the same timestamp, the adapter will use the local entity
@@ -50,7 +52,9 @@ internal abstract class SyncAdapter<DbEntity : SyncableEntity, NetworkDto : Sync
     /**
      * Converts a network dto to the database representation
      */
-    abstract fun convertDtoToEntity(dto: NetworkDto): DbEntity
+    abstract fun convertDtoToEntity(dto: NetworkDto, localId: Long?): DbEntity
+
+    abstract suspend fun <T> networkCall(call: suspend (String) -> T): T
 
     suspend fun sync(entity: DbEntity?, dto: NetworkDto?, id: Identifier): AdapterResult {
         return if (entity == null && dto == null) {
@@ -60,7 +64,13 @@ internal abstract class SyncAdapter<DbEntity : SyncableEntity, NetworkDto : Sync
                 deleteDb(entity)
                 AdapterResult.DeletedLocal
             } else { // Must be given to server
-                insertNetwork(entity, id)
+                //Entity is uploaded to the server. There, it receives a 'remoteId' (UUID).
+                // To have this take effect on the client, we need to update the db with the result of the server upload
+                val response = insertNetwork(entity, id)
+                val createdDto = (response as? Response.Success<NetworkDto>)?.data
+                    ?: return AdapterResult.AddedServer
+
+                updateDb(createdDto, entity.localId!!)
                 AdapterResult.AddedServer
             }
         } else if (dto != null && entity == null) { // Only exists on server
@@ -76,7 +86,7 @@ internal abstract class SyncAdapter<DbEntity : SyncableEntity, NetworkDto : Sync
                     deleteNetwork(id)
                     AdapterResult.DeletedServer
                 } else { // Was deleted before last change made on server
-                    updateDb(dto)
+                    updateDb(dto, entity.localId)
                     AdapterResult.UpdatedLocal
                 }
             } else { // Was not deleted on client
@@ -84,14 +94,14 @@ internal abstract class SyncAdapter<DbEntity : SyncableEntity, NetworkDto : Sync
                     updateNetwork(entity, id)
                     AdapterResult.UpdatedServer
                 } else if (entity.updatedAt < dto.updatedAt) { // Server was more recently updates
-                    updateDb(dto)
+                    updateDb(dto, entity.localId)
                     AdapterResult.UpdatedLocal
                 } else {
                     if (ratherTakeLocal) {
                         updateNetwork(entity, id)
                         AdapterResult.UpdatedServer
                     } else {
-                        updateDb(dto)
+                        updateDb(dto, entity.localId)
                         AdapterResult.UpdatedLocal
                     }
                 }
@@ -100,17 +110,15 @@ internal abstract class SyncAdapter<DbEntity : SyncableEntity, NetworkDto : Sync
     }
 
     private suspend fun insertDb(dto: NetworkDto) {
-        dbAccessor.insert(convertDtoToEntity(dto))
+        dbAccessor.insert(convertDtoToEntity(dto, null))
     }
 
-    private suspend fun updateDb(dto: NetworkDto) {
-        dbAccessor.update(convertDtoToEntity(dto))
+    private suspend fun updateDb(dto: NetworkDto, localId: Long?) {
+        dbAccessor.update(convertDtoToEntity(dto, localId))
     }
 
-    private suspend fun insertNetwork(entity: DbEntity, id: Identifier) {
-        networkCall {
-            networkAccessor.insert(id, convertEntityToDto(entity), it)
-        }
+    private suspend fun insertNetwork(entity: DbEntity, id: Identifier) = networkCall {
+        networkAccessor.insert(id, convertEntityToDto(entity), it)
     }
 
     private suspend fun updateNetwork(entity: DbEntity, id: Identifier) {

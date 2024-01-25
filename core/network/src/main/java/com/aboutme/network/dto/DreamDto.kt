@@ -5,11 +5,10 @@ import com.aboutme.type.CreateDreamInput
 import com.apollographql.apollo3.api.Optional
 import java.time.Instant
 import java.time.LocalDate
+import java.util.UUID
 
 
 data class DreamDto(
-
-    val id: Long,
 
     val content: String,
 
@@ -23,7 +22,9 @@ data class DreamDto(
 
     override val createdAt: Instant,
 
-    override val updatedAt: Instant
+    override val updatedAt: Instant,
+
+    override val remoteId: UUID?
 
 ): SyncableDto {
 

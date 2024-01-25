@@ -46,7 +46,7 @@ extend type Query {
 Data for the sleep behaviour of a user for a day
 """
 type SleepData {
-    id: Long!
+    id: UUID!
 
     hoursSlept: Float!
     hoursAim: Float

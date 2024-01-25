@@ -14,7 +14,7 @@ mutation AddDream(
 
 mutation CreateDream(
     $updateDreamInput: UpdateDreamInput!,
-    $id: Long!
+    $id: UUID!
 ) {
     updateDream(
         updateDreamInput: $updateDreamInput,
@@ -25,7 +25,7 @@ mutation CreateDream(
 }
 
 mutation DeleteDream(
-    $id: Long!
+    $id: UUID!
 ) {
     deleteDream(id: $id) {
         ...DreamFragment

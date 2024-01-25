@@ -44,7 +44,7 @@ extend type Query {
 Data for the diary of a user for a day
 """
 type DiaryData {
-    id: Long!
+    id: UUID!
 
     diaryContent: String!
 

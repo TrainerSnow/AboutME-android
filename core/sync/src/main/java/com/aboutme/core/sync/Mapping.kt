@@ -17,27 +17,38 @@ import com.aboutme.network.dto.daily.SleepDataDto
 import com.aboutme.network.dto.update.UpdateDreamDto
 import com.aboutme.network.dto.update.UpdateUserDto
 
-fun DiaryDataEntity.toDto() = DiaryDataDto(content, date, createdAt, updatedAt)
+fun DiaryDataEntity.toDto() = DiaryDataDto(content, date, createdAt, updatedAt, remoteId)
 
-fun DiaryDataDto.toEntity() = DiaryDataEntity(date, content, createdAt, updatedAt, null)
+fun DiaryDataDto.toEntity(localId: Long?) = DiaryDataEntity(date, content, createdAt, updatedAt, null, remoteId, localId)
 
-fun SleepDataEntity.toDto() = SleepDataDto(hoursSlept, hoursAim, date, createdAt, updatedAt)
+fun SleepDataEntity.toDto() = SleepDataDto(hoursSlept, hoursAim, date, createdAt, updatedAt, remoteId)
 
-fun SleepDataDto.toEntity() = SleepDataEntity(date, hoursSlept, hoursAim, createdAt, updatedAt, null)
+fun SleepDataDto.toEntity(localId: Long?) = SleepDataEntity(date, hoursSlept, hoursAim, createdAt, updatedAt, null, remoteId, localId)
 
-fun MoodDataEntity.toDto() = MoodDataDto(mood, moodMorning, moodEvening, moodNoon, date, createdAt, updatedAt)
+fun MoodDataEntity.toDto() = MoodDataDto(mood, moodMorning, moodEvening, moodNoon, date, createdAt, updatedAt, remoteId)
 
-fun MoodDataDto.toEntity() = MoodDataEntity(date, mood, moodMorning, moodNoon, moodEvening, createdAt, updatedAt, null)
+fun MoodDataDto.toEntity(localId: Long?) = MoodDataEntity(date, mood, moodMorning, moodNoon, moodEvening, createdAt, updatedAt, null, remoteId, localId)
 
-fun DreamDataEntity.toDto() = DreamDataDto(date, createdAt, updatedAt)
+fun DreamDataEntity.toDto() = DreamDataDto(date, createdAt, updatedAt, remoteId)
 
-fun DreamDataDto.toEntity() = DreamDataEntity(date, createdAt, updatedAt, null)
+fun DreamDataDto.toEntity(localId: Long?) = DreamDataEntity(date, createdAt, updatedAt, null, remoteId, localId)
 
-fun DreamEntity.toDto() = DreamDto(id!!, content, annotation, mood, clearness, date, createdAt, updatedAt)
+fun DreamEntity.toDto() = DreamDto(content, annotation, mood, clearness, date, createdAt, updatedAt, remoteId)
 
 fun DreamEntity.toUpdateDto() = UpdateDreamDto(content, annotation, mood, clearness, date, updatedAt)
 
-fun DreamDto.toEntity() = DreamEntity(id, date, content, annotation, mood, clearness, createdAt, updatedAt, null)
+fun DreamDto.toEntity(localId: Long?) = DreamEntity(
+    date,
+    content,
+    annotation,
+    mood,
+    clearness,
+    createdAt,
+    updatedAt,
+    null,
+    remoteId,
+    localId
+)
 
 fun UserEntity.toUpdateDto() = UpdateUserDto(nameInfo.toDto(), updatedAt)
 

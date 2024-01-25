@@ -57,17 +57,17 @@ extend type Mutation {
     """
     Adds a person to the persons of the user
     """
-    addPerson(personInput: CreatePersonInput!): Person
+    addPerson(personInput: CreatePersonInput!): Person!
 
     """
     Deletes a person from the user
     """
-    deletePerson(id: Long!): Person
+    deletePerson(id: UUID!): Person!
 
     """
     Updates the person of the user with the given id
     """
-    updatePerson(id: Long!, personInput: UpdatePersonInput!): Person!
+    updatePerson(id: UUID!, personInput: UpdatePersonInput!): Person!
 
 
     """
@@ -78,12 +78,12 @@ extend type Mutation {
     """
     Deletes a relation from the user
     """
-    deleteRelation(id: Long!): PersonRelation!
+    deleteRelation(id: UUID!): PersonRelation!
 
     """
     Updates the relation of the user with the given id and data
     """
-    updateRelation(id: Long!, relationInput: UpdatePersonRelationInput): PersonRelation!
+    updateRelation(id: UUID!, relationInput: UpdatePersonRelationInput): PersonRelation!
 
 }
 
@@ -92,7 +92,7 @@ extend type Query {
     """
     Gets the person with the specified id, or null
     """
-    getPersonById(id: Long!): Person!
+    getPersonById(id: UUID!): Person!
 
     """
     Gets all persons of the user, or empty
@@ -103,7 +103,7 @@ extend type Query {
     """
     Gets the relation with the specified id, or null
     """
-    getRelationById(id: Long): PersonRelation!
+    getRelationById(id: UUID): PersonRelation!
 
     """
     Gets all relations of the user, or empty
@@ -116,7 +116,7 @@ extend type Query {
 Stores information about a relation to a specific person
 """
 type PersonRelation {
-    id: Long!
+    id: UUID!
 
     name: String!
     color: String
@@ -129,7 +129,7 @@ type PersonRelation {
 Stores information about a person a user added
 """
 type Person {
-    id: Long!
+    id: UUID!
 
     nameInfo: NameInfo!
     relation: PersonRelation!

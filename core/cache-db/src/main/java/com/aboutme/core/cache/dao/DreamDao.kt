@@ -25,7 +25,7 @@ interface DreamDao: SyncableEntityAccessor<DreamEntity> {
     @Query("SELECT * FROM dream WHERE dream.date = :date")
     fun getByDateWithDeleted(date: LocalDate): Flow<List<DreamEntity>>
 
-    @Query("SELECT * FROM dream WHERE dream.id = :id")
+    @Query("SELECT * FROM dream WHERE dream.localId = :id")
     fun getById(id: Long): Flow<DreamEntity?>
 
     @Query("DELETE FROM dream")
