@@ -59,7 +59,7 @@ internal fun ProgressCard(
     ) {
         Text(
             text = stringResource(R.string.progress_title),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleLarge
         )
         Text(
             text = stringResource(
