@@ -1,58 +1,25 @@
 package com.aboutme.core.model.daily
 
-/**
- * How much a daily data has been finished by the user
- */
-sealed class DailyDataProgress {
+data class DailyDataProgress(
 
     /**
-     * The the data can either be finished or unfinished
+     * The amount of completed tasks
      */
-    data class BooleanDataProgress(
-
-        /**
-         * Whether the data is finished
-         */
-        val finished: Boolean
-
-    ) : DailyDataProgress()
+    val completed: Int,
 
     /**
-     * When the data has several tasks that can be finished
+     * The total amount of tasks to complete
      */
-    data class TasksDataProgress(
+    val total: Int
 
-        /**
-         * The amount of completed tasks
-         */
-        val completed: Int,
+) {
 
-        /**
-         * The total amount of tasks to be completed
-         */
-        val total: Int
-    ) : DailyDataProgress()
+    init {
+        require(completed >= 0)
+        require(total >= 0)
+        require(completed <= total)
+    }
 
-    /**
-     * When the data can be finished by a fraction
-     */
-    data class PercentDataProgress(
-
-        /**
-         * The percent of how much the data is finished
-         */
-        val percent: Int
-
-    ) : DailyDataProgress()
-
-    /**
-     * Whether the data if finished
-     */
-    val isFinished: Boolean
-        get() = when (this) {
-            is BooleanDataProgress -> finished
-            is PercentDataProgress -> percent == 100
-            is TasksDataProgress -> completed >= total
-        }
+    fun getPercentage() = completed.toFloat() / total.toFloat()
 
 }

@@ -7,4 +7,8 @@
     <string name="user_popup_profile">Profile</string>
     <string name="sort">Sort list</string>
     <string name="action_preferences">Go to the preferences screen</string>
+    <string name="progress_title">Progress today</string>
+    <string name="progress_numeric">Completed %s of %s</string>
+    <string name="home_link_persons_title">Persons</string>
+    <string name="home_link_persons_summary">View or edit your persons and relation to reference in your dreams.</string>
 </resources>

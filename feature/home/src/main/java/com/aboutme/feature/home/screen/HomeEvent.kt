@@ -12,6 +12,8 @@ sealed interface HomeEvent {
 
     data object GoToPreferences: HomeEvent
 
+    data object GoToPersons: HomeEvent
+
 }
 
 sealed interface HomeUiEvent {
@@ -23,5 +25,7 @@ sealed interface HomeUiEvent {
     data object GoToProfile: HomeUiEvent
 
     data object GoToPreferences: HomeUiEvent
+
+    data object GoToPersons: HomeUiEvent
 
 }
